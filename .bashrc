@@ -8,7 +8,7 @@ if [ -d /cvmfs/sft.cern.ch ] && [ -d /cvmfs/cms.cern.ch ]; then
     export GCCLIBS=/cvmfs/sft.cern.ch/lcg/external/gcc/4.7.2/x86_64-slc5/lib64/
     export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch/
 else
-    echo "cvmfs not available!"
+    [ "$TERM" != "dumb" ] && [ ! -z $ISLOGIN ] && echo "cvmfs not available!"
 fi
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$ROOTSYS/lib:$ROOTSYS/lib/root:$GCCLIBS:
 export PATH=$PATH:$ROOTSYS/bin
