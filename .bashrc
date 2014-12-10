@@ -52,6 +52,7 @@ export GREP_OPTIONS='--color=auto'
 # bash rc stuff
 [ -f ~/.bashrc_ekp ] && source ~/.bashrc_ekp
 [ -f ~/.bashrc_naf ] && source ~/.bashrc_naf
+[ -f ~/.bashrc_${USER} ] && source ~/.bashrc_${USER}
 
 
 myqstat()
