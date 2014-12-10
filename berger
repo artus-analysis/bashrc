@@ -111,7 +111,6 @@ gr()
 }
 
 ####################################################################
-[ -f ~berger/sw/ekpini.sh ] && source ~berger/sw/ekpini.sh sge
 
 mini() # user programs at ekp
 {

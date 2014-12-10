@@ -75,7 +75,7 @@ export GREP_OPTIONS='--color=auto'
 [ -f $BASHRCDIR/ekp ] && source $BASHRCDIR/ekp
 [ -f $BASHRCDIR/naf ] && source $BASHRCDIR/naf
 [ -f $BASHRCDIR/$USER ] && source $BASHRCDIR/$USER
-
+[ -f /usr/users/berger/sw/ekpini.sh ] && source /usr/users/berger/sw/ekpini.sh sge
 
 myqstat()
 {
