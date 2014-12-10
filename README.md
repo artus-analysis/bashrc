@@ -3,7 +3,7 @@ Shared bashrc
 
 Usage:
 
-    git clone https://github.com/dhaitz/bashrc.git
+    git clone https://github.com/artus-analysis/bashrc.git
     cd ~
     ln -s /path/to/bashrc/.bashrc_default .bashrc
 
