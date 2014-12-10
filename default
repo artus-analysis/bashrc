@@ -28,6 +28,18 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+# some more ls aliases
+alias ll='ls -l'
+alias la='ls -A'
+alias l='ls -CF'
+# history
+export HISTFILE=$HOME/.bash_history
+export HISTFILESIZE=1000000
+export HISTSIZE=100000
+export HISTCONTROL=ignoreboth
+shopt -s histappend
+shopt -s checkwinsize
+
 
 function parse_git_branch_and_add_brackets {
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\ \[\1\]/'
