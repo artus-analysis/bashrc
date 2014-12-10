@@ -16,7 +16,7 @@ export PYTHONPATH=$PYTHONPATH:$ROOTSYS/lib:$ROOTSYS/lib/root
 export X509_USER_PROXY=$HOME/.globus/proxy.grid
 
 # TERMINAL COLORS
-[ -f "~/.dir_colors" ] && eval `dircolors ~/.dir_colors` || eval `dircolors -b`
+[ -f "$BASHRCDIR/dir_colors" ] && eval `dircolors $BASHRCDIR/dir_colors` || eval `dircolors -b`
 
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
