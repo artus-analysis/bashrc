@@ -1,5 +1,7 @@
 #!/bin/bash
 
+BASHRCDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
 #general paths
 if [ -d /cvmfs/sft.cern.ch ] && [ -d /cvmfs/cms.cern.ch ]; then
     export ROOTSYS=/cvmfs/sft.cern.ch/lcg/app/releases/ROOT/5.34.13/x86_64-slc5-gcc46-opt/root/
@@ -40,7 +42,7 @@ fi
 export PROMPT_COMMAND='echo -ne "\033]0;${STR}${PWD/$HOME/~}\007"'
 
 
-[ -f ~/.git-completion.bash ] && source ~/.git-completion.bash
+[ -f $BASHRCDIR/.git-completion.bash ] && source $BASHRCDIR/.git-completion.bash
 
 alias mensa='curl http://mensa.akk.uni-karlsruhe.de/?DATUM=heute -s | w3m -dump -T text/html| head -n 56 | tail -n 49 | less -p 'Linie''
 alias pdgid='curl http://www.physics.ox.ac.uk/CDF/Mphys/old/notes/pythia_codeListing.html -s | w3m -dump -T text/html | head -n 60 | tail -n 55| less'
