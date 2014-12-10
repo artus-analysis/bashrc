@@ -80,7 +80,6 @@ esac
 [ -d /home/berger/sw/texmf ] && export TEXINPUTS=.:/home/berger/sw/texmf/tex/latex///:
 [ -f /etc/local/aliases.sh ] && source /etc/local/aliases.sh
 
-alias ll='ls -lha'
 alias gitv='vsn=$(git describe --long) && vsn=${vsn/-/\.} && vsn=${vsn/v/} && echo "Excalibur ${vsn/-*/} ($(git describe --long))"'
 #portals
 alias vobox='ini grid; gsissh -p 1975 cms-kit.gridka.de'
