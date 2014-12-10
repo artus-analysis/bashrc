@@ -31,8 +31,7 @@ export PS1='\[\e[${PS1HOSTCOLOR}m\][$(date +%H:%M)]<\h>\[\e[m\] \[\e[1;34m\]\w\[
 export PROMPT_COMMAND='echo -ne "\033]0;${PWD/$HOME/~}\007"'
 
 
-[ -f .git-completion.bash ] && source ~/.git-completion.bash
-source ~/.git-completion.bash
+[ -f .git-completion.bash ] && source .git-completion.bash
 
 
 alias mensa='curl http://mensa.akk.uni-karlsruhe.de/?DATUM=heute -s | w3m -dump -T text/html| head -n 56 | tail -n 49 | less -p 'Linie''
