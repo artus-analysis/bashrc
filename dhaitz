@@ -1,3 +1,91 @@
 #!/bin/bash
+#personal bashrc for dhaitz
 
-#personal bashrc for DH
+cal()
+{
+        cd ~/CMSSW_5_3_14_patch2
+        cmssw_slc5_gcc462
+        cd ~/git/excalibur/
+        source scripts/ini_excalibur
+}
+
+alias testdir="cd /storage/8/dhaitz/testfiles"
+
+export DATE=`date +%Y_%m_%d`
+
+if [[ `hostname` == *ekp* ]]; then
+    export CMSSW_GIT_REFERENCE=/storage/a/${USER}/.cmsgit-cache
+fi
+
+
+copykrb5()
+{
+    KRB5_PATH=$HOME/.krb5_cache
+    CREDENTIAL_PATH=${KRB5CCNAME/FILE:/}
+    # Move to Home
+    cp ${CREDENTIAL_PATH} $KRB5_PATH
+    # Reset KRB5CCNAME
+    export KRB5CCNAME=FILE:$KRB5_PATH
+}
+
+alias scr='scram b -j 10'
+scra()
+{
+    (cd ${CMSSW_BASE}/src && scr)
+}
+
+alias merl='merlin -NL'
+
+xcopy()
+{
+    #xrdcp -f root://cms-xrd-global.cern.ch/$1 /storage/a/${USER}/$2
+    xrdcp root://xrootd.unl.edu/$1 /storage/a/${USER}/$2
+}
+
+alias voms='voms-proxy-init -voms cms:/cms/dcms -valid 192:00'
+alias voinfo='voms-proxy-info --all'
+
+alias gotrunk.py='${HOME}/git/grid-control/go.py'
+alias gostable.py='${HOME}/git/gc-stable/go.py'
+if [ $HOSTNAME == "ekpcms5" ]; then
+    alias gostable.py='${HOME}/home/git/gc-stable/go.py'
+    alias gofixes.py='${HOME}/home/git/gc-fixes/go.py'
+fi
+
+
+grid()
+{
+        command -v voms-proxy-info &> /dev/null && echo "grid loaded"
+        #export SW_GLITE=/afs/desy.de/project/glite/UI/etc/profile.d/grid-env.sh
+        export SW_GLITE=/cvmfs/grid.cern.ch/3.2.11-1/external/etc/profile.d/grid-env.sh
+        source $SW_GLITE > /dev/null
+}
+
+alias gmerge="(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)"
+
+alias mak='make -j -B'
+
+export CVSROOT=$USER@cmscvs.cern.ch:/cvs_server/repositories/CMSSW
+export LANG=de_DE.UTF-8
+export LC_CTYPE="de_DE.UTF-8"
+export HISTSIZE=100000000
+export HISTCONTROL=ignoredups
+
+scree () { screen -t $1 -S $1; }
+
+#TODO move some of this stuff to the git confif
+alias gits=git-status
+alias gitc=git-commit
+alias gita=git-add
+alias gitd=git-diff
+alias gitkk='gitk --all &'
+
+alias autoformat='for i in `find . -name "*.formatted"`; do mv $i ${i%.*}; done'
+
+averageEvents ()
+{(
+    cd $1
+    rm -f averageEvents.txt
+    find . -name job.stdout.gz | xargs less | grep Status | cut -d"-" -f 3 | cut -d"/" -f 1 > averageEvents.txt
+    awk '{sum+=$1; echo $1} END { print "Average = ",sum/NR}' averageEvents.txt
+)}
