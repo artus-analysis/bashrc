@@ -28,7 +28,16 @@ else
     export PS1HOSTCOLOR="0;32"
 fi
 export PS1='\[\e[${PS1HOSTCOLOR}m\][$(date +%H:%M)]<\h>\[\e[m\] \[\e[1;34m\]\w\[\e[m\]$(parse_git_branch_and_add_brackets) \[\e[1;32m\]\$\[\e[m\] \[\e[1;37m\]'
-export PROMPT_COMMAND='echo -ne "\033]0;${PWD/$HOME/~}\007"'
+
+# Set terminal title depending on host
+if [[ $HOSTNAME == *ekpcms5* ]]; then
+        STR="[5]"
+elif [[ $HOSTNAME == *ekpcms6* ]]; then
+        STR="[6]"
+else
+        STR=""
+fi
+export PROMPT_COMMAND='echo -ne "\033]0;${STR}${PWD/$HOME/~}\007"'
 
 
 [ -f .git-completion.bash ] && source .git-completion.bash
