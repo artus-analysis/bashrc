@@ -18,3 +18,9 @@ Some rules for the default file:
 - do not source programs that others might want to source differently (e.g. ROOT, CMSSW, ...)
 - do not depend on any user settings
 - do not use `echo` without the test for a "dumb" terminal because this breaks `scp` etc.
+
+
+The gitconfig can be used in your ~/.gitconfig file as:
+
+    [include]
+        path = /path/to/bashrc/gitconfig
