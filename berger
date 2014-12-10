@@ -1,5 +1,10 @@
 #!/bin/bash
 
+BASHRCDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+[ -f $BASHRCDIR/default ] && source $BASHRCDIR/default
+
+
 if [[ `hostname -s` = ekpgisub ]]; then
     return
 fi
@@ -51,7 +56,7 @@ esac
 # bash settings
 
 # path pc lang editor python
-export USERPC="ekplx45"
+export USERPC="ekplx32"
 export LANG=en_US.UTF-8
 export EDITOR=nano
 export LS_OPTIONS='-N -T 0 --color=auto'
