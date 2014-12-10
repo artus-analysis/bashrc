@@ -1,0 +1,214 @@
+#!/bin/bash
+
+if [[ `hostname -s` = ekpgisub ]]; then
+    return
+fi
+
+case $HOSTNAME in
+	"ekpcms"*|"nafhh"*|"lxplus"*|"ekpblus"*)
+		ISLOGIN="true"
+	;;
+esac
+
+[ "$TERM" != "dumb" ] && [ ! -z $ISLOGIN ] && echo -e "Login\c"
+
+[ -f /etc/bashrc ] && source /etc/bashrc
+#  .gitconfig
+#if login: Login to host ... sonst nix
+#hostname
+#username (==berger?)
+#root? $ blue # red
+#local, portal, batch/cluster?
+#yellow green   red
+
+#variables:
+#PATH
+#nano
+
+#aliases
+#voms  voinfo, vobox
+#
+#functions:
+
+
+#ini:		laptop
+#			lx	ekp	naf	cer
+#root		+	+	+	+	?
+#cmssw56		rc	ini	done
+#cmsenv			aut	au?	+
+#ex			+	+	+	+
+#higgs		+	+	+	+
+#grid			+	+	+
+#lhapdf			+	+	+
+
+#git compl., history, nano, colors
+
+
+
+####################################################################
+# Shell variables
+####################################################################
+# bash settings
+
+# path pc lang editor python
+
+
+
+#CVS, SVN, GIT
+export USERPC="ekplx45"
+export LANG=en_US.UTF-8
+export EDITOR=nano
+export LS_OPTIONS='-N -T 0 --color=auto'
+export PYTHONSTARTUP=$HOME/.pythonrc
+
+[ -f "~/.dir_colors" ] && eval `dircolors ~/.dir_colors` || eval `dircolors -b`
+
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+# some more ls aliases
+alias ll='ls -l'
+alias la='ls -A'
+alias l='ls -CF'
+                            
+
+# history
+export HISTFILE=$HOME/.bash_history
+export HISTFILESIZE=1000000
+export HISTSIZE=100000
+export HISTCONTROL=ignoreboth
+#export HISTIGNORE="&:ls:ls *:mc:nano *:exit"
+shopt -s histappend
+shopt -s checkwinsize
+
+# prompt
+[ "$TERM" != "dumb" ] && export PS1='\[\033[01;33m\]\h\[\033[00m\]:\[\033[01;34m\]\w \[\033[01;34m\]\$\[\033[00m\] '
+[ "$TERM" != "dumb" ] && [ -f .git-completion.bash ] && source ~/.git-completion.bash &&
+case "$HOSTNAME" in
+	"ekpcms"*|"nafhh"*|"lxplus"*)
+		PS1='\[\033[01;33m\]\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[0;32m\]$(__git_ps1 "[%s]") \[\033[01;34m\]\$\[\033[00m\] '
+		;;
+	"ekpblus"*)
+		PS1='\[\033[01;31m\]\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[0;32m\]$(__git_ps1 "[%s]") \[\033[01;34m\]\$\[\033[00m\] '
+		;;
+	*)
+		PS1='\[\033[33m\]\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[0;32m\]$(__git_ps1 "[%s]") \[\033[01;34m\]\$\[\033[00m\] '
+		;;
+esac
+
+[ -d /home/berger/sw/texmf ] && export TEXINPUTS=.:/home/berger/sw/texmf/tex/latex///:
+[ -f /etc/local/aliases.sh ] && source /etc/local/aliases.sh
+
+alias ll='ls -lha'
+alias gitv='vsn=$(git describe --long) && vsn=${vsn/-/\.} && vsn=${vsn/v/} && echo "Excalibur ${vsn/-*/} ($(git describe --long))"'
+#portals
+alias vobox='ini grid; gsissh -p 1975 cms-kit.gridka.de'
+alias ex='mini excalibur'
+
+####################################################################
+# Host specific settings
+####################################################################
+
+
+[ -d /home/berger/sw/bin ] && export PATH=$PATH:/home/berger/sw/bin
+
+[ "$TERM" != "dumb" ] && [ ! -z $ISLOGIN ] && echo -e " to \c"
+
+####################################################################
+# User functions
+####################################################################
+
+
+#to be deleted
+naf()
+{
+	echo "Login to NAF"
+	ini grid > /dev/null
+	export NAF_PROXY=$HOME/.globus/proxy.naf
+	PROXY_LEFT=`voms-proxy-info -actimeleft -file $NAF_PROXY 2> /dev/null`
+	if [ ${PROXY_LEFT:-0} -lt 600 ]; then
+		echo "Proxy needs to be renewed!"
+		voms-proxy-init -voms cms:/cms/dcms -valid 192:00 -rfc -out $NAF_PROXY
+	fi
+	(
+		export X509_USER_PROXY=$NAF_PROXY
+		gsissh -Y cms.naf.desy.de
+	)
+}
+
+getid()
+{
+	ps wafux | grep -v grep | grep berger | grep $1 | awk '{print $2 " " $11 $12 $13}'
+}
+
+gr()
+{
+	grep -rI $1 src/
+}
+
+syncbashrc() 
+{
+	scp ~/.bashrc $USERPC:
+	scp ~/.bashrc naf:
+	scp ~/.bashrc cms5:
+	scp ~/.bashrc cern:
+}
+
+
+####################################################################
+[ -f ~berger/sw/ekpini.sh ] && source ~berger/sw/ekpini.sh sge
+
+mini() # user programs at ekp
+{
+	case "$1" in
+		"")
+			echo "ini (excalibur|higgs|lhapdf)"
+		;;
+		kappadev)
+			cd /home/berger/test/CMSSW_5_3_14
+			ini cmssw5
+			cd /home/berger/test/Kappa
+			PROMPT_COMMAND="echo -ne \"\033]0;Kappa development\007\""
+		;;
+		excalibur)
+			cd /home/berger/zjet/CMSSW_5_3_14_patch2
+			ini cmssw5
+			cd /home/berger/zjet/excalibur
+			source scripts/ini_excalibur
+			export EXCALIBUR_WORK=/storage/8/berger/excalibur
+			PROMPT_COMMAND="echo -ne \"\033]0;Excalibur\007\""
+		;;
+		higgs)
+			cd /home/berger/higgs/CMSSW_5_3_9/
+			ini cmssw5
+			cd src/Desy*
+			cd TauTauAnalysis/test/
+			source ~phit/neurobayes_64/setup_neurobayes.sh
+		;;
+		lhapdf)
+			export LHAPDF=/home/berger/sw/lhapdf590
+			export PATH=$PATH:$LHAPDF/bin
+			export LHAPATH=$LHAPDF/share/lhapdf/PDFsets
+			export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$LHAPDF/lib
+			export PYTHONPATH=$PYTHONPATH:$LHAPDF/lib/python2.6/site-packages
+		;;
+		*)
+			echo "mini:" $1 "not found"
+			mini
+	esac
+}
+
+
+[ "$TERM" != "dumb" ] && [ ! -z $ISLOGIN ] && echo $HOSTNAME
+[ "$TERM" != "dumb" ] && [ "$HOSTNAME" == "ekpcms5" ] && cd /home/berger
+[ "$TERM" != "dumb" ] && [ "$HOSTNAME" == "ekpcms6" ] && cd /home/berger
+
+stty erase '^?'
