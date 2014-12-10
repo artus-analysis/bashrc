@@ -51,10 +51,6 @@ esac
 # bash settings
 
 # path pc lang editor python
-
-
-
-#CVS, SVN, GIT
 export USERPC="ekplx45"
 export LANG=en_US.UTF-8
 export EDITOR=nano
@@ -127,23 +123,6 @@ alias ex='mini excalibur'
 ####################################################################
 
 
-#to be deleted
-naf()
-{
-	echo "Login to NAF"
-	ini grid > /dev/null
-	export NAF_PROXY=$HOME/.globus/proxy.naf
-	PROXY_LEFT=`voms-proxy-info -actimeleft -file $NAF_PROXY 2> /dev/null`
-	if [ ${PROXY_LEFT:-0} -lt 600 ]; then
-		echo "Proxy needs to be renewed!"
-		voms-proxy-init -voms cms:/cms/dcms -valid 192:00 -rfc -out $NAF_PROXY
-	fi
-	(
-		export X509_USER_PROXY=$NAF_PROXY
-		gsissh -Y cms.naf.desy.de
-	)
-}
-
 getid()
 {
 	ps wafux | grep -v grep | grep berger | grep $1 | awk '{print $2 " " $11 $12 $13}'
@@ -153,15 +132,6 @@ gr()
 {
 	grep -rI $1 src/
 }
-
-syncbashrc() 
-{
-	scp ~/.bashrc $USERPC:
-	scp ~/.bashrc naf:
-	scp ~/.bashrc cms5:
-	scp ~/.bashrc cern:
-}
-
 
 ####################################################################
 [ -f ~berger/sw/ekpini.sh ] && source ~berger/sw/ekpini.sh sge
