@@ -1,12 +1,18 @@
 #!/bin/bash
 #personal bashrc for dhaitz
 
+[ -f ~berger/sw/ekpini.sh ] && . ~berger/sw/ekpini.sh grid batch
+
 cal()
 {
+    if [[ `hostname` == *ekp* ]]; then
+        cd ~/home/CMSSW_5_3_14_patch2
+    else
         cd ~/CMSSW_5_3_14_patch2
-        cmssw_slc5_gcc462
-        cd ~/git/excalibur/
-        source scripts/ini_excalibur
+    fi
+    cmssw_slc5_gcc462
+    cd ../git/excalibur/
+    source scripts/ini_excalibur
 }
 
 alias testdir="cd /storage/8/dhaitz/testfiles"
@@ -16,7 +22,6 @@ export DATE=`date +%Y_%m_%d`
 if [[ `hostname` == *ekp* ]]; then
     export CMSSW_GIT_REFERENCE=/storage/a/${USER}/.cmsgit-cache
 fi
-
 
 copykrb5()
 {
@@ -42,9 +47,6 @@ xcopy()
     xrdcp root://xrootd.unl.edu/$1 /storage/a/${USER}/$2
 }
 
-alias voms='voms-proxy-init -voms cms:/cms/dcms -valid 192:00'
-alias voinfo='voms-proxy-info --all'
-
 alias gotrunk.py='${HOME}/git/grid-control/go.py'
 alias gostable.py='${HOME}/git/gc-stable/go.py'
 if [ $HOSTNAME == "ekpcms5" ]; then
@@ -52,33 +54,21 @@ if [ $HOSTNAME == "ekpcms5" ]; then
     alias gofixes.py='${HOME}/home/git/gc-fixes/go.py'
 fi
 
-
-grid()
-{
-        command -v voms-proxy-info &> /dev/null && echo "grid loaded"
-        #export SW_GLITE=/afs/desy.de/project/glite/UI/etc/profile.d/grid-env.sh
-        export SW_GLITE=/cvmfs/grid.cern.ch/3.2.11-1/external/etc/profile.d/grid-env.sh
-        source $SW_GLITE > /dev/null
-}
-
-alias gmerge="(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)"
-
 alias mak='make -j -B'
 
 export CVSROOT=$USER@cmscvs.cern.ch:/cvs_server/repositories/CMSSW
-export LANG=de_DE.UTF-8
-export LC_CTYPE="de_DE.UTF-8"
 export HISTSIZE=100000000
 export HISTCONTROL=ignoredups
 
 scree () { screen -t $1 -S $1; }
 
-#TODO move some of this stuff to the git confif
+#TODO move some of this stuff to the git confi
 alias gits=git-status
 alias gitc=git-commit
 alias gita=git-add
 alias gitd=git-diff
 alias gitkk='gitk --all &'
+alias gmerge="(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)"
 
 alias autoformat='for i in `find . -name "*.formatted"`; do mv $i ${i%.*}; done'
 
