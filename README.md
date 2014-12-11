@@ -11,7 +11,7 @@ Usage
 Instead of the last line, you can:
 
 1. use your own `.bashrc` file and source the parts you like
-2. create your own `username` file in this repository and
+2. create your own `username` file in the `users` subdirectoy and
    link to it instead of linking to `default`.
 
 The gitconfig can be used in your ~/.gitconfig file as:
