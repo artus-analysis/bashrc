@@ -83,6 +83,6 @@ if [[ $HOSTNAME == *ekp* ]]; then
 elif [[ $HOSTNAME == *naf* ]]; then
     [ -f $BASHRCDIR/naf ] && source $BASHRCDIR/naf
 fi
-[ -f $BASHRCDIR/$USER ] && source $BASHRCDIR/$USER
+[ -f $BASHRCDIR/users/$USER ] && source $BASHRCDIR/users/$USER
 [ -f /usr/users/berger/sw/ekpini.sh ] && source /usr/users/berger/sw/ekpini.sh sge
 
