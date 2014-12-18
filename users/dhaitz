@@ -21,6 +21,12 @@ cal()
     source scripts/ini_excalibur
 }
 
+rot()
+{
+    ipython -i /portal/ekpcms5/home/dhaitz/git/excalibur/scripts/rot.py $@
+}
+
+
 alias testdir="cd /storage/8/dhaitz/testfiles"
 
 export DATE=`date +%Y_%m_%d`
