@@ -3,6 +3,8 @@
 
 [ -f ~berger/sw/ekpini.sh ] && . ~berger/sw/ekpini.sh grid batch
 
+export PATH=/usr/users/dhaitz/home/git/grid-control/:$PATH
+
 cal()
 {
     if [[ `hostname` == *ekp* ]]; then
