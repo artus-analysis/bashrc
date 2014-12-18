@@ -8,7 +8,11 @@ export PATH=/usr/users/dhaitz/home/git/grid-control/:$PATH
 cal()
 {
     if [[ `hostname` == *ekp* ]]; then
-        cd ~/home/CMSSW_5_3_14_patch2
+        if [ -d ~/home/CMSSW_5_3_14_patch2 ]; then
+            cd ~/home/CMSSW_5_3_14_patch2
+        elif [ -d ~/home/CMSSW_5_3_22 ]; then
+            cd ~/home/CMSSW_5_3_22
+        fi
     else
         cd ~/CMSSW_5_3_14_patch2
     fi
