@@ -63,10 +63,10 @@ export HISTCONTROL=ignoredups
 scree () { screen -t $1 -S $1; }
 
 #TODO move some of this stuff to the git confi
-alias gits=git-status
-alias gitc=git-commit
-alias gita=git-add
-alias gitd=git-diff
+alias gits="git status"
+alias gitc="git commit"
+alias gita="git add"
+alias gitd="git diff"
 alias gitkk='gitk --all &'
 alias gmerge="(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)"
 
