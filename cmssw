@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#source cmssw
 set_cmssw()
 {
     export SCRAM_ARCH=${1-:slc5_amd64_gcc462}

@@ -74,7 +74,7 @@ export HISTCONTROL=ignoredups
 
 scree () { screen -t $1 -S $1; }
 
-#TODO move some of this stuff to the git confi
+#TODO move some of this stuff to the git config
 alias gits="git status"
 alias gitc="git commit"
 alias gita="git add"
@@ -88,6 +88,8 @@ alias evil5="cmssw_slc5_gcc462"
 alias evil6="cmssw_slc6_gcc472"
 alias evil7="cmssw_slc6_gcc481"
 
+# script to calculate the average number of evts/s from the output of a 
+# excalibur run with grid-control.
 averageEvents ()
 {(
     cd $1
