@@ -5,18 +5,31 @@
 
 export PATH=/usr/users/dhaitz/home/git/grid-control/:$PATH
 
+# source CMSSW; initialize Excalibur
 cal()
 {
-    if [[ `hostname` == *ekp* ]]; then
+    # source CMSSW path according to host
+    if [[ `hostname` == *ekpcms5* ]]; then
         if [ -d ~/home/CMSSW_5_3_14_patch2 ]; then
             cd ~/home/CMSSW_5_3_14_patch2
-        elif [ -d ~/home/CMSSW_5_3_22 ]; then
-            cd ~/home/CMSSW_5_3_22
+            cmssw_slc5_gcc462
+        else
+            echo "CMSSW not found"
         fi
-    else
+    elif [[ `hostname` == *ekpcms6* ]]; then
+        if [ -d ~/home/CMSSW_symlink ]; then
+            cd ~/home/CMSSW_symlink
+            cmssw_slc6_gcc472
+        else
+            echo "CMSSW not found"
+        fi
+    elif [[ `hostname` == *naf* ]]; then
         cd ~/CMSSW_5_3_14_patch2
+        cmssw_slc6_gcc472
+    else
+        echo "unknown HOST"
     fi
-    cmssw_slc5_gcc462
+
     cd ../git/excalibur/
     source scripts/ini_excalibur
 }
@@ -28,6 +41,7 @@ rot()
 
 
 alias testdir="cd /storage/8/dhaitz/testfiles"
+alias superqstat="python $BASHRCDIR/superqstat.py -S"
 
 export DATE=`date +%Y_%m_%d`
 
