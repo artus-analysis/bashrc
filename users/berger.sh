@@ -2,7 +2,7 @@
 
 BASHRCDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-[ -f $BASHRCDIR/default ] && source $BASHRCDIR/default
+[ -f $BASHRCDIR/default.sh ] && source $BASHRCDIR/default.sh
 
 
 if [[ `hostname -s` = ekpgisub ]]; then

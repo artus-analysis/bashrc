@@ -84,10 +84,10 @@ alias superqstat='python $BASHRCDIR/superqstat.py'
 
 # special files for ekp, naf, user
 if [[ $HOSTNAME == *ekp* ]]; then
-    [ -f $BASHRCDIR/ekp ] && source $BASHRCDIR/ekp
+    [ -f $BASHRCDIR/ekp.sh ] && source $BASHRCDIR/ekp.sh
 elif [[ $HOSTNAME == *naf* ]]; then
-    [ -f $BASHRCDIR/naf ] && source $BASHRCDIR/naf
+    [ -f $BASHRCDIR/naf.sh ] && source $BASHRCDIR/naf.sh
 fi
-[ -f $BASHRCDIR/users/$USER ] && source $BASHRCDIR/users/$USER
+[ -f $BASHRCDIR/users/$USER.sh ] && source $BASHRCDIR/users/$USER.sh
 [ -f /usr/users/berger/sw/ekpini.sh ] && source /usr/users/berger/sw/ekpini.sh sge
 
