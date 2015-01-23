@@ -101,6 +101,7 @@ alias autoformat='for i in `find . -name "*.formatted"`; do mv $i ${i%.*}; done'
 alias evil5="cmssw_slc5_gcc462"
 alias evil6="cmssw_slc6_gcc472"
 alias evil7="cmssw_slc6_gcc481"
+alias evil8="cmssw_slc6_gcc491"
 
 # script to calculate the average number of evts/s from the output of a 
 # excalibur run with grid-control.
