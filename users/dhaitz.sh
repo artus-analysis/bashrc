@@ -26,6 +26,12 @@ cal()
     elif [[ `hostname` == *naf* ]]; then
         cd ~/CMSSW_5_3_14_patch2
         cmssw_slc6_gcc472
+    elif [[ `hostname` == *ekpsg01* ]]; then
+        cd ~/excalibur-test//CMSSW_5_3_22
+        cmssw_slc6_gcc472
+        cd ../excalibur/
+        source scripts/ini_excalibur
+        return
     else
         echo "unknown HOST"
     fi
