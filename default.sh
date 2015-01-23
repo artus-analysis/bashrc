@@ -58,6 +58,8 @@ elif [[ $HOSTNAME == *ekpcms6* ]]; then
         STR="[6]"
 elif [[ $HOSTNAME == *naf* ]]; then
         STR="[NAF]"
+elif [[ $HOSTNAME == *ekpsg01* ]]; then
+        STR="[SG1]"
 else
         STR=""
 fi
