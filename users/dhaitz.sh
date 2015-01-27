@@ -5,6 +5,24 @@
 
 export PATH=/usr/users/dhaitz/home/git/grid-control/:$PATH
 
+# ini harry plotter
+iharry()
+{
+pushd . > /dev/null
+cd ~/symlinks/Artus
+cmssw_slc6_gcc472
+. HarryPlotter/scripts/ini_harry.sh
+popd > /dev/null
+}
+
+pullall()
+{(
+echo "Pull artus"
+cd ~/symlinks/Artus && git pull
+echo "Pull Excalibur"
+cd ~/symlinks/Excalibur && git pull
+)}
+
 # source CMSSW; initialize Excalibur
 cal()
 {
