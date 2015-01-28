@@ -6,22 +6,17 @@
 export PATH=/usr/users/dhaitz/home/git/grid-control/:$PATH
 
 # ini harry plotter
-iharry()
+imerlin()
 {
-pushd . > /dev/null
-cd ~/symlinks/Artus
+cd ~/home/Artus
 cmssw_slc6_gcc472
+. Configuration/scripts/ini_ArtusAnalysis.sh
 . HarryPlotter/scripts/ini_harry.sh
-popd > /dev/null
+cd ~/home/Excalibur
+. Plotting/scripts/ini_ZJetharry.sh
+cd plotdesk
+alias merl="merlin.py --live evince --userpc"
 }
-
-pullall()
-{(
-echo "Pull artus"
-cd ~/symlinks/Artus && git pull
-echo "Pull Excalibur"
-cd ~/symlinks/Excalibur && git pull
-)}
 
 # source CMSSW; initialize Excalibur
 cal()
