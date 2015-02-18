@@ -30,8 +30,8 @@ cal()
             echo "CMSSW not found"
         fi
     elif [[ `hostname` == *ekpcms6* ]]; then
-        if [ -d ~/home/CMSSW_symlink ]; then
-            cd ~/home/CMSSW_symlink
+        if [ -d ~/home/CMSSW ]; then
+            cd ~/home/CMSSW
             cmssw_slc6_gcc472
         else
             echo "CMSSW not found"
