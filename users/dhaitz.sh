@@ -60,7 +60,7 @@ rot()
 
 
 alias testdir="cd /storage/8/dhaitz/testfiles"
-alias superqstat="python $BASHRCDIR/superqstat.py -S"
+alias superqstat="superqstat.py -S"
 
 export DATE=`date +%Y_%m_%d`
 
