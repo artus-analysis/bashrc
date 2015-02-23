@@ -126,8 +126,6 @@ alias evil8="cmssw_slc6_gcc491"
 # excalibur run with grid-control.
 averageEvents ()
 {(
-    cd $1
-    rm -f averageEvents.txt
-    find . -name job.stdout.gz | xargs less | grep Status | cut -d"-" -f 3 | cut -d"/" -f 1 > averageEvents.txt
-    awk '{sum+=$1; echo $1} END { print "Average = ",sum/NR}' averageEvents.txt
+    find $1 -name job.stdout.gz | xargs less | grep Status | cut -d"-" -f 3 | cut -d"/" -f 1 > /tmp/averageEvents_$USER.txt
+    awk '{sum+=$1; echo $1} END { print "Average = ",sum/NR}' /tmp/averageEvents_$USER.txt
 )}
