@@ -5,52 +5,34 @@
 
 export PATH=/usr/users/dhaitz/home/git/grid-control/:$PATH
 
-# ini harry plotter
-imerlin()
-{
-cd ~/home/Artus
-cmssw_slc6_gcc472
-. Configuration/scripts/ini_ArtusAnalysis.sh
-. HarryPlotter/scripts/ini_harry.sh
-cd ~/home/Excalibur
-. Plotting/scripts/ini_ZJetharry.sh
-cd plotdesk
-alias merl="merlin.py --live evince --userpc"
-}
-
 # source CMSSW; initialize Excalibur
 cal()
 {
     # source CMSSW path according to host
     if [[ `hostname` == *ekpcms5* ]]; then
-        if [ -d ~/home/CMSSW_5_3_14_patch2 ]; then
-            cd ~/home/CMSSW_5_3_14_patch2
-            cmssw_slc5_gcc462
-        else
-            echo "CMSSW not found"
-        fi
+        cd ~/home/CMSSW_5_3_14_patch2
+        cmssw_slc5_gcc462
+        cd ../git/excalibur/
+        source scripts/ini_excalibur
     elif [[ `hostname` == *ekpcms6* ]]; then
-        if [ -d ~/home/CMSSW ]; then
-            cd ~/home/CMSSW
-            cmssw_slc6_gcc472
-        else
-            echo "CMSSW not found"
-        fi
+        cd ~/home/Excalibur
+        cmssw_slc6_gcc472
+        . scripts/ini_excalibur.sh
+        . Plotting/scripts/ini_ZJetharry.sh
+        alias merl="merlin.py --live evince --userpc"
     elif [[ `hostname` == *naf* ]]; then
         cd ~/CMSSW_5_3_14_patch2
         cmssw_slc6_gcc472
+        cd ../git/excalibur/
+        source scripts/ini_excalibur
     elif [[ `hostname` == *ekpsg01* ]]; then
         cd ~/excalibur-test//CMSSW_5_3_22
         cmssw_slc6_gcc472
         cd ../excalibur/
         source scripts/ini_excalibur
-        return
     else
         echo "unknown HOST"
     fi
-
-    cd ../git/excalibur/
-    source scripts/ini_excalibur
 }
 
 rot()
