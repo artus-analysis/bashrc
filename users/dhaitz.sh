@@ -14,12 +14,13 @@ cal()
         cmssw_slc5_gcc462
         cd ../git/excalibur/
         source scripts/ini_excalibur
+        alias merl='merlin -NL'
     elif [[ `hostname` == *ekpcms6* ]]; then
-        cd ~/home/Excalibur
-        cmssw_slc6_gcc472
+        cd ~/home/artus/CMSSW
+        set_cmssw `ls bin`
+        cd ~/home/artus/Excalibur
         . scripts/ini_excalibur.sh
-        . Plotting/scripts/ini_ZJetharry.sh
-        alias merl="merlin.py --live evince --userpc"
+        . ini_merlin.sh
     elif [[ `hostname` == *naf* ]]; then
         cd ~/CMSSW_5_3_14_patch2
         cmssw_slc6_gcc472
@@ -34,14 +35,7 @@ cal()
         echo "unknown HOST"
     fi
 }
-
-rot()
-{
-    ipython -i /portal/ekpcms5/home/dhaitz/git/excalibur/scripts/rot.py $@
-}
-
-
-alias testdir="cd /storage/8/dhaitz/testfiles"
+alias merl="merlin.py --live evince --userpc"
 alias superqstat="superqstat.py -S"
 
 export DATE=`date +%Y_%m_%d`
@@ -65,8 +59,6 @@ scra()
 {
     (cd ${CMSSW_BASE}/src && scr)
 }
-
-alias merl='merlin -NL'
 
 xcopy()
 {
