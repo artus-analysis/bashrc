@@ -17,26 +17,30 @@ import ROOT
 import sys
 
 # open files
-ROOT.gSystem.Load('libKappa')
+try:
+	ROOT.gSystem.Load('libKappa')
+except RuntimeError:
+	print "Could not load libKappa. Continuing anyway."
 files = [ROOT.TFile(i) for i in sys.argv[1:]]
-f = files[0]
+if len(files) > 0:
+	f = files[0]
 
-print __doc__
+	print __doc__
 
-# get most common trees if available
-l = f.Get("Lumis")
-t = f.Get("Events")
-if not t: t = f.Get("ntuple")
-if not t: t = f.Get("gen/ntuple")
-# you can add more here ...
-# delete variables that are None
-if t:
-	print "t is %r (%s)" % (t.GetName(), t.ClassName())
-else:
-	del t
-if l:
-	print "l is %r (%s)" % (l.GetName(), l.ClassName())
-else:
-	del l
+	# get most common trees if available
+	l = f.Get("Lumis")
+	t = f.Get("Events")
+	if not t: t = f.Get("ntuple")
+	if not t: t = f.Get("gen/ntuple")
+	# you can add more here ...
+	# delete variables that are None
+	if t:
+		print "t is %r (%s)" % (t.GetName(), t.ClassName())
+	else:
+		del t
+	if l:
+		print "l is %r (%s)" % (l.GetName(), l.ClassName())
+	else:
+		del l
 
 tb = ROOT.TBrowser()
