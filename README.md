@@ -5,14 +5,12 @@ Usage
 -----
 
     git clone https://github.com/artus-analysis/bashrc.git
-    cd ~
-    ln -s $OLDPWD/bashrc/default.sh .bashrc
 
-Instead of the last line, you can:
+Then create `.bashrc` file in your home directory and add the following line
 
-1. use your own `.bashrc` file and source the parts you like
-2. create your own `username` file in the `users` subdirectoy and
-   link to it instead of linking to `default.sh`.
+    source /full_path_to/bashrc/default.sh
+
+You can also create your own `username` file in the `users` subdirectoy, it will get sourced by `default.sh`.
 
 The gitconfig can be used in your ~/.gitconfig file as:
 
