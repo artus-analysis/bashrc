@@ -1,9 +1,9 @@
 #!/bin/bash
 #personal bashrc for dhaitz
 
-[ -f ~berger/sw/ekpini.sh ] && . ~berger/sw/ekpini.sh grid batch
+[ -f ~berger/sw/ekpini.sh ] && . ~berger/sw/ekpini.sh batch
 
-export PATH=/usr/users/dhaitz/home/git/grid-control/:$PATH
+export PATH=/usr/users/dhaitz/home/git/grid-control:/usr/users/dhaitz/.local/bin:$PATH
 
 # source CMSSW; initialize Excalibur
 cal()
@@ -35,9 +35,25 @@ cal()
         echo "unknown HOST"
     fi
 }
-alias merl="merlin.py --live evince --userpc"
+alias merl="merlin.py --live evince"
 alias superqstat="superqstat.py -S"
+alias qcd="cd $HOME/home/qcd/sherivf && . scripts/ini.sh"
+alias rot="rot.py"
 
+alias gridui=". /cvmfs/grid.cern.ch/emi-wn-3.7.3-1_sl6v2/etc/profile.d/setup-emi3-wn-example.sh"
+alias grid="~berger/sw/ekpini.sh grid"
+
+roo()
+{
+	ro.py $@ &
+}
+
+cmssw()
+{
+	cd ~/home/artus/CMSSW
+	set_cmssw `ls bin`
+	cd -
+}
 export DATE=`date +%Y_%m_%d`
 
 if [[ `hostname` == *ekp* ]]; then
