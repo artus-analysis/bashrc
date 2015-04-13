@@ -27,6 +27,7 @@ fi
 
 # some more ls aliases
 alias ll='ls -l'
+alias llt='ll -t'
 alias la='ls -A'
 alias l='ls -CF'
 # history
