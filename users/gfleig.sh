@@ -13,6 +13,7 @@ export LANG=en_US.UTF-8
 export EDITOR=nano
 export LS_OPTIONS='-N -T 0 --color=auto'
 export PYTHONSTARTUP=$HOME/.pythonrc
+export KRB5CCNAME=$HOME/krb
 
 
 ####################################################################
@@ -39,10 +40,12 @@ mini() # user programs at ekp
 			source ~/bashrc/cmssw.sh
 			set_cmssw slc6_amd64_gcc481
 			if [[ $HOSTNAME == *naf* ]]; then
-                                cd /afs/desy.de/user/g/gfleig/zjet/CMSSW_7_2_0/src
-                               	eval `scramv1 runtime -sh`
-                                cd /afs/desy.de/user/g/gfleig/zjet/Excalibur
-                                source scripts/ini_excalibur.sh
+				cd /afs/desy.de/user/g/gfleig/zjet/CMSSW_7_2_0/src
+				eval `scramv1 runtime -sh`
+				cd /afs/desy.de/user/g/gfleig/zjet/Excalibur
+				source scripts/ini_excalibur.sh
+				export EXCALIBUR_WORK=/nfs/dust/cms/user/gfleig/excalibur
+				export PATH=$PATH:/afs/desy.de/user/g/gfleig/zjet/grid-control
 			else
 				cd /home/gfleig/new/CMSSW_7_2_0/src
 				eval `scramv1 runtime -sh`
