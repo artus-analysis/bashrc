@@ -51,6 +51,8 @@ mini() # user programs at ekp
 				eval `scramv1 runtime -sh`
 				cd /home/gfleig/new/Excalibur
 				source scripts/ini_excalibur.sh
+				export EXCALIBUR_WORK=/storage/a/gfleig/zjet
+				export PATH=$PATH:/home/gfleig/new/grid-control
 			fi
 		;;
 		*)
