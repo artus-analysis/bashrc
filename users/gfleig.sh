@@ -67,3 +67,11 @@ rot()
 }
 
 stty erase '^?'
+
+# script to calculate the average number of evts/s from the output of a 
+# excalibur run with grid-control.
+averageEvents ()
+{(
+    find $1 -name job.stdout.gz | xargs less | grep Status | cut -d"-" -f 3 | cut -d"/" -f 1 > /tmp/averageEvents_$USER.txt
+    awk '{sum+=$1; echo $1} END { print "Average = ",sum/NR}' /tmp/averageEvents_$USER.txt
+)}
