@@ -54,6 +54,20 @@ mini() # user programs at ekp
 				export PATH=$PATH:/home/gfleig/new/grid-control
 			fi
 		;;
+		oldexcalibur)
+			if [[ $HOSTNAME == ekpcms5 ]]; then
+				source ~/bashrc/cmssw.sh
+				set_cmssw slc5_amd64_gcc462
+				cd /home/gfleig/CMSSW_5_3_14/src
+				source $VO_CMS_SW_DIR/cmsset_default.sh
+				eval `scram runtime -sh`
+				cd ../excalibur
+				source scripts/ini_excalibur
+				export PATH=$PATH:/home/gfleig/grid-control
+			else
+				echo "Not on CMS5.."
+			fi
+		;;
 		*)
 			echo "mini:" $1 "not found"
 			mini
