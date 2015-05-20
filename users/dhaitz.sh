@@ -22,10 +22,11 @@ cal()
         . scripts/ini_excalibur.sh
         . ini_merlin.sh
     elif [[ `hostname` == *naf* ]]; then
-        cd ~/CMSSW_5_3_14_patch2
-        cmssw_slc6_gcc472
-        cd ../git/excalibur/
+        cd /afs/desy.de/user/d/dhaitz/nfs/CMSSW_7_3_1_forSourcing
+        set_cmssw `ls bin`/afs/desy.de/user/d/dhaitz/artus/Excalibur
         source scripts/ini_excalibur
+        . scripts/ini_excalibur.sh
+        . ini_merlin.sh
     elif [[ `hostname` == *ekpsg01* ]]; then
         cd ~/excalibur-test//CMSSW_5_3_22
         cmssw_slc6_gcc472
@@ -37,7 +38,10 @@ cal()
 }
 alias merl="merlin.py --live evince"
 alias superqstat="superqstat.py -S"
-alias qcd="cd $HOME/home/qcd/sherivf && . scripts/ini.sh"
+qcd()
+{
+  cd $HOME/home/qcd/sherivf && . scripts/ini.sh
+}
 alias rot="rot.py"
 
 alias gridui=". /cvmfs/grid.cern.ch/emi-wn-3.7.3-1_sl6v2/etc/profile.d/setup-emi3-wn-example.sh"
