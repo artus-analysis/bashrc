@@ -50,6 +50,8 @@ mini() # user programs at ekp
 				eval `scramv1 runtime -sh`
 				cd /home/gfleig/new/Excalibur
 				source scripts/ini_excalibur.sh
+				source scripts/ini_merlin.sh
+				standalone_merlin
 				export EXCALIBUR_WORK=/storage/a/gfleig/zjet
 				export PATH=$PATH:/home/gfleig/new/grid-control
 			fi
@@ -61,7 +63,7 @@ mini() # user programs at ekp
 				cd /home/gfleig/CMSSW_5_3_14/src
 				source $VO_CMS_SW_DIR/cmsset_default.sh
 				eval `scram runtime -sh`
-				cd ../excalibur
+				cd ../../excalibur
 				source scripts/ini_excalibur
 				export PATH=$PATH:/home/gfleig/grid-control
 			else
@@ -78,8 +80,6 @@ rot()
 {
  ipython -i $BASHRCDIR/scripts/rot.py $@
 }
-
-stty erase '^?'
 
 # script to calculate the average number of evts/s from the output of a 
 # excalibur run with grid-control.
