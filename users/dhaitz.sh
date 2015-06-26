@@ -23,8 +23,8 @@ cal()
         . ini_merlin.sh
     elif [[ `hostname` == *naf* ]]; then
         cd /afs/desy.de/user/d/dhaitz/nfs/CMSSW_7_3_1_forSourcing
-        set_cmssw `ls bin`/afs/desy.de/user/d/dhaitz/artus/Excalibur
-        source scripts/ini_excalibur
+        set_cmssw `ls bin`
+        cd /afs/desy.de/user/d/dhaitz/artus/Excalibur
         . scripts/ini_excalibur.sh
         . ini_merlin.sh
     elif [[ `hostname` == *ekpsg01* ]]; then
@@ -36,6 +36,10 @@ cal()
         echo "unknown HOST"
     fi
 }
+export EXCALIBURDIR=/usr/users/dhaitz/home/artus/Excalibur
+alias c="cd $EXCALIBURDIR"
+alias a="cd $EXCALIBURDIR/../Artus"
+alias setroot=". $ROOTSYS/bin/thisroot.sh"
 alias merl="merlin.py --live evince"
 alias superqstat="superqstat.py -S"
 qcd()

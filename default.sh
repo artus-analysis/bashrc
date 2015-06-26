@@ -4,7 +4,8 @@ BASHRCDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 #general paths
 if [ -d /cvmfs/sft.cern.ch ] && [ -d /cvmfs/cms.cern.ch ]; then
-    export ROOTSYS=/cvmfs/sft.cern.ch/lcg/app/releases/ROOT/5.34.13/x86_64-slc5-gcc46-opt/root/
+    #export ROOTSYS=/cvmfs/sft.cern.ch/lcg/app/releases/ROOT/5.34.13/x86_64-slc5-gcc46-opt/root/
+    export ROOTSYS=/cvmfs/sft.cern.ch/lcg/app/releases/ROOT/5.34.13/x86_64-slc6-gcc48-opt/root/
     export GCCLIBS=/cvmfs/sft.cern.ch/lcg/external/gcc/4.7.2/x86_64-slc5/lib64/
     export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch/
 else
