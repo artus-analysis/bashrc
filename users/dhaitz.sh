@@ -106,11 +106,13 @@ export HISTCONTROL=ignoredups
 scree () { screen -t $1 -S $1; }
 
 #TODO move some of this stuff to the git config
-alias gits="git status"
-alias gitc="git commit"
-alias gita="git add"
-alias gitd="git diff"
-alias gitkk='gitk --all &'
+alias gs="git status"
+alias gc="git commit"
+alias gcm="git commit -m"
+alias ga="git add"
+alias gd="git diff"
+alias gk='gitk --all &'
+alias gr="git rebase"
 alias gmerge="(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)"
 
 alias autoformat='for i in `find . -name "*.formatted"`; do mv $i ${i%.*}; done'
