@@ -17,6 +17,10 @@ The gitconfig can be used in your ~/.gitconfig file as:
     [include]
         path = /path/to/bashrc/gitconfig
 
+Some helpful settings for `screen` are given in the `screenrc` file. Link to it via 
+
+    ln -s /path/to/bashrc/screenrc ~/.screenrc
+
 Contribution
 ------------
 
@@ -26,3 +30,14 @@ Some rules for the default.sh file:
 - do not use `echo` without the test for a "dumb" terminal because this breaks `scp` etc.
 
 
+CMSSW
+------------
+Some commands for setting up CMSSW are available, simply add
+
+    source /full_path_to/bashrc/cmssw.sh
+
+to your .bashrc file.
+
+With the commands defined in cmssw.sh, e.g. `cmssw_slc6_gcc491`,
+you can set the SCRAM architecture. CMSSW can then be installed with `cmsrel`,
+e.g. `cmsrel CMSSW_7_4_5_ROOT5`.
