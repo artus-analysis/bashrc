@@ -21,6 +21,7 @@ export PYTHONSTARTUP=$HOME/.pythonrc
 
 alias ex='mini excalibur'
 alias oldex='mini oldexcalibur'
+alias grid='mini grid'
 alias ll='ls -lh'
 alias la='ls -lAh'
 
@@ -44,7 +45,7 @@ mini() # user programs at ekp
 				cd /afs/desy.de/user/g/gfleig/zjet/Excalibur
 				source scripts/ini_excalibur.sh
 				export EXCALIBUR_WORK=/nfs/dust/cms/user/gfleig/zjet
-				export PATH=$PATH:/afs/desy.de/user/g/gfleig/zjet/grid-control
+				export PATH=$PATH:/afs/desy.de/user/g/gfleig/zjet/grid-control:/afs/desy.de/user/g/gfleig/zjet/grid-control/scripts
 			else
 				cd /home/gfleig/new/CMSSW_7_2_0/src
 				eval `scramv1 runtime -sh`
@@ -53,7 +54,7 @@ mini() # user programs at ekp
 				source scripts/ini_merlin.sh
 				standalone_merlin
 				export EXCALIBUR_WORK=/storage/a/gfleig/zjet
-				export PATH=$PATH:/home/gfleig/new/grid-control
+				export PATH=$PATH:/home/gfleig/new/grid-control:home/gfleig/new/grid-control/scripts
 			fi
 		;;
 		oldexcalibur)
@@ -69,6 +70,13 @@ mini() # user programs at ekp
 			else
 				echo "Not on CMS5.."
 			fi
+		;;
+		grid)
+			source /cvmfs/grid.cern.ch/emi-ui-3.15.3-1_sl6v1/etc/profile.d/setup-ui-example.sh
+			export X509_USER_PROXY=$HOME/.globus/proxy.grid
+			export PATH=$PATH:/home/gfleig/new/grid-control:home/gfleig/new/grid-control/scripts
+			alias voinit='voms-proxy-init -voms cms:/cms/dcms -valid 192:00'
+			alias voinfo='voms-proxy-info --all'
 		;;
 		*)
 			echo "mini:" $1 "not found"
