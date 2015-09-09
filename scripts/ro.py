@@ -9,6 +9,7 @@ like rot.py, but
 	- no loading of kappa lib
 	- no terminal output
 
+Usage: ro.py rootfile.root
 
 """
 

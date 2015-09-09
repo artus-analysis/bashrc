@@ -21,6 +21,10 @@ Some helpful settings for `screen` are given in the `screenrc` file. Link to it 
 
     ln -s /path/to/bashrc/screenrc ~/.screenrc
 
+The scripts/ folder contains some helpful tools:
+- ro.py and rot.py, scripts to directly start a TBrowser
+- superqstat.py, tool to get an overview on batch system status
+
 Contribution
 ------------
 
