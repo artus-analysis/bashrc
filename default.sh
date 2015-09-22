@@ -88,7 +88,9 @@ echo -e "\n   User     Jobs     r   %\n-----------------------------------------
 
 listwarnings()
 {
-  grep -E "(hxx|cc|h|cpp):[0-9]+:[0-9]+: (warning|error):" $1 | sort | uniq -c
+  grep -E "(hxx|cc|h|cpp):[0-9]+:[0-9]+: (warning|error):" $1 | sort | uniq -c | \
+  sed -E 's/(.*[0-9]+) (.*(h|hxx|cc|cpp)):([0-9]+):[0-9]+: ((warning|error):.*) (\[-W.*\])/\1 +\4 \2 \5 \7/g' | \
+  grep -E "warning|error|\[-W.*\]"
 }
 
 # special files for ekp, naf, user
