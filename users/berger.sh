@@ -115,7 +115,7 @@ mini() # user programs at ekp
 {
 	case "$1" in
 		"")
-			echo "ini (excalibur|higgs|lhapdf)"
+			echo "ini (excalibur|higgs|lhapdf|ex)"
 		;;
 		kappadev)
 			cd /home/berger/test/CMSSW_5_3_14
@@ -123,13 +123,23 @@ mini() # user programs at ekp
 			cd /home/berger/test/Kappa
 			PROMPT_COMMAND="echo -ne \"\033]0;Kappa development\007\""
 		;;
-		excalibur)
-			cd /home/berger/zjet/CMSSW_5_3_14_patch2
+		excalibur1)
+			cd /home/berger/oldexcalibur/CMSSW_5_3_14_patch2
 			ini cmssw5
-			cd /home/berger/zjet/excalibur
+			cd /home/berger/oldexcalibur/excalibur
 			source scripts/ini_excalibur
 			export EXCALIBUR_WORK=/storage/8/berger/excalibur
 			PROMPT_COMMAND="echo -ne \"\033]0;Excalibur\007\""
+		;;
+		excalibur2|ex)
+			export SCRAM_ARCH=slc6_amd64_gcc481
+			cd /home/berger/excalibur/CMSSW_7_4_0_pre9/src
+			ini cmssw7
+			cd /home/berger/excalibur/Excalibur
+			source scripts/ini_excalibur.sh
+			source scripts/ini_merlin.sh
+			export EXCALIBUR_WORK=/storage/8/berger/excalibur
+			PROMPT_COMMAND="echo -ne \"\033]0;Excalibur2\007\""
 		;;
 		higgs)
 			cd /home/berger/higgs/CMSSW_5_3_9/
@@ -156,4 +166,3 @@ mini() # user programs at ekp
 [ "$TERM" != "dumb" ] && [ "$HOSTNAME" == "ekpcms5" ] && cd /home/berger
 [ "$TERM" != "dumb" ] && [ "$HOSTNAME" == "ekpcms6" ] && cd /home/berger
 
-stty erase '^?'
