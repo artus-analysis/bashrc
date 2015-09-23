@@ -20,13 +20,12 @@ cal()
         set_cmssw `ls bin`
         cd ~/home/artus/Excalibur
         . scripts/ini_excalibur.sh
-        . ini_merlin.sh
+        . ../phdplots/ini.sh
     elif [[ `hostname` == *naf* ]]; then
         cd /afs/desy.de/user/d/dhaitz/nfs/CMSSW_7_3_1_forSourcing
         set_cmssw `ls bin`
         cd /afs/desy.de/user/d/dhaitz/artus/Excalibur
         . scripts/ini_excalibur.sh
-        . ini_merlin.sh
     elif [[ `hostname` == *ekpsg01* ]]; then
         cd ~/excalibur-test//CMSSW_5_3_22
         cmssw_slc6_gcc472
@@ -39,12 +38,18 @@ cal()
 export EXCALIBURDIR=/usr/users/dhaitz/home/artus/Excalibur
 alias c="cd $EXCALIBURDIR"
 alias a="cd $EXCALIBURDIR/../Artus"
+alias srd="screen -rd"
 alias setroot=". $ROOTSYS/bin/thisroot.sh"
-alias merl="merlin.py --live evince"
+alias merl="merlin.py --live evince --userpc --formats pdf"
 alias superqstat="superqstat.py -S"
+alias phd="cd /usr/users/dhaitz/home/artus/phdplots"
 qcd()
 {
   cd $HOME/home/qcd/sherivf && . scripts/ini.sh
+}
+cq()
+{
+ cal && qcd
 }
 alias rot="rot.py"
 
@@ -109,12 +114,15 @@ scree () { screen -t $1 -S $1; }
 alias gs="git status"
 alias gc="git commit"
 alias gcm="git commit -m"
+alias gca="git commit --amend"
 alias ga="git add"
 alias gau="git add -u"
 alias gap="git add -p"
+alias gaA="git add -A"
 alias gd="git diff"
 alias gk='gitk --all &'
 alias gr="git rebase"
+alias gf="git fetch"
 alias gmerge="(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)"
 
 alias autoformat='for i in `find . -name "*.formatted"`; do mv $i ${i%.*}; done'
