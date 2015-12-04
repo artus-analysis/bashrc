@@ -137,7 +137,6 @@ mini() # user programs at ekp
 			ini cmssw7
 			cd /home/berger/excalibur/Excalibur
 			source scripts/ini_excalibur.sh
-			source scripts/ini_merlin.sh
 			export EXCALIBUR_WORK=/storage/8/berger/excalibur
 			PROMPT_COMMAND="echo -ne \"\033]0;Excalibur2\007\""
 		;;
