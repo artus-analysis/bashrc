@@ -77,6 +77,9 @@ export PROMPT_COMMAND='echo -ne "\033]0;${STR}${PWD/$HOME/~}\007"'
 alias mensa='curl http://mensa.akk.uni-karlsruhe.de/?DATUM=heute -s | w3m -dump -T text/html| head -n 56 | tail -n 49 | less -p 'Linie''
 alias pdgid='curl http://www.physics.ox.ac.uk/CDF/Mphys/old/notes/pythia_codeListing.html -s | w3m -dump -T text/html | head -n 60 | tail -n 55| less'
 
+# version of meld which is able to run in a CMSSW environment
+alias mld='PATH=/opt/ogs/bin/linux-x64:/wlcg/sw/git/current/bin:/usr/users/berger/bin:/usr/users/berger/scripts:/usr/sue/bin:/usr/local/bin:/usr/local/bin/X11:/usr/bin:/bin:/usr/bin/X11:/cern/pro/bin:/usr/kerberos/bin LD_LIBRARY_PATH=/opt/ogs/lib/linux-x64 PYTHONPATH="" meld'
+
 
 export GREP_OPTIONS='--color=auto'
 
