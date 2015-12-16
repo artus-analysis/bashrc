@@ -97,11 +97,16 @@ listwarnings()
 }
 
 # special files for ekp, naf, user
-if [[ $HOSTNAME == *ekp* ]]; then
+if [[ $HOSTNAME == *ekpcms* ]]; then
     [ -f $BASHRCDIR/ekp.sh ] && source $BASHRCDIR/ekp.sh
+    # check for SLC5/6:
+    if [[ `lsb_release -ds` == *6* ]]; then
+        ekpini sge
+    elif [[ `lsb_release -ds` == *5* ]]; then
+        ekpini sgeold
+    fi
 elif [[ $HOSTNAME == *naf* ]]; then
     [ -f $BASHRCDIR/naf.sh ] && source $BASHRCDIR/naf.sh
 fi
 [ -f $BASHRCDIR/users/$USER.sh ] && source $BASHRCDIR/users/$USER.sh
-[ -f /usr/users/berger/sw/ekpini.sh ] && source /usr/users/berger/sw/ekpini.sh sge
 
