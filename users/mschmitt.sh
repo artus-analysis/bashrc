@@ -16,6 +16,7 @@ case "$HOSTNAME" in
             ;;
 	"ekpsg0"*)
 	export ANA=/home/mschmitt/
+	    ;;
         "nafhh"*)
         export ANA=/nfs/dust/cms/user/mschmitt/analysis
             ;;
