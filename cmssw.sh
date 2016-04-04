@@ -9,10 +9,7 @@ set_cmssw()
 		echo "ERROR: 'VO_CMS_SW_DIR' is not set!"
 	else
 		source $VO_CMS_SW_DIR/cmsset_default.sh
-		if [ ! -z "$CMSSW_BASE" ]
-		then
-			eval `scramv1 runtime -sh`
-		fi
+		[[ `pwd` =~ ^.*CMSSW_.*_.*_.*/src/?$ ]] && eval `scramv1 runtime -sh`
 	fi
 }
 
