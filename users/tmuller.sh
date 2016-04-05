@@ -19,6 +19,7 @@ alias scramb='scram b -j 8; echo $?'
 alias myrsync='rsync -avSzh --progress'
 alias myhtop='htop -u $USER'
 alias gmerge="(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)"
+alias myvomsproxyinit="voms-proxy-init --voms cms:/cms/dcms --valid 192:00"
 
 # Syntax highlighting in less
 VLESS=$(find /usr/share/vim -name 'less.sh')
