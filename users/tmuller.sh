@@ -12,17 +12,17 @@ fi
 export PS1="\[\033[104m\]\h : \w \$\[\033[00m\] "
 export LANG=en_US.UTF-8
 export EDITOR=vim
-export LS_OPTIONS='-N -T 0 --color=auto'
+export LS_OPTIONS="-N -T 0 --color=auto"
 
 # ALIASES
-alias scramb='scram b -j 8; echo $?'
-alias myrsync='rsync -avSzh --progress'
-alias myhtop='htop -u $USER'
+alias scramb="scram b -j 8; echo $?"
+alias myrsync="rsync -avSzh --progress"
+alias myhtop="htop -u $USER"
 alias gmerge="(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)"
 alias myvomsproxyinit="voms-proxy-init --voms cms:/cms/dcms --valid 192:00"
 
 # Syntax highlighting in less
-VLESS=$(find /usr/share/vim -name 'less.sh')
+VLESS=$(find /usr/share/vim -name "less.sh")
 if [ ! -z $VLESS ]; then
 	alias less=$VLESS
 fi
