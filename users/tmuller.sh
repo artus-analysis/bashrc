@@ -39,6 +39,13 @@ setgitcolors()
 
 # grid-control
 
+# dCache
+# https://twiki.opensciencegrid.org/bin/view/ReleaseDocumentation/LcgUtilities#Using_LCG_Utils_commands
+alias mylcg-ls="lcg-ls -b -v -l -D srmv2"
+alias mylcg-cp="lcg-cp -v -b -D srmv2"
+alias mylcg-del="lcg-del -b -v -l -D srmv2"
+
+
 # Artus
 export USERPC="lx3b28"
 
