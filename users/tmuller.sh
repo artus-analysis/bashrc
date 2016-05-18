@@ -18,6 +18,7 @@ export LS_OPTIONS="-N -T 0 --color=auto"
 alias scramb='scram b -j 8; echo $?'
 alias myrsync='rsync -avSzh --progress'
 alias myhtop='htop -u $USER'
+alias meld='export PATH=/usr/bin/:$PATH && meld'
 alias gmerge='(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)'
 alias myvomsproxyinit='voms-proxy-init --voms cms:/cms/dcms --valid 192:00'
 
