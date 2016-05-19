@@ -16,6 +16,7 @@ export LS_OPTIONS="-N -T 0 --color=auto"
 
 # ALIASES
 alias scramb='scram b -j 8; echo $?'
+alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
 alias myrsync='rsync -avSzh --progress'
 alias myhtop='htop -u $USER'
 alias meld='export PATH=/usr/bin/:$PATH && meld'
