@@ -25,6 +25,7 @@ alias myvomsproxyinit='voms-proxy-init --voms cms:/cms/dcms --valid 192:00'
 
 # CMSSW
 alias setkitanalysis='setkitanalysis715'
+alias setcrab='setcrab3'
 alias setkitskimming='setkitskimming763'
 alias setgenerator='setgenerator7118'
 
@@ -50,7 +51,10 @@ setgitcolors()
 	git config color.ui auto
 }
 
-# grid-control
+# Job Submission
+setcrab3() {
+	source /cvmfs/cms.cern.ch/crab3/crab.sh
+}
 
 
 # Artus
