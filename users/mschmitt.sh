@@ -27,11 +27,19 @@ case "$HOSTNAME" in
 esac
 
 ana_76(){
-  cd $ANA/CMSSW_7_1_5/ && . ./.bash-setup
+export SCRAM_ARCH=slc6_amd64_gcc481
+cmssw_slc6_gcc481
+cd $ANA/CMSSW_7_1_5 && eval `scramv1 runtime -sh`
+source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+source $CMSSW_BASE/src/KappaTools/Toolbox/scripts/ini_KappaTools.sh
 }
 
 ana_80(){
-  cd $ANA/CMSSW_8_0_4/ && . ./.bash-setup
+export SCRAM_ARCH=slc6_amd64_gcc481
+cmssw_slc6_gcc481
+cd $ANA/CMSSW_8_0_4/ && eval `scramv1 runtime -sh`
+source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+source $CMSSW_BASE/src/KappaTools/Toolbox/scripts/ini_KappaTools.sh
 }
 
 tmvaGui(){
