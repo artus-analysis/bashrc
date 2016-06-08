@@ -19,14 +19,19 @@ case "$HOSTNAME" in
 	    ;;
         "nafhh"*)
         export ANA=/nfs/dust/cms/user/mschmitt/analysis
+	export X509_USER_PROXY=/nfs/dust/cms/user/mschmitt/x509up
+	echo $X509_USER_PROXY
             ;;
         "lxplus"*)
             ;;
 esac
 
+ana_76(){
+  cd $ANA/CMSSW_7_1_5/ && . ./.bash-setup
+}
 
-ana_cmssw_715(){
-  cd $ANA/CMSSW_7_1_5/ && . ./.bash-setup && cd ./src/
+ana_80(){
+  cd $ANA/CMSSW_8_0_4/ && . ./.bash-setup
 }
 
 tmvaGui(){
@@ -44,4 +49,15 @@ ln -s $PWD/$1 $ANA/TMVA-v4.2.0/test/TMVA.root
 cd $ANA/TMVA-v4.2.0/test/
 root -x plotall.C
 cd -
+}
+#alias voms='voms-proxy-init -voms cms:/cms/dcms -valid 190:00'
+#alias voms-dest='voms-proxy-destroy -file ~/.globus/x509up'
+init_voms()
+{
+#export X509_USER_PROXY=/nfs/dust/cms/user/mschmitt/x509up
+voms-proxy-init -voms cms:/cms/dcms -valid 192:00 -verify -debug
+}
+info_voms()
+{
+voms-proxy-info
 }
