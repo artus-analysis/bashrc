@@ -1,7 +1,12 @@
-export EDITOR=/usr/bin/nano
-
 #!/bin/bash
 #personal bashrc for mschmitt
+
+export EDITOR=/usr/bin/nano
+alias nano='nano -w'
+alias ssh='ssh -Y'
+alias rsync='rsync -rhvPt'
+source /cvmfs/grid.cern.ch/emi3ui-latest/etc/profile.d/setup-ui-example.sh
+source ../git-completion.bash
 
 [ -f ~berger/sw/ekpini.sh ] && . ~berger/sw/ekpini.sh batch
 
