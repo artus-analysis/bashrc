@@ -79,6 +79,13 @@ setkitskimming763() {
 	
 	cd $CMSSW_BASE/src/
 }
+setkitskimming8010() {
+	cd ~/home/cms/htt/skimming/CMSSW_8_0_10/src
+	
+	set_cmssw slc6_amd64_gcc530
+	
+	cd $CMSSW_BASE/src/
+}
 
 
 setgenerator71162() {
