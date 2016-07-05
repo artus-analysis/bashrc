@@ -26,8 +26,8 @@ alias myvomsproxyinit='voms-proxy-init --voms cms:/cms/dcms --valid 192:00'
 # CMSSW
 alias setkitanalysis='setkitanalysis715'
 alias setcrab='setcrab3'
-alias setkitskimming='setkitskimming763'
-alias setgenerator='setgenerator7118'
+alias setkitskimming='setkitskimming8010'
+#alias setgenerator='setgenerator7118'
 
 # dCache
 # https://twiki.opensciencegrid.org/bin/view/ReleaseDocumentation/LcgUtilities#Using_LCG_Utils_commands
