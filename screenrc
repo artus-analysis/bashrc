@@ -4,7 +4,7 @@
 startup_message off
 caption always "%{= kw}%-w%{= BW}%n %t%{-}%+w %-= @%H - %LD, %d. %LM - %c"
 
-defscrollback 5000
+defscrollback 10000
 
 export TERM=linux
 term linux
