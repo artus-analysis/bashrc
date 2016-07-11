@@ -34,19 +34,19 @@ fi
 #-------------------------------------------------------------
 # The 'ls/ll' family (use a recent GNU ls).
 #-------------------------------------------------------------
-alias la='ls -A'           #  Show hidden files
+alias la='ls -A'           #  Show (a)ll hidden files
 alias l='ls -CF'           #  Column output + indicator
-alias lx='ls -lXB'         #  Sort by extension.
-alias lk='ls -lSr'         #  Sort by size, biggest last.
-alias lt='ls -ltr'         #  Sort by date, most recent last.
-alias lc='ls -ltcr'        #  Sort by/show change time,most recent last.
-alias lu='ls -ltur'        #  Sort by/show access time,most recent last.
+alias lx='ls -lXB'         #  Sort by e(x)tension.
+alias lk='ls -lSr'         #  Sort by size (biggest last)
+alias lt='ls -ltr'         #  Sort by (t)ime (date, most recent last).
+alias lc='ls -ltcr'        #  Sort by (c)hange (most recent last)
+alias lu='ls -ltur'        #  Sort by (u)sage/access (most recent last).
 # ll: directories first, with alphanumeric sorting:
 alias ll="ls -lv --group-directories-first"
-alias lm='ll |more'        #  Pipe through 'more'
-alias lr='ll -R'           #  Recursive ls.
-alias lla='ll -A'          #  Show hidden files.
-alias tree='tree -Csuh'    #  Nice alternative to 'recursive ls' ...
+alias lm='ll |more'        #  Pipe through '(m)ore'
+alias lr='ll -R'           #  (R)ecursive ll.
+alias lla='ll -A'          #  Show (a)ll hidden files.
+alias tree='tree -Csuh'    #  Alternative to 'recursive ls' ...
 
 #-------------------------------------------------------------
 # 'cd'
@@ -65,10 +65,10 @@ alias .........='cd ../../../../../../../..'
 # Grep
 #-------------------------------------------------------------
 # The following 3 are defined by default
-# alias rgrep='grep -r'    # recursive grep
-# alias fgrep)='grep -F'   # Fixed string list
-# egrep='grep -E'          # Extended Regex
-alias igrep='grep -i'      # case insensitive
+# alias rgrep='grep -r'    # (r)ecursive grep
+# alias fgrep='grep -F'    # (F)ixed string list
+# alias egrep='grep -E'    # (E)xtended Regex
+alias igrep='grep -i'      # case (i)nsensitive
 export GREP_OPTIONS='--color=auto'
 
 #-------------------------------------------------------------
