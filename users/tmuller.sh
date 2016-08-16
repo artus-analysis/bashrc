@@ -22,6 +22,7 @@ alias myhtop='htop -u $USER'
 alias meld='export PATH=/usr/bin/:$PATH && meld'
 alias gmerge='(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)'
 alias myvomsproxyinit='voms-proxy-init --voms cms:/cms/dcms --valid 192:00'
+alias gitpullcmssw='git fetch origin && git merge origin/master'
 
 # CMSSW
 alias setkitanalysis='setkitanalysis747'
