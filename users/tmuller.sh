@@ -24,7 +24,7 @@ alias gmerge='(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)'
 alias myvomsproxyinit='voms-proxy-init --voms cms:/cms/dcms --valid 192:00'
 
 # CMSSW
-alias setkitanalysis='setkitanalysis715'
+alias setkitanalysis='setkitanalysis747'
 alias setcrab='setcrab3'
 alias setkitskimming='setkitskimming8010'
 #alias setgenerator='setgenerator7118'
@@ -65,6 +65,15 @@ setkitanalysis715() {
 	cd ~/home/cms/htt/analysis/CMSSW_7_1_5/src
 	
 	set_cmssw slc6_amd64_gcc481
+	
+	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+	
+	cd $CMSSW_BASE/src/
+}
+setkitanalysis747() {
+	cd ~/home/cms/htt/analysis/CMSSW_7_4_7/src
+	
+	set_cmssw slc6_amd64_gcc491
 	
 	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 	
