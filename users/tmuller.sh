@@ -112,3 +112,17 @@ setgenerator7118() {
 	
 	cd $CMSSW_BASE/src/
 }
+
+
+setjuno() {
+	[ ! -e ~/bin ] && mkdir ~/bin
+	[ ! -e ~/bin/python ] && ln -s `which python27` ~/bin/python
+	export PATH=~/bin:$PATH
+
+	cd ~/home/juno/
+	source Artus/Configuration/scripts/ini_artus_python_standalone.sh
+	source Artus/HarryPlotter/scripts/ini_harry.sh
+
+	cd ReliabilityCalc
+}
+
