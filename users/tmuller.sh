@@ -13,6 +13,7 @@ export PS1="\[\033[104m\]\h : \w \$\[\033[00m\] "
 export LANG=en_US.UTF-8
 export EDITOR=vim
 export LS_OPTIONS="-N -T 0 --color=auto"
+export X509_USER_PROXY=$HOME/.globus/x509up
 
 # ALIASES
 alias scramb='scram b -j 8; echo $?'
@@ -28,7 +29,6 @@ alias gitpullcmssw='git fetch origin && git merge origin/master'
 alias setkitanalysis='setkitanalysis747'
 alias setcrab='setcrab3'
 alias setkitskimming='setkitskimming8010'
-#alias setgenerator='setgenerator7118'
 
 # dCache
 # https://twiki.opensciencegrid.org/bin/view/ReleaseDocumentation/LcgUtilities#Using_LCG_Utils_commands
@@ -59,7 +59,7 @@ setcrab3() {
 
 
 # Artus
-export USERPC='lx3b28'
+export USERPC='lx3b85'
 
 
 setkitanalysis715() {
@@ -98,15 +98,23 @@ setkitskimming8010() {
 }
 
 
+setgenerator() {
+	cd ~/home/cms/htt/generator/
+	set_cmssw slc6_amd64_gcc481
+}
+
+
 setgenerator71162() {
-	cd ~/home/cms/htt/generator/CMSSW_7_1_16_patch2/src
+	setgenerator
+	cd CMSSW_7_1_16_patch2/src
 	
 	set_cmssw slc6_amd64_gcc481
 	
 	cd $CMSSW_BASE/src/
 }
 setgenerator7118() {
-	cd ~/home/cms/htt/generator/CMSSW_7_1_18/src
+	setgenerator
+	cd CMSSW_7_1_18/src
 	
 	set_cmssw slc6_amd64_gcc481
 	
