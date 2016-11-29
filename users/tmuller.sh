@@ -28,7 +28,7 @@ alias gitpullcmssw='git fetch origin && git merge origin/master'
 # CMSSW
 alias setkitanalysis='setkitanalysis747'
 alias setcrab='setcrab3'
-alias setkitskimming='setkitskimming8010'
+alias setkitskimming='setkitskimming8021'
 
 # dCache
 # https://twiki.opensciencegrid.org/bin/view/ReleaseDocumentation/LcgUtilities#Using_LCG_Utils_commands
@@ -91,6 +91,13 @@ setkitskimming763() {
 }
 setkitskimming8010() {
 	cd ~/home/cms/htt/skimming/CMSSW_8_0_10/src
+	
+	set_cmssw slc6_amd64_gcc530
+	
+	cd $CMSSW_BASE/src/
+}
+setkitskimming8021() {
+	cd ~/home/cms/htt/skimming/CMSSW_8_0_21/src
 	
 	set_cmssw slc6_amd64_gcc530
 	
