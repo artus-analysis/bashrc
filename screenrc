@@ -8,3 +8,5 @@ defscrollback 10000
 
 export TERM=linux
 term linux
+
+termcapinfo xterm|xterms|xs|rxvt ti@:te@

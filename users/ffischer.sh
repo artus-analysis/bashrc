@@ -75,3 +75,7 @@ alias kk='ll'
 # Freiburg settings
 #-------------------------------------------------------------
 [ -f $BASHRCDIR/freiburg.sh ] && source $BASHRCDIR/freiburg.sh
+#-------------------------------------------------------------
+# Miscellaneous
+#-------------------------------------------------------------
+[ -f $BASHRCDIR/pi.sh ] && source $BASHRCDIR/pi.sh

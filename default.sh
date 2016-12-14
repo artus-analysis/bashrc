@@ -150,6 +150,26 @@ alias pdgid='curl https://twiki.cern.ch/twiki/bin/view/Main/PdgId -Bs | w3m -dum
 alias mld='PATH=/opt/ogs/bin/linux-x64:/wlcg/sw/git/current/bin:/usr/local/bin:/usr/local/bin/X11:/usr/bin:/bin:/usr/bin/X11:/cern/pro/bin:/usr/kerberos/bin LD_LIBRARY_PATH=/opt/ogs/lib/linux-x64 PYTHONPATH="" meld'
 
 #-------------------------------------------------------------
+# Not all tools (*cough* Inkscape *cough*) have good CMYK support
+# use gostscript to convert an existing pdf->CMYK
+#-------------------------------------------------------------
+function cmyk(){
+    if [ -f $1 ]; then
+        file=$1
+        # build output string: replace .pdf with _cmyk.pdf
+        outfile="${file: 0:(( ${#file} - 4 ))}_cmyk${file: -4}"
+
+        gs -dSAFER -dBATCH \
+        -dNOPAUSE -dNOCACHE -sDEVICE=pdfwrite \
+        -sColorConversionStrategy=CMYK \
+        -dProcessColorModel=/DeviceCMYK \
+        -sOutputFile="$outfile" \
+        $1
+    fi
+}
+
+
+#-------------------------------------------------------------
 # qstat-like script with job summary for all users
 #-------------------------------------------------------------
 myqstat()
