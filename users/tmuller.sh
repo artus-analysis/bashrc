@@ -27,8 +27,9 @@ alias gitpullcmssw='git fetch origin && git merge origin/master'
 
 # CMSSW
 alias setkitanalysis='setkitanalysis747'
-alias setcrab='setcrab3'
 alias setkitskimming='setkitskimming8021'
+alias settauvalidation='settauvalidation9001'
+alias setcrab='setcrab3'
 
 # dCache
 # https://twiki.opensciencegrid.org/bin/view/ReleaseDocumentation/LcgUtilities#Using_LCG_Utils_commands
@@ -124,6 +125,14 @@ setgenerator7118() {
 	cd CMSSW_7_1_18/src
 	
 	set_cmssw slc6_amd64_gcc481
+	
+	cd $CMSSW_BASE/src/
+}
+
+settauvalidation9001() {
+	cd ~/home/cms/htt/tauvalidation/CMSSW_9_0_0_pre1/src
+	
+	set_cmssw slc6_amd64_gcc530
 	
 	cd $CMSSW_BASE/src/
 }
