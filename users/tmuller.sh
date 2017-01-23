@@ -30,6 +30,7 @@ alias setkitanalysis='setkitanalysis747'
 alias setkitskimming='setkitskimming8021'
 alias settauvalidation='settauvalidation9001'
 alias setcrab='setcrab3'
+export PATH=/afs/cern.ch/user/v/valya/public/dasgoclient/:$PATH
 
 # dCache
 # https://twiki.opensciencegrid.org/bin/view/ReleaseDocumentation/LcgUtilities#Using_LCG_Utils_commands
