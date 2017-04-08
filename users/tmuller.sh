@@ -30,7 +30,7 @@ alias gitpullcmssw='git fetch origin && git merge origin/master'
 
 # CMSSW
 alias setkitanalysis='setkitanalysis747'
-alias setkitskimming='setkitskimming8021'
+alias setkitskimming='setkitskimming80261'
 alias settauvalidation='settauvalidation9001'
 alias setcrab='setcrab3'
 export PATH=/afs/cern.ch/user/v/valya/public/dasgoclient/:$PATH
@@ -103,6 +103,13 @@ setkitskimming8010() {
 }
 setkitskimming8021() {
 	cd ~/home/cms/htt/skimming/CMSSW_8_0_21/src
+	
+	set_cmssw slc6_amd64_gcc530
+	
+	cd $CMSSW_BASE/src/
+}
+setkitskimming80261() {
+	cd ~/home/cms/htt/skimming/CMSSW_8_0_26_patch1/src
 	
 	set_cmssw slc6_amd64_gcc530
 	
