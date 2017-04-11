@@ -26,6 +26,10 @@ alias ls='ls --color'
 alias ll='ls -l'
 alias ltr='ll -tr'
 
+# CMSSW
+alias setanalysis='setanalysis747'
+alias setskim='setskimming8026'
+
 
 ## functions
 # set the title of the xterm window
@@ -55,9 +59,12 @@ function crabsetup {
 	gridinit
 }
 
-# CMSSW
-alias setanalysis='setanalysis747'
-alias setskim='setskimming8026'
+# skimming preparations
+function skimprep {
+	source /cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1611-comp3/etc/init-light.sh
+	gridinit
+}
+
 
 # dCache
 # https://twiki.opensciencegrid.org/bin/view/ReleaseDocumentation/LcgUtilities#Using_LCG_Utils_commands
@@ -157,4 +164,7 @@ setskimming8026() {
 	set_cmssw slc6_amd64_gcc530
 	
 	cd $CMSSW_BASE/src/
+
+	export PATH=$PATH:$CMSSW_BASE/src/grid-control:$CMSSW_BASE/src/grid-control/scripts
+
 }
