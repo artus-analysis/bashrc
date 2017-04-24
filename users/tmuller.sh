@@ -35,6 +35,9 @@ alias settauvalidation='settauvalidation9001'
 alias setcrab='setcrab3'
 export PATH=/afs/cern.ch/user/v/valya/public/dasgoclient/:$PATH
 
+# Operation
+alias rdesktop_cerntscms='rdesktop -g 90% -a24 -u tmuller -d CERN cerntscms.cern.ch'
+
 # dCache
 # https://twiki.opensciencegrid.org/bin/view/ReleaseDocumentation/LcgUtilities#Using_LCG_Utils_commands
 alias mylcg-ls='lcg-ls -b -v -l -D srmv2'
