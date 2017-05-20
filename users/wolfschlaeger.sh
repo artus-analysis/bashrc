@@ -17,7 +17,8 @@ export LANG=en_US.UTF-8
 export EDITOR=vim
 export LS_OPTIONS="-N -T 0 --color=auto"
 export X509_USER_PROXY=$HOME/.globus/x509up
-
+export HARRY_REMOTE_USER="dwolfsch"
+export HARRY_USERPC="lx3b17.rwth-aachen.de"
 # ALIASES
 alias scramb='scram b -j 8; echo $?'
 alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
@@ -27,6 +28,11 @@ alias meld='export PATH=/usr/bin/:$PATH && meld'
 alias gmerge='(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)'
 alias myvomsproxyinit='voms-proxy-init --voms cms:/cms/dcms --valid 192:00'
 alias gitpullcmssw='git fetch origin && git merge origin/master'
+
+function gridinit {
+	export X509_USER_PROXY=$HOME/.globus/proxy.grid
+	voms-proxy-init -voms cms:/cms/dcms -valid 192:00
+}
 
 # CMSSW
 alias setkitanalysis='setkitanalysis747'
@@ -64,11 +70,11 @@ setcrab3() {
 
 
 # Artus
-export USERPC='lx3b71'
+export USERPC='lx3b17'
 
 
 setkitanalysis747() {
-	cd /net/scratch_cms3b/wolfschlaeger/cms_analysis/CMSSW_7_4_7/src
+	cd ~/cms_analysis/CMSSW_7_4_7/src
 	
 	set_cmssw slc6_amd64_gcc491
 	
