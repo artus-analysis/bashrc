@@ -29,7 +29,6 @@ alias myvomsproxyinit='voms-proxy-init --voms cms:/cms/dcms --valid 192:00'
 alias gitpullcmssw='git fetch origin && git merge origin/master'
 
 # CMSSW
-alias setkitanalysis='setkitanalysis747'
 alias setkitskimming='setkitskimming80261'
 alias settauvalidation='settauvalidation9001'
 alias setcrab='setcrab3'
@@ -68,11 +67,29 @@ export USERPC='lx3b85'
 
 
 
-setkitanalysis747() {
+setkitanalysisStandalone() {
 	cd /.automount/net_rw/net__scratch_cms3b/adam/adam/CMSSW_7_4_7/src
 	
 	set_cmssw slc6_amd64_gcc491
 	
+	export HARRY_REMOTE_USER=cramonad
+	export HARRY_USERPC=lx3b15.rwth-aachen.de
+	export HARRY_SSHPC=$HARRY_USERPC
+
+	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+	
+	cd $CMSSW_BASE/src/
+}
+
+setkitanalysisClassic() {
+	cd /.automount/net_rw/net__scratch_cms3b/adam/adam2/CMSSW_7_4_7/src
+	
+	set_cmssw slc6_amd64_gcc491
+	
+	export HARRY_REMOTE_USER=cramonad
+	export HARRY_USERPC=lx3b15.rwth-aachen.de
+	export HARRY_SSHPC=$HARRY_USERPC
+
 	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 	
 	cd $CMSSW_BASE/src/
