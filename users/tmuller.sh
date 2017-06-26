@@ -33,6 +33,7 @@ alias setkitanalysis='setkitanalysis747'
 alias setkitskimming='setkitskimming80261'
 alias settauvalidation='settauvalidation9001'
 alias setcrab='setcrab3'
+export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch/
 export PATH=/afs/cern.ch/user/v/valya/public/dasgoclient/:$PATH
 
 # Operation
@@ -65,10 +66,8 @@ setcrab3() {
 	source /cvmfs/cms.cern.ch/crab3/crab.sh
 }
 
-# CMSSW
-export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch/
-
-# Artus
+# Kappa, Artus
+export SKIM_WORK_BASE=/net/scratch_cms3b/$USER/kappa
 export USERPC='lx3b85'
 
 
