@@ -65,6 +65,8 @@ setcrab3() {
 	source /cvmfs/cms.cern.ch/crab3/crab.sh
 }
 
+# CMSSW
+export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch/
 
 # Artus
 export USERPC='lx3b85'
