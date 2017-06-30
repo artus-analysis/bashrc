@@ -2,7 +2,7 @@
 echo "Ok bash, I am hlushchenko.sh"
 if [ -z "$BASHRCDIR" ]
 then
-	BASHRCDIR=$( cd "$( dirname "${BASH_SOURCE[0]}s" )/.." && pwd )
+    BASHRCDIR=$( cd "$( dirname "${BASH_SOURCE[0]}s" )/.." && pwd )
 fi
 
 # CMSSW
@@ -38,18 +38,19 @@ alias mylcg-del='lcg-del -b -v -l -D srmv2'
 # Syntax highlighting in less
 VLESS=$(find /usr/share/vim -name "less.sh")
 if [ ! -z $VLESS ]; then
-	alias less=$VLESS
+    alias less=$VLESS
 fi
 
 # GIT
 setgitcolors()
 {
-	git config color.branch auto
-	git config color.diff auto
-	git config color.interactive auto
-	git config color.status auto
-	git config color.ui auto
+    git config color.branch auto
+    git config color.diff auto
+    git config color.interactive auto
+    git config color.status auto
+    git config color.ui auto
 }
+
 #Windows popping up to ask for username and passwort after git push/pull can be avoided and replaced by a bash prompt.
 unset SSH_ASKPASS""
 
@@ -60,18 +61,20 @@ alias pullKappa='cd $CMSSW_BASE/src/Kappa; git fetch origin; git merge origin/ma
 alias pullall='pullArtus; pullKappaTools; pullHtTT; pullKappa'
 
 # Job Submission
-setcrab3() {
-	source /cvmfs/cms.cern.ch/crab3/crab.sh
+setcrab3() 
+{
+    source /cvmfs/cms.cern.ch/crab3/crab.sh
 }
 
-# Artus
+# Kappa, Artus
+export SKIM_WORK_BASE=/net/scratch_cms3b/$USER/kappa
 export USERPC='lx3b83'
 
 #################### Set Skimming #####################
 
 setkitskimming763() 
 {
-    cd /.automount/home/home__home2/institut_3b/hlushchenko/Work/CMSSW_7_6_3/src	
+    cd /.automount/home/home__home2/institut_3b/hlushchenko/Work/CMSSW_7_6_3/src    
     set_cmssw slc6_amd64_gcc493
     cd $CMSSW_BASE/src/
 }
@@ -119,15 +122,15 @@ setkitanalysis747()
 
 setkitanalysis747_TauES()
 {
-	cd /home/home2/institut_3b/hlushchenko/Work/TauES/CMSSW_7_4_7/src 
-	set_cmssw slc6_amd64_gcc491
-        source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
-        cd $CMSSW_BASE/src/
+    cd /home/home2/institut_3b/hlushchenko/Work/TauES/CMSSW_7_4_7/src 
+    set_cmssw slc6_amd64_gcc491
+    source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+    cd $CMSSW_BASE/src/
 }
 
 setkitanalysis747_new() 
 {
-        cd /home/home2/institut_3b/hlushchenko/Work/CheckReciep/CMSSW_7_4_7/src	
+        cd /home/home2/institut_3b/hlushchenko/Work/CheckReciep/CMSSW_7_4_7/src 
         set_cmssw slc6_amd64_gcc491
         echo "CMSSW_BASE: $CMSSW_BASE"
         source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
@@ -136,10 +139,5 @@ setkitanalysis747_new()
 
 setkitanalysisdevnull()
 {
-	setkitanalysis &>/dev/null
-}
-
-setcrab3()
-{
-source /cvmfs/cms.cern.ch/crab3/crab.sh
+    setkitanalysis &>/dev/null
 }
