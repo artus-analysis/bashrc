@@ -71,6 +71,13 @@ export SKIM_WORK_BASE=/net/scratch_cms3b/$USER/kappa
 export USERPC='lx3b85'
 
 
+setkitanalysis5332() {
+	cd ~/home/cms/htt/analysis/CMSSW_5_3_32/src
+	
+	set_cmssw slc6_amd64_gcc472
+	
+	cd $CMSSW_BASE/src/
+}
 setkitanalysis715() {
 	cd ~/home/cms/htt/analysis/CMSSW_7_1_5/src
 	
