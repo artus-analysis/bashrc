@@ -24,9 +24,9 @@ alias gmerge='(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)'
 alias myvomsproxyinit='voms-proxy-init --voms cms:/cms/dcms --valid 192:00'
 
 # CMSSW
-alias setkitanalysis='setkitanalysis747'
+alias setanalysis='setanalysis747'
 alias setcrab='setcrab3'
-alias setkitskimming='setkitskimming8020'
+alias setskimming='setskimming8020'
 #alias setgenerator='setgenerator7118'
 
 # dCache
@@ -72,72 +72,88 @@ export USERPC='lx3b83'
 
 #################### Set Skimming #####################
 
-setkitskimming763() 
+setskimming763() 
 {
+    startingDir=$(pwd)
     cd /.automount/home/home__home2/institut_3b/hlushchenko/Work/CMSSW_7_6_3/src    
     set_cmssw slc6_amd64_gcc493
+    cd $startingDir
     cd $CMSSW_BASE/src/
 }
 
-setkitskimming8014 () 
-{ 
+setskimming8014 () 
+{
+    startingDir=$(pwd)
     cd ~/Work/CMSSW_8_0_14/src;
     set_cmssw slc6_amd64_gcc530;
+    cd $startingDir
     cd $CMSSW_BASE/src/
 }
 
-setkitskimming8020 () 
-{   
+setskimming8020 () 
+{
+    startingDir=$(pwd)
     cd ~/Work/CMSSW_8_0_20/src;
     set_cmssw slc6_amd64_gcc530;
+    cd $startingDir
     cd $CMSSW_BASE/src/
 }
 
 
-setkitskimming8026patch1 () 
+setskimming8026patch1 () 
 {
+    startingDir=$(pwd)
     cd ~/Work/CMSSW_8_0_26_patch1/src;
     set_cmssw slc6_amd64_gcc530;
+    cd $startingDir
     cd $CMSSW_BASE/src
     ARTUSPATH=/.automount/home/home__home2/institut_3b/hlushchenko/Work/CMSSW_7_4_7/src/Artus/
     SKIM_WORK_BASE=/.automount/home/home__home2/institut_3b/hlushchenko/Work/CMSSW_8_0_26_patch1/src/SKIM_WORK_BASE
 }
 #################### Set Analysis #####################
 
-setkitanalysis715() 
+setanalysis715() 
 {
-        cd /home/home2/institut_3b/hlushchenko/Work/CheckReciep/CMSSW_7_1_5/src
-        set_cmssw slc6_amd64_gcc481
-        source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
-        cd $CMSSW_BASE/src/
-}
-
-setkitanalysis747() 
-{
-        cd /home/home2/institut_3b/hlushchenko/Work/CMSSW_7_4_7/src       
-        set_cmssw slc6_amd64_gcc491
-        source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
-        cd $CMSSW_BASE/src/
-}
-
-setkitanalysis747_TauES()
-{
-    cd /home/home2/institut_3b/hlushchenko/Work/TauES/CMSSW_7_4_7/src 
-    set_cmssw slc6_amd64_gcc491
+    startingDir=$(pwd)
+    cd /home/home2/institut_3b/hlushchenko/Work/CheckReciep/CMSSW_7_1_5/src
+    set_cmssw slc6_amd64_gcc481
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+    cd $startingDir
     cd $CMSSW_BASE/src/
 }
 
-setkitanalysis747_new() 
+setanalysis747() 
 {
-        cd /home/home2/institut_3b/hlushchenko/Work/CheckReciep/CMSSW_7_4_7/src 
-        set_cmssw slc6_amd64_gcc491
-        echo "CMSSW_BASE: $CMSSW_BASE"
-        source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
-        cd $CMSSW_BASE/src/
+    startingDir=$(pwd)
+    cd /home/home2/institut_3b/hlushchenko/Work/CMSSW_7_4_7/src       
+    set_cmssw slc6_amd64_gcc491
+    source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+    cd $startingDir
+    cd $CMSSW_BASE/src/
 }
 
-setkitanalysisdevnull()
+setanalysis747_TauES()
 {
-    setkitanalysis &>/dev/null
+    startingDir=$(pwd)
+    cd /home/home2/institut_3b/hlushchenko/Work/TauES/CMSSW_7_4_7/src 
+    set_cmssw slc6_amd64_gcc491
+    source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+    cd $startingDir
+    cd $CMSSW_BASE/src/
+}
+
+setanalysis747_new() 
+{
+    startingDir=$(pwd)
+    cd /home/home2/institut_3b/hlushchenko/Work/CheckReciep/CMSSW_7_4_7/src 
+    set_cmssw slc6_amd64_gcc491
+    echo "CMSSW_BASE: $CMSSW_BASE"
+    source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+    cd $startingDir
+    cd $CMSSW_BASE/src/
+}
+
+setanalysisdevnull()
+{
+    setanalysis &>/dev/null
 }
