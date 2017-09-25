@@ -29,6 +29,16 @@ alias gmerge='(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)'
 alias myvomsproxyinit='voms-proxy-init --voms cms:/cms/dcms --valid 192:00'
 alias gitpullcmssw='git fetch origin && git merge origin/master'
 
+# RWTH
+rdesktop_winsrv_de()
+{
+	rdesktop -d PHYSIK -g 93% -a 16 -k de -u tmuller winsrv.physik.rwth-aachen.de -z $@ &
+}
+rdesktop_winsrv_us()
+{
+	rdesktop -d PHYSIK -g 93% -a 16 -k en-us -u tmuller winsrv.physik.rwth-aachen.de -z $@ &
+}
+
 # CMSSW
 alias setkitanalysis='setkitanalysis747'
 alias setkitskimming='setkitskimming80261'
@@ -38,7 +48,10 @@ export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch/
 export PATH=/afs/cern.ch/user/v/valya/public/dasgoclient/:$PATH
 
 # Operation
-alias rdesktop_cerntscms='rdesktop -g 90% -a24 -u tmuller -d CERN cerntscms.cern.ch'
+rdesktop_cerntscms()
+{
+	rdesktop -g 93% -a 24 -u tmuller -d CERN cerntscms.cern.ch -z $@ &
+}
 
 # dCache
 # https://twiki.opensciencegrid.org/bin/view/ReleaseDocumentation/LcgUtilities#Using_LCG_Utils_commands
