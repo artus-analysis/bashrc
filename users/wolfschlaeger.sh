@@ -72,6 +72,8 @@ setcrab3() {
 # Artus
 export USERPC='lx3b17'
 
+# Analysis setups
+
 
 setkitanalysis747() {
 	cd ~/cms_analysis/CMSSW_7_4_7/src
@@ -83,6 +85,10 @@ setkitanalysis747() {
 	cd $CMSSW_BASE/src/
 }
 
-
+setkitskimming80261() {
+	cd ~/skimming/CMSSW_8_0_26_patch1/src
+	
+	set_cmssw slc6_amd64_gcc530
+}
 
 
