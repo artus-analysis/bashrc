@@ -64,7 +64,7 @@ setkitanalysis715() {
 	cd $CMSSW_BASE/src/
 }
 
-setkitanalysis747_hiwi() {
+setkitanalysis747hiwi() {
 	#setgridcontroltrunk1501
 	
 	cd ~/working_directory_new/CMSSW_7_4_7/src
@@ -78,7 +78,7 @@ setkitanalysis747_hiwi() {
 	cd $CMSSW_BASE/src/
 }
 
-setkitanalysis80X_hiwi() {
+setkitanalysis80Xhiwi() {
 	#setgridcontroltrunk1501
 	
 	cd ~/test_cmssw/CMSSW_8_0_25/src
@@ -108,7 +108,7 @@ setkitanalysis747() {
 	cd $CMSSW_BASE/src/
 }
 
-setkitanalysis80X() {
+setskimming80X() {
 	#setgridcontroltrunk1501
 	
 	cd ~/master/CMSSW_8_0_26_patch1/src
