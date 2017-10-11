@@ -20,6 +20,13 @@ alias myrsync='rsync -avSzh --progress'
 alias myhtop='htop -u $USER'
 alias gmerge="(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)"
 alias myvomsproxyinit="voms-proxy-init --voms cms:/cms/dcms --valid 192:00"
+alias gitpullcmssw='git fetch origin && git merge origin/master'
+
+alias pullArtus='cd $CMSSW_BASE/src/Artus; git fetch origin; git merge origin/master; cd -'
+alias pullKappaTools='cd $CMSSW_BASE/src/KappaTools; git fetch origin; git merge origin/master; cd -'
+alias pullHtTT='cd $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/; git fetch origin; git merge origin/master; cd -'
+alias pullKappa='cd $CMSSW_BASE/src/Kappa; git fetch origin; git merge origin/master; cd -'
+alias pullall='pullArtus; pullKappaTools; pullHtTT; pullKappa'
 
 # Syntax highlighting in less
 VLESS=$(find /usr/share/vim -name 'less.sh')
@@ -40,7 +47,7 @@ setgitcolors()
 # grid-control
 
 # Artus
-export USERPC="lx3b28"
+export USERPC="lx3b59"
 
 
 setkitanalysis715() {
@@ -50,7 +57,68 @@ setkitanalysis715() {
 	
 	set_cmssw slc6_amd64_gcc481
 	
+	export HARRY_USERPC=`hostname`
+	export HARRY_REMOTE_USER="mfackeld"
 	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 	
 	cd $CMSSW_BASE/src/
 }
+
+setkitanalysis747_hiwi() {
+	#setgridcontroltrunk1501
+	
+	cd ~/working_directory_new/CMSSW_7_4_7/src
+	
+	set_cmssw slc6_amd64_gcc481
+	
+	export HARRY_USERPC=`hostname`
+	export HARRY_REMOTE_USER="mfackeld"
+	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+	
+	cd $CMSSW_BASE/src/
+}
+
+setkitanalysis80X_hiwi() {
+	#setgridcontroltrunk1501
+	
+	cd ~/test_cmssw/CMSSW_8_0_25/src
+	
+	set_cmssw slc6_amd64_gcc530
+	
+	export HARRY_USERPC=`hostname`
+	export HARRY_REMOTE_USER="mfackeld"
+	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+	
+	cd $CMSSW_BASE/src/
+}
+
+#master thesis
+
+setkitanalysis747() {
+	#setgridcontroltrunk1501
+	
+	cd ~/master/CMSSW_7_4_7/src
+	
+	set_cmssw slc6_amd64_gcc481
+	
+	export HARRY_USERPC=`hostname`
+	export HARRY_REMOTE_USER="mfackeld"
+	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+	
+	cd $CMSSW_BASE/src/
+}
+
+setkitanalysis80X() {
+	#setgridcontroltrunk1501
+	
+	cd ~/master/CMSSW_8_0_26_patch1/src
+	
+	set_cmssw slc6_amd64_gcc530
+	
+	export HARRY_USERPC=`hostname`
+	export HARRY_REMOTE_USER="mfackeld"
+	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+	
+	cd $CMSSW_BASE/src/
+}
+
