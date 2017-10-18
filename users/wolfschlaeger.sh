@@ -91,12 +91,12 @@ setkitskimming80261() {
 	set_cmssw slc6_amd64_gcc530
 }
 
-# function setskimming {
-# 	echo "Set Skimming"
-# 	setkitskimming80261
-# 	setcrab
-# 	gridinit
-# }
+function setskimming {
+ 	echo "Set Skimming"
+ 	setkitskimming80261
+ 	setcrab
+ 	gridinit
+}
 
 function setanalysis {
 	echo "Set Analysis"
