@@ -35,7 +35,8 @@ function gridinit {
 }
 
 # CMSSW
-alias setkitanalysis='setkitanalysis747'
+#alias setkitanalysis='setkitanalysis747'
+alias setkitanalysis='setkitanalysis810'
 alias setkitskimming='setkitskimming80261'
 alias settauvalidation='settauvalidation9001'
 alias setcrab='setcrab3'
@@ -84,6 +85,12 @@ setkitanalysis747() {
 	
 	cd $CMSSW_BASE/src/
 }
+setkitanalysis810() {
+	cd ~/cms_analysis/CMSSW_8_1_0/src
+	set_cmssw slc6_amd64_gcc530
+	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+	cd $CMSSW_BASE/src/
+}
 
 setkitskimming80261() {
 	cd ~/skimming/CMSSW_8_0_26_patch1/src
@@ -98,9 +105,16 @@ function setskimming {
  	gridinit
 }
 
-function setanalysis {
+function setanalysis747 {
 	echo "Set Analysis"
 	setkitanalysis747
+	gridinit
+	web_plotting_no_passwd
+}
+
+function setanalysis810 {
+	echo "Set Analysis CMMSW 810"
+	setkitanalysis810
 	gridinit
 	web_plotting_no_passwd
 }
