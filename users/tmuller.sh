@@ -40,7 +40,7 @@ rdesktop_winsrv_us()
 }
 
 # CMSSW
-alias setkitanalysis='setkitanalysis747'
+alias setkitanalysis='setkitanalysis810'
 alias setkitskimming='setkitskimming80261'
 alias settauvalidation='settauvalidation9001'
 alias setcrab='setcrab3'
@@ -105,6 +105,15 @@ setkitanalysis747() {
 	cd ~/home/cms/htt/analysis/CMSSW_7_4_7/src
 	
 	set_cmssw slc6_amd64_gcc491
+	
+	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+	
+	cd $CMSSW_BASE/src/
+}
+setkitanalysis810() {
+	cd ~/home/cms/htt/analysis/CMSSW_8_1_0/src
+	
+	set_cmssw slc6_amd64_gcc530
 	
 	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 	
