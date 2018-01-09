@@ -18,10 +18,11 @@ export EDITOR=vim
 export LS_OPTIONS="-N -T 0 --color=auto"
 export X509_USER_PROXY=$HOME/.globus/x509up
 export N_CORES=`grep -c ^processor /proc/cpuinfo`
+export N_PARALLEL=$(( $N_CORES < 20 ? $N_CORES : 20 ))
 
 # ALIASES
-alias scramb='scram b -j ${N_CORES}; echo $?'
-alias scrambdebug='scram b -j ${N_CORES} USER_CXXFLAGS="-g"'
+alias scramb='scram b -j ${N_PARALLEL}; echo $?'
+alias scrambdebug='scram b -j ${N_PARALLEL} USER_CXXFLAGS="-g"'
 alias myrsync='rsync -avSzh --progress'
 alias myhtop='htop -u $USER'
 alias meld='export PATH=/usr/bin/:$PATH && meld'
