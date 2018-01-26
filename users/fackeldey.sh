@@ -45,9 +45,26 @@ setgitcolors()
 }
 
 # grid-control
+function gridinit {
+	export X509_USER_PROXY=$HOME/.globus/proxy.grid
+	voms-proxy-init -voms cms:/cms/dcms -valid 192:00
+}
+
+# setup CRAB
+function crabsetup {
+	source /cvmfs/cms.cern.ch/crab3/crab.sh
+	cd $CMSSW_BASE/src/Kappa/Skimming/higgsTauTau/
+	gridinit
+}
 
 # Artus
 export USERPC="lx3b59"
+
+setlatinoanalysis() {
+	cd ~/master/CMSSW_8_0_26_patch1/src
+	set_cmssw slc6_amd64_gcc530	
+	cd $CMSSW_BASE/src/
+}
 
 
 setkitanalysis715() {
@@ -108,17 +125,7 @@ setkitanalysis747() {
 	cd $CMSSW_BASE/src/
 }
 
-setskimming80X() {
-	#setgridcontroltrunk1501
-	
-	cd ~/master/CMSSW_8_0_26_patch1/src
-	
-	set_cmssw slc6_amd64_gcc530
-	
-	export HARRY_USERPC=`hostname`
-	export HARRY_REMOTE_USER="mfackeld"
-	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
-	
-	cd $CMSSW_BASE/src/
+setupmachinelearning(){
+	cd ~/master/Machine-Learning
+	source /cvmfs/sft.cern.ch/lcg/views/LCG_92/x86_64-slc6-gcc62-opt/setup.sh
 }
-
