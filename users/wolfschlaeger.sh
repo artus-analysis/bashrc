@@ -77,7 +77,7 @@ export USERPC='lx3b17'
 
 
 setkitanalysis747() {
-	cd ~/cms_analysis/CMSSW_7_4_7/src
+	cd ~/checkout_test/CMSSW_7_4_7/src
 	
 	set_cmssw slc6_amd64_gcc491
 	
@@ -86,7 +86,7 @@ setkitanalysis747() {
 	cd $CMSSW_BASE/src/
 }
 setkitanalysis810() {
-	cd ~/cms_analysis/CMSSW_8_1_0/src
+	cd ~/checkout_test/CMSSW_8_1_0/src
 	set_cmssw slc6_amd64_gcc530
 	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 	cd $CMSSW_BASE/src/
