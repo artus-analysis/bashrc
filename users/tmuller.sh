@@ -30,6 +30,12 @@ alias gmerge='(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)'
 alias myvomsproxyinit='voms-proxy-init --voms cms:/cms/dcms --valid 192:00'
 alias gitpullcmssw='git fetch origin && git merge origin/master'
 
+ssh_agent()
+{
+	eval "$(ssh-agent -s)"
+	ssh-add
+}
+
 # RWTH
 rdesktop_winsrv_de()
 {
