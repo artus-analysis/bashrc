@@ -60,6 +60,12 @@ alias pullHtTT='cd $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/; git fetch or
 alias pullKappa='cd $CMSSW_BASE/src/Kappa; git fetch origin; git merge origin/master; cd -'
 alias pullall='pullArtus; pullKappaTools; pullHtTT; pullKappa'
 
+alias pullArtus_dictchanges_CMSSW94X='cd $CMSSW_BASE/src/Artus; git fetch origin; git merge origin/dictchanges_CMSSW94X; cd -'
+alias pullHtTT_dictchanges_CMSSW94='cd $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/; git fetch origin; git merge origin/dictchanges_CMSSW94; cd -'
+alias pullKappa_dictchanges_CMSSW94X='cd $CMSSW_BASE/src/Kappa; git fetch origin; git merge origin/dictchanges_CMSSW94X; cd -'
+alias pullall_dictchanges_CMSSW94X='pullArtus_dictchanges_CMSSW94X; pullKappaTools; pullHtTT_dictchanges_CMSSW94; pullKappa_dictchanges_CMSSW94X'
+
+
 # Job Submission
 setcrab3() 
 {
@@ -110,6 +116,31 @@ setskimming8026patch1 ()
     ARTUSPATH=/.automount/home/home__home2/institut_3b/hlushchenko/Work/CMSSW_7_4_7/src/Artus/
     SKIM_WORK_BASE=/.automount/home/home__home2/institut_3b/hlushchenko/Work/CMSSW_8_0_26_patch1/src/SKIM_WORK_BASE
 }
+
+setKSkimming8026patch1 ()
+{
+    startingDir=$(pwd)
+    cd ~/Work/Skimming/CMSSW_8_0_26_patch1/src;
+    set_cmssw slc6_amd64_gcc530;
+    cd $startingDir
+    cd $CMSSW_BASE/src
+    ARTUSPATH=/.automount/home/home__home2/institut_3b/hlushchenko/Work/CMSSW_7_4_7/src/Artus/
+    SKIM_WORK_BASE=/.automount/home/home__home2/institut_3b/hlushchenko/Work/Skimming/CMSSW_8_0_26_patch1/src/SKIM_WORK_BASE
+}
+
+
+setKSkimming929 ()
+{
+    startingDir=$(pwd)
+    cd ~/Work/Skimming/CMSSW_9_2_4/src;
+     set_cmssw slc6_amd64_gcc530;
+    cd $startingDir
+    cd $CMSSW_BASE/src
+    ARTUSPATH=/.automount/home/home__home2/institut_3b/hlushchenko/Work/CMSSW_7_4_7/src/Artus/
+    SKIM_WORK_BASE=/.automount/home/home__home2/institut_3b/hlushchenko/Work/Skimming/CMSSW_8_0_26_patch1/src/SKIM_WORK_BASE
+}
+
+
 #################### Set Analysis #####################
 
 setanalysis715() 
@@ -153,7 +184,41 @@ setanalysis747_new()
     cd $CMSSW_BASE/src/
 }
 
+setskimming924()
+{
+	startingDir=$(pwd)
+	cd /home/home2/institut_3b/hlushchenko/Work/CMSSW_9_2_4/src
+	set_cmssw slc6_amd64_gcc530
+	cd $startingDir
+	cd $CMSSW_BASE/src/
+}
+
+setskimming940()
+{
+	startingDir=$(pwd)
+	cd  /home/home2/institut_3b/hlushchenko/Work/Skimming/CMSSW_9_4_0/src
+	set_cmssw slc6_amd64_gcc630
+	cd $startingDir
+	cd $CMSSW_BASE/src/
+}
+
 setanalysisdevnull()
 {
     setanalysis &>/dev/null
+}
+
+setanalysis810()
+{
+    startingDir=$(pwd)
+    cd /.automount/home/home__home2/institut_3b/hlushchenko/Work/Artus/CMSSW_8_1_0/src
+    set_cmssw slc6_amd64_gcc600
+    source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+    cd $startingDir
+    cd $CMSSW_BASE/src/
+}
+
+setsshaggent()
+{
+	eval "$(ssh-agent -s)"
+	ssh-add  ~/.ssh/id_rsa
 }
