@@ -75,6 +75,25 @@ alias pullHtTT_dictchanges_CMSSW94='cd $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToT
 alias pullKappa_dictchanges_CMSSW94X='cd $CMSSW_BASE/src/Kappa; git fetch origin; git merge origin/dictchanges_CMSSW94X; cd -'
 alias pullall_dictchanges_CMSSW94X='pullArtus_dictchanges_CMSSW94X; pullKappaTools; pullHtTT_dictchanges_CMSSW94; pullKappa_dictchanges_CMSSW94X'
 
+pullArtuFunction()
+{
+	cd $CMSSW_BASE/src/Artus; git fetch origin; git merge origin/$1; cd -
+}
+
+pullKappaToolsFunction()
+{
+	cd $CMSSW_BASE/src/KappaTools; git fetch origin; git merge origin/$1; cd -
+}
+
+pullHtTTFunction()
+{
+	cd $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/; git fetch origin; git merge origin/$1; cd -
+}
+
+pullKappaFunction()
+{
+	cd $CMSSW_BASE/src/Kappa; git fetch origin; git merge origin/$1; cd -
+}
 
 # Job Submission
 setcrab3() 
