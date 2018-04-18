@@ -211,7 +211,7 @@ setnotes() {
 		echo ""
 		echo "svn up ${NOTE}"
 		echo "cd ${NOTE}/trunk"
-		echo "tdr --style=an b ${NOTE}"
+		echo "tdr --style=an b ${NOTE} && gnome-open ../../tmp/${NOTE}_temp.pdf"
 	done
 	echo ""
 }
