@@ -202,3 +202,17 @@ setjuno() {
 	cd ReliabilityCalc
 }
 
+
+setnotes() {
+	# https://twiki.cern.ch/twiki/bin/view/CMS/KITHiggsAnalysisTWiki#AnalysisNotes
+	cd ~/Notes/notes
+	eval `./tdr runtime -sh`
+	for NOTE in *-*-*; do
+		echo ""
+		echo "svn up ${NOTE}"
+		echo "cd ${NOTE}/trunk"
+		echo "tdr --style=an b ${NOTE}"
+	done
+	echo ""
+}
+
