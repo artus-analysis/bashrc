@@ -216,3 +216,9 @@ setnotes() {
 	echo ""
 }
 
+clean_root_partition() {
+	sudo apt-get autoremove
+	sudo apt-get autoclean
+	sudo apt-get clean
+}
+
