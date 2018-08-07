@@ -1,5 +1,11 @@
 #!/bin/bash
 echo "Ok bash, I am hlushchenko.sh"
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+cd DIR
+source hlushchenko_common.sh
+cd -
+
 if [ -z "$BASHRCDIR" ]
 then
     BASHRCDIR=$( cd "$( dirname "${BASH_SOURCE[0]}s" )/.." && pwd )
@@ -25,7 +31,8 @@ export EDITOR=vim
 export LS_OPTIONS="-N -T 0 --color=auto"
 
 # ALIASES
-alias scramb='scram b -j 8; echo $?'
+alias scramb='scram b -j `grep -c ^processor /proc/cpuinfo`; echo $?'
+#alias scramb='scram b -j 8; echo $?'
 alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
 alias myrsync='rsync -avSzh --progress'
 alias myhtop='htop -u $USER'
@@ -215,21 +222,40 @@ setanalysis747_new()
 
 setskimming924()
 {
-	startingDir=$(pwd)
+	startingDir=$(pwd)	
 	cd /home/home2/institut_3b/hlushchenko/Work/CMSSW_9_2_4/src
 	set_cmssw slc6_amd64_gcc530
 	cd $startingDir
-	cd $CMSSW_BASE/src/
+	cd $CMSSW_BASE/src/	
 }
 
 setskimming940()
 {
-	startingDir=$(pwd)
+	startingDir=$(pwd) 
 	cd  /home/home2/institut_3b/hlushchenko/Work/Skimming/CMSSW_9_4_0/src
 	set_cmssw slc6_amd64_gcc630
 	cd $startingDir
-	cd $CMSSW_BASE/src/
+	cd $CMSSW_BASE/src/     
 }
+
+setskimming942()
+{
+        startingDir=$(pwd)
+        cd  /home/home2/institut_3b/hlushchenko/Work/Skimming/CMSSW_9_4_2/src
+        set_cmssw slc6_amd64_gcc630
+        cd $startingDir
+        cd $CMSSW_BASE/src/
+}
+
+setskimming944()
+{
+        startingDir=$(pwd)
+        cd  /home/home2/institut_3b/hlushchenko/Work/Skimming/CMSSW_9_4_4/src
+        set_cmssw slc6_amd64_gcc630
+        cd $startingDir
+        cd $CMSSW_BASE/src/
+}
+
 
 setanalysisdevnull()
 {
