@@ -120,7 +120,7 @@ setkitanalysis747() {
 setkitanalysis810() {
 	cd ~/home/cms/htt/analysis/CMSSW_8_1_0/src
 	
-	set_cmssw slc6_amd64_gcc530
+	set_cmssw slc7_amd64_gcc530
 	
 	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 	
@@ -152,7 +152,14 @@ setkitskimming8021() {
 setkitskimming80261() {
 	cd ~/home/cms/htt/skimming/CMSSW_8_0_26_patch1/src
 	
-	set_cmssw slc6_amd64_gcc530
+	set_cmssw slc7_amd64_gcc530
+	
+	cd $CMSSW_BASE/src/
+}
+setkitskimming949() {
+	cd ~/home/cms/htt/skimming/CMSSW_9_4_9/src
+	
+	set_cmssw slc7_amd64_gcc530
 	
 	cd $CMSSW_BASE/src/
 }
