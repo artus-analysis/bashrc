@@ -3,7 +3,7 @@ echo "Ok bash, I am hlushchenko.sh"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 cd DIR
-source hlushchenko_common.sh
+source /home/home2/institut_3b/hlushchenko/Templates/bashrc/users/hlushchenko_common.sh
 cd -
 
 if [ -z "$BASHRCDIR" ]
@@ -31,6 +31,7 @@ export EDITOR=vim
 export LS_OPTIONS="-N -T 0 --color=auto"
 
 # ALIASES
+alias nafcms='ssh -XYt glusheno@naf-cms.desy.de'
 alias scramb='scram b -j `grep -c ^processor /proc/cpuinfo`; echo $?'
 #alias scramb='scram b -j 8; echo $?'
 alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
