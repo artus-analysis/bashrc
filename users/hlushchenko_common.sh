@@ -9,7 +9,17 @@ numfiles() {
 }
 
 alias hgrep='history | grep'
-
+alias ltr='ls -ltr'
 # https://jef.works/blog/2017/08/13/5-useful-bash-aliases-and-functions/
 
+# alias grep="grep -c `processor /proc/cpuinfo`"
 
+transfer() {
+    # write to output to tmpfile because of progress bar
+    tmpfile=$( mktemp -t transferXXX )
+    curl --progress-bar --upload-file $1 https://transfer.sh/$(basename $1) >> $tmpfile;
+#    cat $tmpfile | pbcopy; # Only for OS X
+    cat $tmpfile;
+
+    rm -f $tmpfile;
+}
