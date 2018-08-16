@@ -5,6 +5,12 @@ then
 	BASHRCDIR=$( cd "$( dirname "${BASH_SOURCE[0]}s" )/.." && pwd )
 fi
 
+#DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+#cd $0
+
+source  ~/RWTH/bashrc/users/hlushchenko_common.sh
+
+
 # CMSSW
 [ -f $BASHRCDIR/cmssw.sh ] && source $BASHRCDIR/cmssw.sh
 
@@ -15,16 +21,21 @@ export EDITOR=vim
 export LS_OPTIONS="-N -T 0 --color=auto"
 
 # ALIASES
-alias scramb='scram b -j 8; echo $?'
+CORES=`grep -c ^processor /proc/cpuinfo`
+alias scramb='scram b -j $CORES; echo $?; tput bel'
 alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
 alias myrsync='rsync -avSzh --progress'
 alias myhtop='htop -u $USER'
 alias meld='export PATH=/usr/bin/:$PATH && meld'
 alias gmerge='(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)'
 alias myvomsproxyinit='voms-proxy-init --voms cms:/cms/dcms --valid 192:00'
+alias gits='git status'
+alias gitf='git fetch origin'
+alias gitl='git log'
+alias gitln='git log -n'
 
 ## CMSSW working environments
-alias setkitanalysis='setkitanalysis948_naf'
+alias setkitanalysis='setkitanalysis949_naf'
 alias setcrab='setcrab3'
 alias setkitskimming='setkitskimming8010'
 #alias setgenerator='setgenerator7118'
@@ -58,12 +69,21 @@ setcrab3() {
 
 
 ## Working environments
-setkitanalysis948_naf() {
-	cd /afs/desy.de/user/g/glusheno/RWTH/KIT/sm-htt-analysis/CMSSW_9_4_8/src
+alias grep='/bin/grep'
+sethappy() {
+	cd  ~/RWTH/Artus/CMSSW_7_4_7/src/
+	set_cmssw slc6_amd64_gcc491;
+	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh;
+
+}
+setkitanalysis949_naf() {
+	cd /afs/desy.de/user/g/glusheno/RWTH/KIT/sm-htt-analysis/CMSSW_9_4_9/src
 	SCRAM_ARCH=slc6_amd64_gcc630; export $SCRAM_ARCH
 	source $VO_CMS_SW_DIR/cmsset_default.sh
 	# cmsenv
     set_cmssw slc6_amd64_gcc630
+
+    source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 }
 
 setkitskimming763() {
@@ -75,7 +95,7 @@ setkitskimming763() {
 #/afs/desy.de/user/g/glusheno/RWTH/CMSSW_7_4_7
 
 setkitanalysis747() {
-    cd /afs/desy.de/user/g/glusheno/RWTH/CMSSW_7_4_7/src 
+    cd /afs/desy.de/user/g/glusheno/RWTH/CMSSW_7_4_7/src
     set_cmssw slc6_amd64_gcc491
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
     cd $CMSSW_BASE/src/
@@ -100,7 +120,7 @@ setrasp(){
     cd -
 }
 
-setkitskimming8026patch1Crabtest() 
+setkitskimming8026patch1Crabtest()
 {
     cd /afs/desy.de/user/g/glusheno/RWTH/CRABtest/CMSSW_8_0_26_patch1/src
     set_cmssw slc6_amd64_gcc530;
@@ -114,21 +134,21 @@ setkitskimming763_Fabiotest()
     cd $CMSSW_BASE/src/
 }
 
-setmva () 
-{ 
-	cd  ~/RWTH/MVAtraining/CMSSW_8_0_26_patch1/src    
+setmva ()
+{
+	cd  ~/RWTH/MVAtraining/CMSSW_8_0_26_patch1/src
     set_cmssw slc6_amd64_gcc530;
 	cd  /nfs/dust/cms/user/glusheno/TauIDMVATraining2016/Summer16_25ns_V1/tauId_v3_0/trainfilesfinal_v1
 }
 
-setmva9() 
+setmva9()
 {
     cd  ~/RWTH/MVAtraining/CMSSW_9_2_4/src
     set_cmssw slc6_amd64_gcc530;#slc6_amd64_gcc700;
 	cd /nfs/dust/cms/user/glusheno/TauIDMVATraining2017/Summer17_25ns_V1_allPhotonsCut/tauId_v3_0/trainfilesfinal_v1
 }
 
-setmva9v2() 
+setmva9v2()
 {
     cd ~/RWTH/MVAtraining/CMSSW_9_4_2/src
 	set_cmssw slc6_amd64_gcc630
@@ -144,3 +164,9 @@ alias pullKappa='cd $CMSSW_BASE/src/Kappa; git fetch origin; git merge origin/ma
 alias pullall='pullArtus; pullKappaTools; pullHtTT; pullKappa'
 alias scramball='cd $CMSSW_BASE/src; scramb ; cd -'
 alias pullandscramb='pullall; scramball'
+
+setsshaggent()
+{
+        eval "$(ssh-agent -s)"
+        ssh-add  ~/.ssh/id_rsa
+}
