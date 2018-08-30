@@ -67,4 +67,12 @@ alias gitdeol='git diff --ignore-space-at-eol'
 alias gitdc='git diff --ignore-all-space --ignore-blank-lines'
 alias gitdstore='touch "gitd_at_$(date +%F_%R).txt"; git diff >>  "gitd_at_$(date +%F_%R).txt"'
 alias gitdcstore='touch "gitdc_at_$(date +%F_%R).txt"; gitdc >>  "gitdc_at_$(date +%F_%R).txt"'
+alias gitstoreall='gitdstore; gitdcstore'
+alias gitds='git diff --cached'
+gitadd() {
+	git diff -U0  --ignore-all-space --ignore-blank-lines --no-color $1 | git apply --cached --ignore-whitespace --unidiff-zero -
+}
+# Git config aliases
+git config --global alias.addnw "\!sh -c 'git diff -U0 -w --no-color \"$@\" | git apply --cached --ignore-whitespace --unidiff-zero -'" 
+
 
