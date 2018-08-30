@@ -59,4 +59,6 @@ alias gitd='git diff'
 alias gits='git status'
 alias gitl='git log'
 alias gitln='git log -n'
+alias gitdw='git diff -w'
+alias gitdweol='git diff -w --ignore-all-space'
 
