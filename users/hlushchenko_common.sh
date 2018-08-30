@@ -36,9 +36,22 @@ transfer() {
     rm -f $tmpfile;
 }
 
+# GREP
+grepcc() {
+	grep -rn $1 | grep  -e "\.cc" -e "\.h" | grep $1
+}
+greppy() {
+        grep -rn $1 | grep  -e "\.py" | grep $1
+}
+grepj() {
+        grep -rn $1 | grep  -e "\.json" | grep $1
+}
+
 
 # Git aliases
 alias pull='git pull'
 alias push='git push'
 alias gitpull='git pull'
 alias gitfetch='git fetch origin'
+alias gdiff='git diff'
+
