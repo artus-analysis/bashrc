@@ -19,13 +19,9 @@ numfiles() {
     N="$(ls $1 | wc -l)"; 
     echo "$N files in $1";
 }
-
-alias hgrep='history | grep'
-alias ltr='ls -ltr'
 # https://jef.works/blog/2017/08/13/5-useful-bash-aliases-and-functions/
 
-# alias grep="grep -c `processor /proc/cpuinfo`"
-
+# SSH
 transfer() {
     # write to output to tmpfile because of progress bar
     tmpfile=$( mktemp -t transferXXX )
@@ -47,6 +43,10 @@ grepj() {
         grep -rn $1 | grep  -e "\.json" | grep $1
 }
 
+# Bash aliases
+alias hgrep='history | grep'
+alias ltr='ls -ltr'
+# alias grep="grep -c `processor /proc/cpuinfo`"
 
 # Git aliases
 alias pull='git pull'
@@ -54,4 +54,8 @@ alias push='git push'
 alias gitpull='git pull'
 alias gitfetch='git fetch origin'
 alias gdiff='git diff'
+alias gitd='git diff'
+alias gits='git status'
+alias gitl='git log'
+alias gitln='git log -n'
 
