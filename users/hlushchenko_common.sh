@@ -1,7 +1,19 @@
 # create .tar.gz 
-targz() { tar -zcvf $1.tar.gz $1; rm -r $1; }
+targzrm() {
+	tar -zcvf $1.tar.gz $1;
+	rm -r $1;
+}
+targz() {
+        tar -zcvf $1.tar.gz $1;
+}
 # extra .tar.gz
-untargz() { tar -zxvf $1; rm -r $1; }
+untargzrm() {
+	tar -zxvf $1;
+	rm -r $1;
+}
+untargz() {
+        tar -zxvf $1;
+}
 
 numfiles() { 
     N="$(ls $1 | wc -l)"; 
@@ -23,3 +35,10 @@ transfer() {
 
     rm -f $tmpfile;
 }
+
+
+# Git aliases
+alias pull='git pull'
+alias push='git push'
+alias gitpull='git pull'
+alias gitfetch='git fetch origin'
