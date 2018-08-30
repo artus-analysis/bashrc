@@ -65,5 +65,6 @@ alias gitln='git log -n'
 alias gitdw='git diff --ignore-all-space'
 alias gitdeol='git diff --ignore-space-at-eol'
 alias gitdc='git diff --ignore-all-space --ignore-blank-lines'
-alias gitdstore='touch "git_diff_at_$(date +%F_%R).txt"; git diff >>  "gitd_at_$(date +%F_%R).txt"'
-alias gitdcstore='touch "git_diff_at_$(date +%F_%R).txt"; gitdc >>  "gitdc_at_$(date +%F_%R).txt"'
+alias gitdstore='touch "gitd_at_$(date +%F_%R).txt"; git diff >>  "gitd_at_$(date +%F_%R).txt"'
+alias gitdcstore='touch "gitdc_at_$(date +%F_%R).txt"; gitdc >>  "gitdc_at_$(date +%F_%R).txt"'
+
