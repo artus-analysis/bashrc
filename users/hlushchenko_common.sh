@@ -1,3 +1,6 @@
+# Variables
+CORES=`grep -c ^processor /proc/cpuinfo`
+
 # create .tar.gz 
 targzrm() {
 	tar -zcvf $1.tar.gz $1;
