@@ -71,7 +71,7 @@ setcrab3() {
 
 ## Working environments
 alias setbash='vim ~/RWTH/bashrc/users/glusheno.sh'
-alias setgenbash='vim ~/RWTH/bashrc/users/hlushchenko_common.sh'
+alias setbashcommon='vim ~/RWTH/bashrc/users/hlushchenko_common.sh'
 alias grep='/bin/grep'
 sethappy() {
 	cd  ~/RWTH/Artus/CMSSW_7_4_7/src/

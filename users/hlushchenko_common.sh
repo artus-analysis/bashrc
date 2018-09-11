@@ -51,7 +51,7 @@ grepj() {
 alias hgrep='history | grep'
 alias ltr='ls -ltr'
 dus() {
-	du -sh $1 | sort -hr
+	du -sh $1/* | sort -hr
 }
 # alias grep="grep -c `processor /proc/cpuinfo`"
 
