@@ -36,6 +36,7 @@ alias gitln='git log -n'
 
 ## CMSSW working environments
 alias setkitanalysis='setkitanalysis949_naf'
+alias setkitartus='setkitartus949_naf'
 alias setcrab='setcrab3'
 alias setkitskimming='setkitskimming8010'
 #alias setgenerator='setgenerator7118'
@@ -69,6 +70,8 @@ setcrab3() {
 
 
 ## Working environments
+alias setbash='vim ~/RWTH/bashrc/users/glusheno.sh'
+alias setgenbash='vim ~/RWTH/bashrc/users/hlushchenko_common.sh'
 alias grep='/bin/grep'
 sethappy() {
 	cd  ~/RWTH/Artus/CMSSW_7_4_7/src/
@@ -81,6 +84,16 @@ setkitanalysis949_naf() {
 	SCRAM_ARCH=slc6_amd64_gcc630; export $SCRAM_ARCH
 	source $VO_CMS_SW_DIR/cmsset_default.sh
 	# cmsenv
+    set_cmssw slc6_amd64_gcc630
+
+    source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+}
+
+setkitartus949_naf(){
+        cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Artus/CMSSW_9_4_9/src
+        SCRAM_ARCH=slc6_amd64_gcc630; export $SCRAM_ARCH
+        source $VO_CMS_SW_DIR/cmsset_default.sh
+        # cmsenv
     set_cmssw slc6_amd64_gcc630
 
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh

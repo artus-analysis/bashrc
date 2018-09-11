@@ -50,6 +50,9 @@ grepj() {
 # Bash aliases
 alias hgrep='history | grep'
 alias ltr='ls -ltr'
+dus() {
+	du -sh $1 | sort -hr
+}
 # alias grep="grep -c `processor /proc/cpuinfo`"
 
 # Git aliases
@@ -74,5 +77,8 @@ gitadd() {
 }
 # Git config aliases
 git config --global alias.addnw "\!sh -c 'git diff -U0 -w --no-color \"$@\" | git apply --cached --ignore-whitespace --unidiff-zero -'" 
-
+gitmkdcpatch() {
+	touch "patch_$(date +%F_%H-%M-%S)"
+	git diff -U0  --ignore-all-space --ignore-blank-lines --no-color $1 >> "patch_$(date +%F_%H-%M-%S)"
+}
 
