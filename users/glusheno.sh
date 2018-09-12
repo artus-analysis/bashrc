@@ -70,9 +70,24 @@ setcrab3() {
 
 
 ## Working environments
-alias setbash='vim ~/RWTH/bashrc/users/glusheno.sh'
-alias setbashcommon='vim ~/RWTH/bashrc/users/hlushchenko_common.sh'
+alias zombie='kinit; aklog'
+alias pushbash='cd ~/RWTH/bashrc/; git add -p; git commit -m "olena:from naf"; git push; cd -'
+alias vimbash='vim ~/RWTH/bashrc/users/glusheno.sh'
+alias vimbashcommon='vim ~/RWTH/bashrc/users/hlushchenko_common.sh'
+alias setbash='vimbash'
+alias setbashcommon='vimbashcommon'
 alias grep='/bin/grep'
+
+alias setcombine='setcombine810'
+setcombine810(){
+        cd ~/RWTH/KIT/Combine/CMSSW_8_1_0/src/
+	set_cmssw slc6_amd64_gcc530;
+}
+setcombine747(){
+	cd ~/RWTH/KIT/Combine/CMSSW_7_4_7/src/
+	set_cmssw slc6_amd64_gcc491;
+}
+
 sethappy() {
 	cd  ~/RWTH/Artus/CMSSW_7_4_7/src/
 	set_cmssw slc6_amd64_gcc491;
