@@ -35,6 +35,7 @@ source  ~/RWTH/bashrc/users/hlushchenko_common.sh
 [ -f $BASHRCDIR/cmssw.sh ] && source $BASHRCDIR/cmssw.sh
 
 # ENVIRONMENT
+git='/cvmfs/cms.cern.ch/slc6_amd64_gcc630/cms/cmssw/CMSSW_9_4_9/external/slc6_amd64_gcc630/bin/git'
 export PS1="\[\033[104m\]\h : \w \$\[\033[00m\] "
 export LANG=en_US.UTF-8
 export EDITOR=vim
@@ -92,7 +93,7 @@ setcrab3() {
 
 ## Working environments
 alias zombie='kinit; aklog'
-alias pushbash='cd ~/RWTH/bashrc/; git add -p; git commit -m "olena:from naf"; git push; cd -'
+alias pushbash='cd ~/RWTH/bashrc/; git pull; git add -p; git commit -m "olena:from naf"; git push; cd -'
 alias vimbash='vim ~/RWTH/bashrc/users/glusheno.sh'
 alias vimbashcommon='vim ~/RWTH/bashrc/users/hlushchenko_common.sh'
 alias grep='/bin/grep'
