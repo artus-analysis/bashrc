@@ -5,6 +5,26 @@ then
 	BASHRCDIR=$( cd "$( dirname "${BASH_SOURCE[0]}s" )/.." && pwd )
 fi
 
+alias vpi='voms-proxy-init -voms cms:/cms/dcms -valid 192:00'
+#echo -n "vpi:"
+type vpi
+
+alias gridftp='echo "cd /pnfs/physik.rwth-aachen.de/cms/store/user/ohlushch"; uberftp grid-ftp'
+#echo -n "gridftp:"
+type gridftp
+
+alias cmsdust='cd /nfs/dust/cms/user/glusheno/'
+#echo -n "cmsdust:"
+type cmsdust
+
+
+eval "$(ssh-agent -s)"
+#ssh-add  ~/.ssh/id_rsa
+ssh-add  ~/.ssh/id_rsa_nopass
+
+export PATH="$HOME/.local/bin:$PATH"
+export PYTHONPATH="$HOME/.local/lib/python2.7/site-packages:$PYTHONPATH"
+
 #DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 #cd $0
 
@@ -19,6 +39,7 @@ export PS1="\[\033[104m\]\h : \w \$\[\033[00m\] "
 export LANG=en_US.UTF-8
 export EDITOR=vim
 export LS_OPTIONS="-N -T 0 --color=auto"
+export PYTHONPATH="${PYTHONPATH}:/afs/desy.de/user/g/glusheno/RWTH/bashrc/scripts"
 
 # ALIASES
 CORES=`grep -c ^processor /proc/cpuinfo`
@@ -74,8 +95,6 @@ alias zombie='kinit; aklog'
 alias pushbash='cd ~/RWTH/bashrc/; git add -p; git commit -m "olena:from naf"; git push; cd -'
 alias vimbash='vim ~/RWTH/bashrc/users/glusheno.sh'
 alias vimbashcommon='vim ~/RWTH/bashrc/users/hlushchenko_common.sh'
-alias setbash='vimbash'
-alias setbashcommon='vimbashcommon'
 alias grep='/bin/grep'
 
 alias setcombine='setcombine810'
