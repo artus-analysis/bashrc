@@ -51,10 +51,6 @@ alias myhtop='htop -u $USER'
 alias meld='export PATH=/usr/bin/:$PATH && meld'
 alias gmerge='(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)'
 alias myvomsproxyinit='voms-proxy-init --voms cms:/cms/dcms --valid 192:00'
-alias gits='git status'
-alias gitf='git fetch origin'
-alias gitl='git log'
-alias gitln='git log -n'
 
 ## CMSSW working environments
 alias setkitanalysis='setkitanalysis949_naf'
@@ -89,7 +85,6 @@ setgitcolors()
 setcrab3() {
 	source /cvmfs/cms.cern.ch/crab3/crab.sh
 }
-
 
 ## Working environments
 alias zombie='kinit; aklog'
