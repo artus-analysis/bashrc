@@ -95,6 +95,19 @@ alias gitdcstore='touch "gitdc_at_$(date +%F_%R).txt"; gitdc >>  "gitdc_at_$(dat
 alias gitstoreall='gitdstore; gitdcstore'
 alias gitds='git diff --cached'
 
+gitignore(){
+    if [[ $# -eq 0 ]] ; then
+        echo "Give explicit dir to ignore"
+        #gitignore_path=`pwd`
+        return
+    fi
+    for gitignorepath in "$@" ; do
+        for x in `git ls-files $gitignorepath`  ; do
+            git update-index --skip-worktree $x
+        done
+    done
+}
+
 gitadd() {
     git diff -U0  --ignore-all-space --ignore-blank-lines --no-color $1 | git apply --cached --ignore-whitespace --unidiff-zero -
 }
