@@ -52,6 +52,17 @@ alias meld='export PATH=/usr/bin/:$PATH && meld'
 alias gmerge='(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)'
 alias myvomsproxyinit='voms-proxy-init --voms cms:/cms/dcms --valid 192:00'
 
+scrambshort(){
+    touch temp_scramb_std.txt
+    scram b -j $CORES &> temp_scramb_std.txt;
+    if [ $? -ne 0 ] ; then
+        cat temp_scramb_std.txt
+    else echo "compiled"
+    fi
+    rm temp_scramb_std.txt
+    tput bel
+}
+
 ## CMSSW working environments
 alias setkitanalysis='setkitanalysis949_naf'
 alias setkitartus='setkitartus949_naf'

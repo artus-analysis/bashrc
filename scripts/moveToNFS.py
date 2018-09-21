@@ -156,7 +156,7 @@ class MoveToNFS(object):
         parser.add_argument('--to-private', default=None, type=str,
                             help='WHERE to move - private path, Example: /nfs/dust/cms/user/SOMENAME/afs/ ')
         parser.add_argument('--user', default="",
-                            help='user name that should coinside with the user name in the base directory from where the subdirectory structure will be constructed')
+                            help='User name that should coinside with the user name in the base directory From where the subdirectory structure will be constructed')
         parser.add_argument('--dry', action='store_true', default=False,
                             help='dry run')
         parser.add_argument('--debug', action='store_true', default=False,
