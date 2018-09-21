@@ -51,21 +51,25 @@ class MoveToNFS(object):
             exit(1)
         self.move_isdir = False
 
-        self.common_locations["home"] = os.path.expanduser("~") + "/"
-        self.dprint("home:", self.common_locations["home"])
         self.move_from_location = None
 
+        # Identify the user
         if self.args.user == "":
             self.login = subprocess.check_output(["whoami"])[:-1]  # , "-p"
             self.dprint("login from whoami:", self.login)
         else:
             self.login = self.args.user
             self.dprint("login:", self.login)
+
+        # Set the default for user locations
         for key in self.common_locations.keys():
             self.common_locations[key] = self.getStandartizeDirectory(self.common_locations[key] + self.login)
+        self.common_locations["home"] = os.path.expanduser("~") + "/"
+        self.dprint("home:", self.common_locations["home"])
 
         self.to = self.args.to
         if self.args.to_private is not None:
+            self.dprint("Setting the parameters for private location")
             # Expand the system variables
             self.args.to_private = self.expandPath(self.args.to_private)[0]
             if self.args.to_private[0] == ".":
@@ -93,11 +97,12 @@ class MoveToNFS(object):
             self.dpprint(self.common_locations)
 
         else:
+            self.dprint("Setting the parameters for standart --to location")
             if self.to is not None:
                 if self.to not in self.common_locations.keys():
                     print "Reffering to unrecognized destination location -> implement it"
                     exit(1)
-                self.common_locations[self.to] = self.getStandartizeDirectory(self.common_locations[self.to] + self.login)
+                # self.common_locations[self.to] = self.getStandartizeDirectory(self.common_locations[self.to] + self.login)
                 self.checkDirExists(path=self.common_locations[self.to], critical=True)
                 self.destination_root_path = self.getStandartizeDirectory(self.common_locations[self.to])
 

@@ -57,6 +57,7 @@ dus() {
     if [[ $# -eq 0 ]] ; then
         echo 'no argument given'
         du -sh * | sort -hr
+        return
     fi
 
     du -sh $1/* | sort -hr
