@@ -1,11 +1,10 @@
 #!/bin/bash
-echo "Ok bash, I am hlushchenko.sh"
+# Bash setup for rwth
+# echo "Ok bash, I am hlushchenko.sh"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
-cd DIR
-source /home/home2/institut_3b/hlushchenko/Templates/bashrc/users/hlushchenko_common.sh
-cd -
-
+source $DIR/hlushchenko_common.sh
+# source /home/home2/institut_3b/hlushchenko/Templates/bashrc/users/hlushchenko_common.sh
 if [ -z "$BASHRCDIR" ]
 then
     BASHRCDIR=$( cd "$( dirname "${BASH_SOURCE[0]}s" )/.." && pwd )
@@ -40,6 +39,11 @@ alias myhtop='htop -u $USER'
 alias meld='export PATH=/usr/bin/:$PATH && meld'
 alias gmerge='(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)'
 alias myvomsproxyinit='voms-proxy-init --voms cms:/cms/dcms --valid 192:00'
+
+alias pushbash='cd $BASHRCDIR; git pull; git add -p; git commit -m "olena:from rwth"; git push; cd -'
+alias pullbash='cd $BASHRCDIR; git pull; cd -'
+alias vimbash='vim "$BASHRCDIR"/users/hlushchenko.sh'
+alias vimbashcommon='vim "$BASHRCDIR"/users/hlushchenko_common.sh'
 
 # CMSSW
 alias setanalysis='setanalysis747'

@@ -6,9 +6,13 @@ export LANG=en_US.UTF-8
 
 CORES=`grep -c ^processor /proc/cpuinfo`
 
+if [ -z "$BASHRCDIR" ]
+then
+	BASHRCDIR=$( cd "$( dirname "${BASH_SOURCE[0]}s" )/.." && pwd )
+fi
 
 #-------------------------------------------------------------
-# Functions
+# Bash Functions
 #-------------------------------------------------------------
 targzrm() {
     tar -zcvf $1.tar.gz $1;
