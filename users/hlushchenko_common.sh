@@ -8,12 +8,97 @@ CORES=`grep -c ^processor /proc/cpuinfo`
 
 if [ -z "$BASHRCDIR" ]
 then
-	BASHRCDIR=$( cd "$( dirname "${BASH_SOURCE[0]}s" )/.." && pwd )
+    BASHRCDIR=$( cd "$( dirname "${BASH_SOURCE[0]}s" )/.." && pwd )
 fi
 
+[[ ":$PYTHONPATH:" != *"$BASHRCDIR:"* ]] && PYTHONPATH="$BASHRCDIR:${PYTHONPATH}"
+export PYTHONPATH
 #-------------------------------------------------------------
 # Bash Functions
 #-------------------------------------------------------------
+
+
+savelog(){  # TODO: make it function with & in a separate pipe
+    logfile="savelog.log"
+    command=""
+
+    if [[ $# -eq 0 ]] ; then
+        echo "Nothing to log"
+        return
+
+    elif [[ $# -eq 1 ]] ; then
+        command=$1
+
+    elif [[  $# -eq 2 ]] ; then
+        logfile="savelog_$(date +%F_%R).log"
+
+        if [[ "$1" == "-r" ]]; then
+            command=$2
+        elif [[ "$2" == "-r" ]]; then
+            command=$1
+        else
+            echo "Wrong parameters when -r option expected"
+            return
+        fi
+
+    elif [[ $# -eq 3 ]] ; then
+
+        override=false
+        if [[ "$1" == "-N" ]] || [[ "$2" == "-N" ]] ; then
+            override=true
+        fi
+
+        if [[ $1 == "-n" ]]; then
+            logfile=$2
+            command=$3
+        elif [[ $2 == "-n" ]]; then
+            logfile=$3
+            command=$1
+        else
+            echo "Wrong parameters when -n/-N expects to get the log filename"
+            return
+        fi
+
+        if [[ -f $logfile ]] && [[ "$override" = false ]] ; then
+            echo "Will not override existing log"
+            return
+        fi
+
+    elif [[ $# -gt 3 ]] ; then
+        echo "Wrong number of parameters"
+        return
+    fi
+
+    echo "command:" $command
+    echo "logfile:" $logfile
+    $command &> $logfile
+}
+
+
+screen2() {
+    # To save the real arguments
+    arguments=""
+    command='screen'
+    # Check for "-a"
+    for arg in $*
+    do
+        case $arg in
+        -l)
+            # TODO: Call your "foo" script"
+            screen -list
+            return
+            ;;
+        *)
+            arguments="$arguments $arg"
+            ;;
+        esac
+    done
+    # Now call the actual command
+    $command $arguments
+
+}
+
+
 targzrm() {
     tar -zcvf $1.tar.gz $1;
     rm -r $1;
@@ -76,7 +161,7 @@ alias ltr='ls -ltr'
 # alias grep="grep -c `processor /proc/cpuinfo`"
 alias myrsync='rsync -avSzh --progress'
 alias myhtop='htop -u $USER'
-
+alias screen='screen2'
 
 #-------------------------------------------------------------
 # Git
