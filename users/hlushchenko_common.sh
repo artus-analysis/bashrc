@@ -48,10 +48,10 @@ savelog(){  # TODO: make it function with & in a separate pipe
             override=true
         fi
 
-        if [[ $1 == "-n" ]]; then
+        if [[ $1 == "-n" ]] || [[ $1 == "-N" ]]; then
             logfile=$2
             command=$3
-        elif [[ $2 == "-n" ]]; then
+        elif [[ $2 == "-n" ]] || [[ $2 == "-N" ]]; then
             logfile=$3
             command=$1
         else
