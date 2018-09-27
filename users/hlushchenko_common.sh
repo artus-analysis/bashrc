@@ -185,6 +185,7 @@ alias gitstoreall='gitdstore; gitdcstore'
 alias gitds='git diff --cached'
 
 gitignore(){
+    # https://medium.com/@igloude/git-skip-worktree-and-how-i-used-to-hate-config-files-e84a44a8c859
     if [[ $# -eq 0 ]] ; then
         echo "Give explicit dir to ignore"
         #gitignore_path=`pwd`

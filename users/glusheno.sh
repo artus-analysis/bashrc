@@ -99,9 +99,11 @@ setcrab3() {
 
 ## Working environments
 alias zombie='kinit; aklog'
+COMMON_BASH='~/RWTH/bashrc/users/hlushchenko_common.sh'
 alias pushbash='cd ~/RWTH/bashrc/; git pull; git add -p; git commit -m "olena:from naf"; git push; cd -'
+alias pullbash='cd ~/RWTH/bashrc/; git pull; cd -; source $COMMON_BASH'
 alias vimbash='vim ~/RWTH/bashrc/users/glusheno.sh'
-alias vimbashcommon='vim ~/RWTH/bashrc/users/hlushchenko_common.sh'
+alias vimbashcommon='vim $COMMON_BASH'
 alias grep='/bin/grep'
 
 alias setcombine='setcombine810'
