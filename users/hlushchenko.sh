@@ -30,7 +30,11 @@ export EDITOR=vim
 export LS_OPTIONS="-N -T 0 --color=auto"
 
 # ALIASES
-alias nafcms='ssh -XYt glusheno@naf-cms.desy.de'
+nafn(){
+ ssh -XYt "glusheno@naf-cms$1.desy.de"
+}
+alias nafcms14='ssh -XYt glusheno@naf-cms14.desy.de'
+alias nafcms12='ssh -XYt glusheno@naf-cms12.desy.de'
 alias scramb='scram b -j `grep -c ^processor /proc/cpuinfo`; echo $?'
 #alias scramb='scram b -j 8; echo $?'
 alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
