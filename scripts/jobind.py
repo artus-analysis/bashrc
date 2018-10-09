@@ -47,7 +47,7 @@ class JobIndexes(object):
                             help='dry run')
         parser.add_argument('--debug', action='store_true', default=False,
                             help='debug')
-        parser.add_argument('-s', '--state', default=['CANCELLED', 'FAILED', 'INIT'], nargs='+', type=str, choices=['CANCELLED', 'FAILED'],
+        parser.add_argument('-s', '--state', default=['CANCELLED', 'FAILED', 'INIT'], nargs='+', type=str, choices=['CANCELLED', 'FAILED', 'RUNNING', 'INIT', ],
                             help='jobs state')
         parser.add_argument('--yes-on-command', action='store_true', default=False,
                             help='Do not ask before the command execution if there are no issues')
@@ -99,6 +99,8 @@ class JobIndexes(object):
         content = []
         content_int = []
         for state in self.args.state:
+            subcontent = []
+            subcontent_int =[]
             bashCommand = "report.py  " + self.gcconf + " -J state:" + state + " -R location "
 
             print "Executing:\n", bashCommand

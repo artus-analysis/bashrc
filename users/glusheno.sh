@@ -23,7 +23,7 @@ eval "$(ssh-agent -s)"
 ssh-add  ~/.ssh/id_rsa_nopass
 
 export PATH="$HOME/.local/bin:$PATH"
-export PYTHONPATH="$HOME/.local/lib/python2.7/site-packages:$PYTHONPATH"
+export PYTHONPATH=$HOME/.local/lib/python2.7/site-packages:$PYTHONPATH
 
 #DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 #cd $0
@@ -40,7 +40,8 @@ export PS1="\[\033[104m\]\h : \w \$\[\033[00m\] "
 export LANG=en_US.UTF-8
 export EDITOR=vim
 export LS_OPTIONS="-N -T 0 --color=auto"
-export PYTHONPATH="${PYTHONPATH}:/afs/desy.de/user/g/glusheno/RWTH/bashrc/scripts"
+export PATH=/afs/desy.de/user/g/glusheno/RWTH/bashrc/scripts:$PATH
+export PATH=/afs/desy.de/user/g/glusheno/RWTH/KIT/privatesettings/gc:$PATH
 
 # ALIASES
 CORES=`grep -c ^processor /proc/cpuinfo`
