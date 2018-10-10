@@ -22,14 +22,20 @@ eval "$(ssh-agent -s)"
 #ssh-add  ~/.ssh/id_rsa
 ssh-add  ~/.ssh/id_rsa_nopass
 
+# Path contains only pathes to the scripts
 export PATH="$HOME/.local/bin:$PATH"
+export PATH=$DIR_BASH/scripts:$PATH
+export PATH=$DIR_PRIVATESETTINGS/gc:$PATH
+export PATH=$DIR_PRIVATESETTINGS/playground:$PATH
+# Path contains only pathes to MODULES with __init__ defined
 export PYTHONPATH=$HOME/.local/lib/python2.7/site-packages:$PYTHONPATH
 
 #DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 #cd $0
-
+DIR_PRIVATESETTINGS=${HOME}/RWTH/KIT/privatesettings
+DIR_BASH=${HOME}/RWTH/bashrc
 SERVERBASH=${HOME}/RWTH/bashrc/users/glusheno.sh
-COMMONBASH=${HOME}/RWTH/bashrc/users/hlushchenko_common.sh  # ~ tilda is not expanded in scripts
+COMMONBASH=${HOME}/RWTH/bashrc/users/hlushchenko_common.sh  # ~ tilda is not expanded in scripts https://stackoverflow.com/a/3963747/3152072
 source $COMMONBASH
 
 
@@ -42,8 +48,6 @@ export PS1="\[\033[104m\]\h : \w \$\[\033[00m\] "
 export LANG=en_US.UTF-8
 export EDITOR=vim
 export LS_OPTIONS="-N -T 0 --color=auto"
-export PATH=/afs/desy.de/user/g/glusheno/RWTH/bashrc/scripts:$PATH
-export PATH=/afs/desy.de/user/g/glusheno/RWTH/KIT/privatesettings/gc:$PATH
 
 # ALIASES
 CORES=`grep -c ^processor /proc/cpuinfo`
@@ -51,8 +55,8 @@ alias scramb='scram b -j $CORES; echo $?; tput bel'
 alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
 alias myrsync='rsync -avSzh --progress'
 alias myhtop='htop -u $USER'
-alias meld='export PATH=/usr/bin/:$PATH && meld'
-alias gmerge='(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)'
+# alias meld='export PATH=/usr/bin/:$PATH && meld'
+# alias gmerge='(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)'
 alias myvomsproxyinit='voms-proxy-init --voms cms:/cms/dcms --valid 192:00'
 
 scrambshort(){
@@ -69,9 +73,14 @@ scrambshort(){
 ## CMSSW working environments
 alias setkitanalysis='setkitanalysis949_naf'
 alias setkitartus='setkitartus949_naf'
-alias setcrab='setcrab3'
 alias setkitskimming='setkitskimming8010'
-#alias setgenerator='setgenerator7118'
+alias setcrab='setcrab3'
+# Top level alias
+alias setanalysis='setkitanalysis'
+alias setartus='setkitartus'
+alias setcrab='setcrab3'
+alias setskimming='setkitskimming'
+alias setshapes='setshapes949_naf'
 
 # dCache
 # https://twiki.opensciencegrid.org/bin/view/ReleaseDocumentation/LcgUtilities#Using_LCG_Utils_commands
@@ -102,32 +111,50 @@ setcrab3() {
 
 ## Working environments
 alias zombie='kinit; aklog'
-alias pushbash='cd ~/RWTH/bashrc/; git pull; git add -p; git commit -m "olena:from naf"; git push; cd -'
-alias pullbash="cd ~/RWTH/bashrc/; git pull; cd -; source $COMMONBASH"
-
+alias grep='/bin/grep'
+# Updating bash repository
+alias pushbash="cd $DIR_BASH; git pull; git add -p; git commit -m 'olena:from naf'; git push; cd -"
+alias pullbash="cd $DIR_BASH; git pull; cd -; source $COMMONBASH"
 alias vimbash="vim $SERVERBASH"
 alias vimbashcommon="vim $COMMONBASH"
-alias grep='/bin/grep'
+alias cdbash="cd $DIR_BASH"
+# Updating dirtyscripts repository
+alias pushdirt="cd $DIR_PRIVATESETTINGS; git pull; git add -p; git commit -m 'from naf'; git push; cd -"
+alias pulldirt="cd $DIR_PRIVATESETTINGS; git pull; cd -;"
+alias cddirt="cd $DIR_PRIVATESETTINGS"
 
 alias setcombine='setcombine810'
 setcombine810(){
-        cd ~/RWTH/KIT/Combine/CMSSW_8_1_0/src/
-	set_cmssw slc6_amd64_gcc530;
+    cd ~/RWTH/KIT/Combine/CMSSW_8_1_0/src/
+	set_cmssw slc6_amd64_gcc530
 }
 setcombine747(){
 	cd ~/RWTH/KIT/Combine/CMSSW_7_4_7/src/
-	set_cmssw slc6_amd64_gcc491;
+	set_cmssw slc6_amd64_gcc491
 }
 
-sethappy() {
+setharry() {
 	cd  ~/RWTH/Artus/CMSSW_7_4_7/src/
-	set_cmssw slc6_amd64_gcc491;
-	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh;
-
+	set_cmssw slc6_amd64_gcc491
+	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 }
+
+setshapes949_naf() {
+    echo "CMSSW env taken from /afs/desy.de/user/g/glusheno/RWTH/KIT/sm-htt-analysis/CMSSW_9_4_9/src"
+    cd /afs/desy.de/user/g/glusheno/RWTH/KIT/sm-htt-analysis/CMSSW_9_4_9/src
+    SCRAM_ARCH=slc6_amd64_gcc630
+    export $SCRAM_ARCH
+    source $VO_CMS_SW_DIR/cmsset_default.sh
+    # cmsenv
+    set_cmssw slc6_amd64_gcc630
+    cd -
+    cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/sm-htt-analysis
+}
+
 setkitanalysis949_naf() {
 	cd /afs/desy.de/user/g/glusheno/RWTH/KIT/sm-htt-analysis/CMSSW_9_4_9/src
-	SCRAM_ARCH=slc6_amd64_gcc630; export $SCRAM_ARCH
+	SCRAM_ARCH=slc6_amd64_gcc630
+    export $SCRAM_ARCH
 	source $VO_CMS_SW_DIR/cmsset_default.sh
 	# cmsenv
     set_cmssw slc6_amd64_gcc630
@@ -135,11 +162,12 @@ setkitanalysis949_naf() {
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 }
 
-setkitartus949_naf(){
-        cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Artus/CMSSW_9_4_9/src
-        SCRAM_ARCH=slc6_amd64_gcc630; export $SCRAM_ARCH
-        source $VO_CMS_SW_DIR/cmsset_default.sh
-        # cmsenv
+setkitartus949_naf() {
+    cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Artus/CMSSW_9_4_9/src
+    SCRAM_ARCH=slc6_amd64_gcc630
+    export $SCRAM_ARCH
+    source $VO_CMS_SW_DIR/cmsset_default.sh
+    # cmsenv
     set_cmssw slc6_amd64_gcc630
 
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
