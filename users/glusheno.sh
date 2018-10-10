@@ -28,7 +28,9 @@ export PYTHONPATH=$HOME/.local/lib/python2.7/site-packages:$PYTHONPATH
 #DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 #cd $0
 
-source  ~/RWTH/bashrc/users/hlushchenko_common.sh
+SERVERBASH='~/RWTH/bashrc/users/glusheno.sh'
+COMMON_BASH='~/RWTH/bashrc/users/hlushchenko_common.sh'
+source "echo $COMMON_BASH"
 
 
 # CMSSW
@@ -100,10 +102,10 @@ setcrab3() {
 
 ## Working environments
 alias zombie='kinit; aklog'
-COMMON_BASH='~/RWTH/bashrc/users/hlushchenko_common.sh'
 alias pushbash='cd ~/RWTH/bashrc/; git pull; git add -p; git commit -m "olena:from naf"; git push; cd -'
 alias pullbash='cd ~/RWTH/bashrc/; git pull; cd -; source ~/RWTH/bashrc/users/hlushchenko_common.sh'
-alias vimbash='vim ~/RWTH/bashrc/users/glusheno.sh'
+
+alias vimbash="vim $SERVERBASH"
 alias vimbashcommon='vim ~/RWTH/bashrc/users/hlushchenko_common.sh'
 alias grep='/bin/grep'
 
