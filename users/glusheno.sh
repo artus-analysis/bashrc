@@ -28,9 +28,9 @@ export PYTHONPATH=$HOME/.local/lib/python2.7/site-packages:$PYTHONPATH
 #DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 #cd $0
 
-SERVERBASH='~/RWTH/bashrc/users/glusheno.sh'
-COMMON_BASH='~/RWTH/bashrc/users/hlushchenko_common.sh'
-source "echo $COMMON_BASH"
+SERVERBASH=${HOME}/RWTH/bashrc/users/glusheno.sh
+COMMONBASH=${HOME}/RWTH/bashrc/users/hlushchenko_common.sh  # ~ tilda is not expanded in scripts
+source $COMMONBASH
 
 
 # CMSSW
@@ -103,10 +103,10 @@ setcrab3() {
 ## Working environments
 alias zombie='kinit; aklog'
 alias pushbash='cd ~/RWTH/bashrc/; git pull; git add -p; git commit -m "olena:from naf"; git push; cd -'
-alias pullbash='cd ~/RWTH/bashrc/; git pull; cd -; source ~/RWTH/bashrc/users/hlushchenko_common.sh'
+alias pullbash="cd ~/RWTH/bashrc/; git pull; cd -; source $COMMONBASH"
 
 alias vimbash="vim $SERVERBASH"
-alias vimbashcommon='vim ~/RWTH/bashrc/users/hlushchenko_common.sh'
+alias vimbashcommon="vim $COMMONBASH"
 alias grep='/bin/grep'
 
 alias setcombine='setcombine810'
