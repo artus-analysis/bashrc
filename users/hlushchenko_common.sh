@@ -201,8 +201,10 @@ gitignore(){
 gitadd() {
     git diff -U0  --ignore-all-space --ignore-blank-lines --no-color $1 | git apply --cached --ignore-whitespace --unidiff-zero -
 }
+
 # Git config aliases
 git config --global alias.addnw "\!sh -c 'git diff -U0 -w --no-color \"$@\" | git apply --cached --ignore-whitespace --unidiff-zero -'"
+git config --global diff.submodule log
 
 gitmkdcpatch() {
     touch "patch_$(date +%F_%H-%M-%S)"
