@@ -22,13 +22,6 @@ eval "$(ssh-agent -s)"
 #ssh-add  ~/.ssh/id_rsa
 ssh-add  ~/.ssh/id_rsa_nopass
 
-# Path contains only pathes to the scripts
-export PATH="$HOME/.local/bin:$PATH"
-export PATH=$DIR_BASH/scripts:$PATH
-export PATH=$DIR_PRIVATESETTINGS/gc:$PATH
-export PATH=$DIR_PRIVATESETTINGS/playground:$PATH
-# Path contains only pathes to MODULES with __init__ defined
-export PYTHONPATH=$HOME/.local/lib/python2.7/site-packages:$PYTHONPATH
 
 #DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 #cd $0
@@ -36,8 +29,16 @@ DIR_PRIVATESETTINGS=${HOME}/RWTH/KIT/privatesettings
 DIR_BASH=${HOME}/RWTH/bashrc
 SERVERBASH=${HOME}/RWTH/bashrc/users/glusheno.sh
 COMMONBASH=${HOME}/RWTH/bashrc/users/hlushchenko_common.sh  # ~ tilda is not expanded in scripts https://stackoverflow.com/a/3963747/3152072
-source $COMMONBASH
 
+# Path contains only pathes to the scripts
+export PATH="$HOME/.local/bin:$PATH"
+export PATH=$DIR_BASH/scripts:$PATH
+export PATH=$DIR_PRIVATESETTINGS/gc:$PATH
+export PATH=$DIR_PRIVATESETTINGS/playground:$PATH
+# Path contains only pathes to MODULES with __init__ defined
+[[ ":$PYTHONPATH:" != *"$HOME/.local/lib/python2.7/site-packages:"* ]] && PYTHONPATH="$HOME/.local/lib/python2.7/site-packages:${PYTHONPATH}"
+source $COMMONBASH
+export PYTHONPATH
 
 # CMSSW
 [ -f $BASHRCDIR/cmssw.sh ] && source $BASHRCDIR/cmssw.sh

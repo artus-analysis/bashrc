@@ -18,7 +18,7 @@ export PYTHONPATH
 #-------------------------------------------------------------
 
 
-savelog(){  # TODO: make it function with & in a separate pipe
+savelog() {  # TODO: make it function with & in a separate pipe
     logfile="savelog.log"
     command=""
 
@@ -95,7 +95,6 @@ screen2() {
     done
     # Now call the actual command
     $command $arguments
-
 }
 
 
