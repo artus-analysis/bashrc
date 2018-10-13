@@ -158,6 +158,7 @@ dus() {
 #-------------------------------------------------------------
 alias hgrep='history | grep'
 alias ltr='ls -ltr'
+alias lsa='ls -la'
 # alias grep="grep -c `processor /proc/cpuinfo`"
 alias myrsync='rsync -avSzh --progress'
 alias myhtop='htop -u $USER'
