@@ -1,6 +1,13 @@
 #-------------------------------------------------------------
 # System exports and variables
 #-------------------------------------------------------------
+red=$'\e[1;31m'
+grn=$'\e[1;32m'
+yel=$'\e[1;33m'
+blu=$'\e[1;34m'
+mag=$'\e[1;35m'
+cyn=$'\e[1;36m'
+end=$'\e[0m'
 export PS1="\[\033[104m\]\h : \w \$\[\033[00m\] "
 export LANG=en_US.UTF-8
 
@@ -13,10 +20,11 @@ fi
 
 [[ ":$PYTHONPATH:" != *"$BASHRCDIR:"* ]] && PYTHONPATH="$BASHRCDIR:${PYTHONPATH}"
 export PYTHONPATH
+
+
 #-------------------------------------------------------------
 # Bash Functions
 #-------------------------------------------------------------
-
 
 savelog() {  # TODO: make it function with & in a separate pipe
     logfile="savelog.log"
@@ -74,7 +82,6 @@ savelog() {  # TODO: make it function with & in a separate pipe
     $command &> $logfile
 }
 
-
 screen2() {
     # To save the real arguments
     arguments=""
@@ -97,14 +104,15 @@ screen2() {
     $command $arguments
 }
 
-
 targzrm() {
     tar -zcvf $1.tar.gz $1;
     rm -r $1;
 }
+
 targz() {
     tar -zcvf $1.tar.gz $1;
 }
+
 untargzrm() {
     tar -zxvf $1;
     rm -r $1;
@@ -157,7 +165,6 @@ dus() {
 #-------------------------------------------------------------
 alias hgrep='history | grep'
 alias ltr='ls -ltr'
-alias lsa='ls -la'
 # alias grep="grep -c `processor /proc/cpuinfo`"
 alias myrsync='rsync -avSzh --progress'
 alias myhtop='htop -u $USER'
@@ -201,15 +208,31 @@ gitignore(){
 gitadd() {
     git diff -U0  --ignore-all-space --ignore-blank-lines --no-color $1 | git apply --cached --ignore-whitespace --unidiff-zero -
 }
-
 # Git config aliases
 git config --global alias.addnw "\!sh -c 'git diff -U0 -w --no-color \"$@\" | git apply --cached --ignore-whitespace --unidiff-zero -'"
-git config --global diff.submodule log
 
 gitmkdcpatch() {
     touch "patch_$(date +%F_%H-%M-%S)"
     git diff -U0  --ignore-all-space --ignore-blank-lines --no-color $1 >> "patch_$(date +%F_%H-%M-%S)"
 }
+
+# Style : requires available source ${DIR_BASH}/git-prompt.sh
+# PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
+export PROMPT_COMMAND='__git_ps1 "\[\033[104m\]\h : \w \[\033[00m\]" " \[\033[104m\]\\\$\[\033[00m\] "'
+# read: http://qaru.site/questions/763543/how-to-show-git-status-info-on-the-right-side-of-the-terminal
+# Select git info displayed, see /usr/lib/git-core/git-sh-prompt for more
+export GIT_PS1_SHOWCOLORHINTS=1           # Make pretty colours inside $PS1
+export GIT_PS1_SHOWDIRTYSTATE=1           # '*'=unstaged, '+'=staged
+export GIT_PS1_SHOWSTASHSTATE=1           # '$'=stashed
+export GIT_PS1_SHOWUNTRACKEDFILES=1       # '%'=untracked
+export GIT_PS1_SHOWUPSTREAM="verbose"     # 'u='=no difference, 'u+1'=ahead by 1 commit
+# export GIT_PS1_STATESEPARATOR=' '          # No space between branch and index status
+export GIT_PS1_DESCRIBE_STYLE="describe"  # Detached HEAD style:
+#  describe      relative to older annotated tag (v1.6.3.1-13-gdd42c2f)
+#  contains      relative to newer annotated tag (v1.6.3.2~35)
+#  branch        relative to newer tag or branch (master~4)
+#  default       exactly eatching tag
+
 
 setgitcolors()
 {

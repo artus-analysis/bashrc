@@ -29,7 +29,7 @@ DIR_PRIVATESETTINGS=${HOME}/RWTH/KIT/privatesettings
 DIR_BASH=${HOME}/RWTH/bashrc
 SERVERBASH=${HOME}/RWTH/bashrc/users/glusheno.sh
 COMMONBASH=${HOME}/RWTH/bashrc/users/hlushchenko_common.sh  # ~ tilda is not expanded in scripts https://stackoverflow.com/a/3963747/3152072
-
+source ${DIR_BASH}/git-prompt.sh
 # Path contains only pathes to the scripts
 export PATH="$HOME/.local/bin:$PATH"
 export PATH=$DIR_BASH/scripts:$PATH
@@ -82,6 +82,7 @@ alias setartus='setkitartus'
 alias setcrab='setcrab3'
 alias setskimming='setkitskimming'
 alias setshapes='setshapes949_naf'
+alias setff='setff804'
 
 # dCache
 # https://twiki.opensciencegrid.org/bin/view/ReleaseDocumentation/LcgUtilities#Using_LCG_Utils_commands
@@ -149,7 +150,18 @@ setshapes949_naf() {
     # cmsenv
     set_cmssw slc6_amd64_gcc630
     cd -
-    cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/sm-htt-analysis
+    cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/ES-subanalysis
+    source bin/setup_env.sh
+
+    DIR_SMHTT=""
+}
+
+setff804() {
+    cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/ES-subanalysis/sm-htt-analysis/CMSSW_8_0_4/src
+    export SCRAM_ARCH=slc6_amd64_gcc530
+    # export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
+    source $VO_CMS_SW_DIR/cmsset_default.sh
+    set_cmssw slc6_amd64_gcc530
 }
 
 setkitanalysis949_naf() {
