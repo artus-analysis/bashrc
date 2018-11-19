@@ -157,11 +157,45 @@ setshapes949_naf() {
 }
 
 setff804() {
+    # CMSSW
     cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/ES-subanalysis/sm-htt-analysis/CMSSW_8_0_4/src
     export SCRAM_ARCH=slc6_amd64_gcc530
-    # export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
     source $VO_CMS_SW_DIR/cmsset_default.sh
     set_cmssw slc6_amd64_gcc530
+
+    # export SCRAM_ARCH=slc6_amd64_gcc630
+    # source $VO_CMS_SW_DIR/cmsset_default.sh
+    # set_cmssw slc6_amd64_gcc630
+
+    # CVMFS
+    # source /cvmfs/sft.cern.ch/lcg/views/LCG_94/x86_64-slc6-gcc62-opt/setup.sh
+    # root -l /afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/ES-subanalysis/sm-htt-analysis/CMSSW_8_0_4/src/HTTutilities/Jet2TauFakes/data_2017/SM2017/tight/vloose/et/fakeFactors.root
+    # source /cvmfs/sft.cern.ch/lcg/views/LCG_93c/x86_64-slc6-gcc62-opt/setup.sh
+    [[ ":$PYTHONPATH:" != *"$HOME/.local/lib/python2.7/site-packages:"* ]] && PYTHONPATH="$HOME/.local/lib/python2.7/site-packages:${PYTHONPATH}"
+
+    # Python packages
+    cd ../..
+    declare -a modules=(
+        $PWD/datacard-producer
+        /afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/ES-subanalysis/shape-producer
+        $PWD/fake-factors
+        $PWD
+    )
+    for i in "${modules[@]}"
+    do
+        if [ -d "$i" ]
+        then
+            [[ ":$PYTHONPATH:" != *"$i:"* ]] && PYTHONPATH="$i:${PYTHONPATH}"
+        else
+            echo "Couldn't find package: " $i
+        fi
+    done
+
+    export PYTHONPATH
+
+    ARTUS_OUTPUTS=/nfs/dust/cms/user/glusheno/htautau/artus/ETauFakeES/skim_Nov/merged
+    KAPPA_DATABASE=/afs/desy.de/user/g/glusheno/RWTH/KIT/Artus/CMSSW_9_4_9/src/Kappa/Skimming/data/datasets.json
+    FF_database_ET=/afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/ES-subanalysis/sm-htt-analysis/CMSSW_8_0_4/src/HTTutilities/Jet2TauFakes/data_2017/SM2017/tight/vloose/et/fakeFactors.root
 }
 
 setkitanalysis949_naf() {
