@@ -218,7 +218,7 @@ gitmkdcpatch() {
 
 # Style : requires available source ${DIR_BASH}/git-prompt.sh
 # PS1='[\u@\h \W$(__git_ps1 " (%s)")]\$ '
-export PROMPT_COMMAND='\[\$(date +%H:%M:%S)\] __git_ps1 "\[\033[104m\]\h : \w \[\033[00m\]" " \[\033[104m\]\\\$\[\033[00m\] "'
+export PROMPT_COMMAND='__git_ps1 "[\[\$(date +%D\ %H:%M)\]]\n\[\033[104m\]\h : \w \[\033[00m\]" " \[\033[104m\]\\\$\[\033[00m\] "'
 # read: http://qaru.site/questions/763543/how-to-show-git-status-info-on-the-right-side-of-the-terminal
 # Select git info displayed, see /usr/lib/git-core/git-sh-prompt for more
 export GIT_PS1_SHOWCOLORHINTS=1           # Make pretty colours inside $PS1
