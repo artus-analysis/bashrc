@@ -164,6 +164,7 @@ dus() {
 # Bash aliases
 #-------------------------------------------------------------
 alias hgrep='history | grep'
+alias hist='history'
 alias ltr='ls -ltr'
 # alias grep="grep -c `processor /proc/cpuinfo`"
 alias myrsync='rsync -avSzh --progress'

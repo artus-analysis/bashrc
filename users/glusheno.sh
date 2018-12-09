@@ -27,6 +27,7 @@ ssh-add  ~/.ssh/id_rsa_nopass
 #cd $0
 DIR_PRIVATESETTINGS=${HOME}/RWTH/KIT/privatesettings
 DIR_BASH=${HOME}/RWTH/bashrc
+DIR_BASHHISTORY=/nfs/dust/cms/user/glusheno/bash_history
 SERVERBASH=${HOME}/RWTH/bashrc/users/glusheno.sh
 COMMONBASH=${HOME}/RWTH/bashrc/users/hlushchenko_common.sh  # ~ tilda is not expanded in scripts https://stackoverflow.com/a/3963747/3152072
 source ${DIR_BASH}/git-prompt.sh
@@ -37,8 +38,19 @@ export PATH=$DIR_PRIVATESETTINGS/gc:$PATH
 export PATH=$DIR_PRIVATESETTINGS/playground:$PATH
 # Path contains only pathes to MODULES with __init__ defined
 [[ ":$PYTHONPATH:" != *"$HOME/.local/lib/python2.7/site-packages:"* ]] && PYTHONPATH="$HOME/.local/lib/python2.7/site-packages:${PYTHONPATH}"
+[[ ":$PYTHONPATH:" != *"$DIR_PRIVATESETTINGS:"* ]] && PYTHONPATH="$DIR_PRIVATESETTINGS:${PYTHONPATH}"
 source $COMMONBASH
 export PYTHONPATH
+# History
+mkdir -p $DIR_BASHHISTORY
+export HISTTIMEFORMAT="%F %T: "
+# Save and reload the history after each command finishes : https://unix.stackexchange.com/a/18443/137225
+export HISTCONTROL=ignoreboth  # no duplicate entries
+shopt -s histappend                      # append to history, don't overwrite it
+# export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
+# export PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
+# https://unix.stackexchange.com/a/48113/137225 :
+export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
 # CMSSW
 [ -f $BASHRCDIR/cmssw.sh ] && source $BASHRCDIR/cmssw.sh
@@ -74,7 +86,7 @@ scrambshort(){
 ## CMSSW working environments
 alias setkitanalysis='setkitanalysis949_naf'
 alias setkitartus='setkitartus949_naf'
-alias setkitskimming='setkitskimming8010'
+alias setkitskimming='setkitskimming9412'
 alias setcrab='setcrab3'
 # Top level alias
 alias setanalysis='setkitanalysis'
@@ -129,16 +141,31 @@ alias setcombine='setcombine810'
 setcombine810(){
     cd ~/RWTH/KIT/Combine/CMSSW_8_1_0/src/
 	set_cmssw slc6_amd64_gcc530
+    history -w
+    unset HISTFILE
+    history -c
+    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setcombine810_history
+    touch -a $HISTFILE
 }
 setcombine747(){
 	cd ~/RWTH/KIT/Combine/CMSSW_7_4_7/src/
 	set_cmssw slc6_amd64_gcc491
+    history -w
+    unset HISTFILE
+    history -c
+    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setcombine747_history
+    touch -a $HISTFILE
 }
 
 setharry() {
 	cd  ~/RWTH/Artus/CMSSW_7_4_7/src/
 	set_cmssw slc6_amd64_gcc491
 	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+    history -w
+    unset HISTFILE
+    history -c
+    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setharry_history
+    touch -a $HISTFILE
 }
 
 setshapes949_naf() {
@@ -154,9 +181,14 @@ setshapes949_naf() {
     source bin/setup_env.sh
 
     DIR_SMHTT=""
+    history -w
+    unset HISTFILE
+    history -c
+    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setshapes949_naf_history
+    touch -a $HISTFILE
 }
 
-setff804() {
+setff804_swoz() {
     # CMSSW
     cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/ES-subanalysis/sm-htt-analysis/CMSSW_8_0_4/src
     export SCRAM_ARCH=slc6_amd64_gcc530
@@ -174,9 +206,9 @@ setff804() {
     [[ ":$PYTHONPATH:" != *"$HOME/.local/lib/python2.7/site-packages:"* ]] && PYTHONPATH="$HOME/.local/lib/python2.7/site-packages:${PYTHONPATH}"
 
     # Python packages
-    cd ../..
+    cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/ES-subanalysis/sm-htt-analysis
     declare -a modules=(
-        $PWD/datacard-producer
+        # $PWD/datacard-producer
         /afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/ES-subanalysis/shape-producer
         $PWD/fake-factors
         $PWD
@@ -196,6 +228,59 @@ setff804() {
     ARTUS_OUTPUTS=/nfs/dust/cms/user/glusheno/htautau/artus/ETauFakeES/skim_Nov/merged
     KAPPA_DATABASE=/afs/desy.de/user/g/glusheno/RWTH/KIT/Artus/CMSSW_9_4_9/src/Kappa/Skimming/data/datasets.json
     FF_database_ET=/afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/ES-subanalysis/sm-htt-analysis/CMSSW_8_0_4/src/HTTutilities/Jet2TauFakes/data_2017/SM2017/tight/vloose/et/fakeFactors.root
+
+    history -w
+    unset HISTFILE
+    history -c
+    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setff804_history
+    touch -a $HISTFILE
+}
+
+setff804() {
+    # I haven't sourced 7_4_7 explicitly.But it ran through with the usual LCG view
+    # CMSSW
+    cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/ES-subanalysis/sm-htt-analysis/CMSSW_8_0_4/src
+    export SCRAM_ARCH=slc6_amd64_gcc530
+    source $VO_CMS_SW_DIR/cmsset_default.sh
+    eval `scramv1 runtime -sh`
+    # set_cmssw slc6_amd64_gcc530
+
+    # [[ ":$PYTHONPATH:" != *"$HOME/.local/lib/python2.7/site-packages:"* ]] && PYTHONPATH="$HOME/.local/lib/python2.7/site-packages:${PYTHONPATH}"
+
+    # Python packages
+    cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/ES-subanalysis/
+    declare -a modules=(
+        # $PWD/datacard-producer
+        /afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/ES-subanalysis/shape-producer
+        /afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/ES-subanalysis/shapes/fake-factors
+        /afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/ES-subanalysis/
+    )
+    for i in "${modules[@]}"
+    do
+        if [ -d "$i" ]
+        then
+            [[ ":$PYTHONPATH:" != *"$i:"* ]] && PYTHONPATH="$i:${PYTHONPATH}"
+        else
+            echo "Couldn't find package: " $i
+        fi
+    done
+
+    export PYTHONPATH
+
+    ERA=2017
+    CONFIGKEY=m_vis
+    CATEGORYMODE=inclusive
+
+    ARTUS_OUTPUTS=/nfs/dust/cms/user/glusheno/htautau/artus/ETauFakeES/skim_Nov/merged
+    KAPPA_DATABASE=/afs/desy.de/user/g/glusheno/RWTH/KIT/Artus/CMSSW_9_4_9/src/Kappa/Skimming/data/datasets.json
+    FF_database_ET=/afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/ES-subanalysis/sm-htt-analysis/CMSSW_8_0_4/src/HTTutilities/Jet2TauFakes/data_2017/SM2017/tight/vloose/et/fakeFactors.root
+    FF_database_ET=/nfs/dust/cms/user/glusheno/FF/Jet2TauFakesFiles/SM2017/tight/vloose/et/fakeFactors.root
+
+    history -w
+    unset HISTFILE
+    history -c
+    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setff804_history
+    touch -a $HISTFILE
 }
 
 setkitanalysis949_naf() {
@@ -207,6 +292,12 @@ setkitanalysis949_naf() {
     set_cmssw slc6_amd64_gcc630
 
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+
+    history -w
+    unset HISTFILE
+    history -c
+    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitanalysis949_naf_history
+    touch -a $HISTFILE
 }
 
 setkitartus949_naf() {
@@ -218,12 +309,52 @@ setkitartus949_naf() {
     set_cmssw slc6_amd64_gcc630
 
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+
+    history -w
+    unset HISTFILE
+    history -c
+    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitartus949_naf_history
+    touch -a $HISTFILE
 }
+
+setkitartus9412_naf() {
+    cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Artus/CMSSW_9_4_12/src
+    export SCRAM_ARCH=slc6_amd64_gcc630
+    source $VO_CMS_SW_DIR/cmsset_default.sh
+    set_cmssw slc6_amd64_gcc630
+
+    source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+
+    history -w
+    unset HISTFILE
+    history -c
+    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitartus9412_naf_history
+    touch -a $HISTFILE
+}
+
+setkitskimming9412()
+{
+    cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Kappa/CMSSW_9_4_12/src
+    set_cmssw slc6_amd64_gcc630
+    cd $CMSSW_BASE/src/
+
+    history -w
+    unset HISTFILE
+    history -c
+    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitskimming9412
+    touch -a $HISTFILE
+}
+
 
 setkitskimming763() {
 	cd ~/home/cms/htt/skimming/CMSSW_7_6_3/src
 	set_cmssw slc6_amd64_gcc493
 	cd $CMSSW_BASE/src/
+    history -w
+    unset HISTFILE
+    history -c
+    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitskimming763_history
+    touch -a $HISTFILE
 }
 
 #/afs/desy.de/user/g/glusheno/RWTH/CMSSW_7_4_7
@@ -233,6 +364,11 @@ setkitanalysis747() {
     set_cmssw slc6_amd64_gcc491
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
     cd $CMSSW_BASE/src/
+    history -w
+    unset HISTFILE
+    history -c
+    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitanalysis747_history
+    touch -a $HISTFILE
 }
 
 
@@ -240,18 +376,33 @@ setkitskimming8014() {
     cd /afs/desy.de/user/g/glusheno/RWTH/CMSSW_8_0_14/src
     set_cmssw slc6_amd64_gcc530
     cd $CMSSW_BASE/src/
+    history -w
+    unset HISTFILE
+    history -c
+    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitskimming8014_history
+    touch -a $HISTFILE
 }
 
 setkitskimming8020() {
 	cd /afs/desy.de/user/g/glusheno/RWTH/CMSSW_8_0_20/src
     set_cmssw slc6_amd64_gcc530
     cd $CMSSW_BASE/src/
+    history -w
+    unset HISTFILE
+    history -c
+    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitskimming8020_history
+    touch -a $HISTFILE
 }
 
 setrasp(){
     cd /afs/desy.de/user/g/glusheno/RWTH/CMSSW_8_0_7_patch2/src
     set_cmssw slc6_amd64_gcc530
     cd -
+    history -w
+    unset HISTFILE
+    history -c
+    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setrasp_history
+    touch -a $HISTFILE
 }
 
 setkitskimming8026patch1Crabtest()
@@ -259,6 +410,11 @@ setkitskimming8026patch1Crabtest()
     cd /afs/desy.de/user/g/glusheno/RWTH/CRABtest/CMSSW_8_0_26_patch1/src
     set_cmssw slc6_amd64_gcc530;
     cd $CMSSW_BASE/src/
+    history -w
+    unset HISTFILE
+    history -c
+    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitskimming8026patch1Crabtest_history
+    touch -a $HISTFILE
 }
 
 setkitskimming763_Fabiotest()
@@ -266,6 +422,11 @@ setkitskimming763_Fabiotest()
 	cd  ~/RWTH/CMSSW_7_6_3/src #~/home/cms/htt/skimming/CMSSW_7_6_3/src
     set_cmssw slc6_amd64_gcc493
     cd $CMSSW_BASE/src/
+    history -w
+    unset HISTFILE
+    history -c
+    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitskimming763_Fabiotest_history
+    touch -a $HISTFILE
 }
 
 setmva ()
@@ -273,6 +434,11 @@ setmva ()
 	cd  ~/RWTH/MVAtraining/CMSSW_8_0_26_patch1/src
     set_cmssw slc6_amd64_gcc530;
 	cd  /nfs/dust/cms/user/glusheno/TauIDMVATraining2016/Summer16_25ns_V1/tauId_v3_0/trainfilesfinal_v1
+    history -w
+    unset HISTFILE
+    history -c
+    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setmva_history
+    touch -a $HISTFILE
 }
 
 setmva9()
@@ -280,6 +446,11 @@ setmva9()
     cd  ~/RWTH/MVAtraining/CMSSW_9_2_4/src
     set_cmssw slc6_amd64_gcc530;#slc6_amd64_gcc700;
 	cd /nfs/dust/cms/user/glusheno/TauIDMVATraining2017/Summer17_25ns_V1_allPhotonsCut/tauId_v3_0/trainfilesfinal_v1
+    history -w
+    unset HISTFILE
+    history -c
+    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setmva9_history
+    touch -a $HISTFILE
 }
 
 setmva9v2()
@@ -287,6 +458,11 @@ setmva9v2()
     cd ~/RWTH/MVAtraining/CMSSW_9_4_2/src
 	set_cmssw slc6_amd64_gcc630
     #cd /nfs/dust/cms/user/glusheno/TauIDMVATraining2017/Summer19_25ns_V1_allPhotonsCut/tauId_v3_0/trainfilesfinal_v1
+    history -w
+    unset HISTFILE
+    history -c
+    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setmva9v2_history
+    touch -a $HISTFILE
 }
 
 

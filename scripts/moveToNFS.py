@@ -156,7 +156,7 @@ class MoveToNFS(object):
         parser = argparse.ArgumentParser(description='movetoNFS.py parser')
         parser.add_argument('--move', '-m', default=[], nargs="*",
                             help='WHAT to move')
-        parser.add_argument('--to', '-t', default=None, type=str,
+        parser.add_argument('--to', '-t', default=None, type=str, choices=MoveToNFS.common_locations.keys(),
                             help='WHERE to move')
         parser.add_argument('--to-private', default=None, type=str,
                             help='WHERE to move - private path, Example: /nfs/dust/cms/user/SOMENAME/afs/ ')
