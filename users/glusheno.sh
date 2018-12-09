@@ -144,8 +144,9 @@ setcombine810(){
     history -w
     unset HISTFILE
     history -c
-    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setcombine810_history
+    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setcombine810_history
     touch -a $HISTFILE
+    export HISTFILE
 }
 setcombine747(){
 	cd ~/RWTH/KIT/Combine/CMSSW_7_4_7/src/
@@ -153,8 +154,9 @@ setcombine747(){
     history -w
     unset HISTFILE
     history -c
-    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setcombine747_history
+    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setcombine747_history
     touch -a $HISTFILE
+    export HISTFILE
 }
 
 setharry() {
@@ -164,8 +166,9 @@ setharry() {
     history -w
     unset HISTFILE
     history -c
-    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setharry_history
+    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setharry_history
     touch -a $HISTFILE
+    export HISTFILE
 }
 
 setshapes949_naf() {
@@ -184,8 +187,9 @@ setshapes949_naf() {
     history -w
     unset HISTFILE
     history -c
-    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setshapes949_naf_history
+    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setshapes949_naf_history
     touch -a $HISTFILE
+    export HISTFILE
 }
 
 setff804_swoz() {
@@ -232,8 +236,9 @@ setff804_swoz() {
     history -w
     unset HISTFILE
     history -c
-    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setff804_history
+    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setff804_history
     touch -a $HISTFILE
+    export HISTFILE
 }
 
 setff804() {
@@ -279,8 +284,9 @@ setff804() {
     history -w
     unset HISTFILE
     history -c
-    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setff804_history
+    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setff804_history
     touch -a $HISTFILE
+    export HISTFILE
 }
 
 setkitanalysis949_naf() {
@@ -296,8 +302,9 @@ setkitanalysis949_naf() {
     history -w
     unset HISTFILE
     history -c
-    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitanalysis949_naf_history
+    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitanalysis949_naf_history
     touch -a $HISTFILE
+    export HISTFILE
 }
 
 setkitartus949_naf() {
@@ -313,8 +320,9 @@ setkitartus949_naf() {
     history -w
     unset HISTFILE
     history -c
-    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitartus949_naf_history
+    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitartus949_naf_history
     touch -a $HISTFILE
+    export HISTFILE
 }
 
 setkitartus9412_naf() {
@@ -328,8 +336,9 @@ setkitartus9412_naf() {
     history -w
     unset HISTFILE
     history -c
-    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitartus9412_naf_history
+    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitartus9412_naf_history
     touch -a $HISTFILE
+    export HISTFILE
 }
 
 setkitskimming9412()
@@ -341,8 +350,9 @@ setkitskimming9412()
     history -w
     unset HISTFILE
     history -c
-    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitskimming9412
+    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitskimming9412
     touch -a $HISTFILE
+    export HISTFILE
 }
 
 
@@ -353,8 +363,9 @@ setkitskimming763() {
     history -w
     unset HISTFILE
     history -c
-    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitskimming763_history
+    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitskimming763_history
     touch -a $HISTFILE
+    export HISTFILE
 }
 
 #/afs/desy.de/user/g/glusheno/RWTH/CMSSW_7_4_7
@@ -367,8 +378,9 @@ setkitanalysis747() {
     history -w
     unset HISTFILE
     history -c
-    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitanalysis747_history
+    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitanalysis747_history
     touch -a $HISTFILE
+    export HISTFILE
 }
 
 
@@ -379,8 +391,9 @@ setkitskimming8014() {
     history -w
     unset HISTFILE
     history -c
-    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitskimming8014_history
+    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitskimming8014_history
     touch -a $HISTFILE
+    export HISTFILE
 }
 
 setkitskimming8020() {
@@ -390,8 +403,9 @@ setkitskimming8020() {
     history -w
     unset HISTFILE
     history -c
-    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitskimming8020_history
+    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitskimming8020_history
     touch -a $HISTFILE
+    export HISTFILE
 }
 
 setrasp(){
@@ -401,8 +415,9 @@ setrasp(){
     history -w
     unset HISTFILE
     history -c
-    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setrasp_history
+    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setrasp_history
     touch -a $HISTFILE
+    export HISTFILE
 }
 
 setkitskimming8026patch1Crabtest()
@@ -413,8 +428,9 @@ setkitskimming8026patch1Crabtest()
     history -w
     unset HISTFILE
     history -c
-    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitskimming8026patch1Crabtest_history
+    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitskimming8026patch1Crabtest_history
     touch -a $HISTFILE
+    export HISTFILE
 }
 
 setkitskimming763_Fabiotest()
@@ -425,8 +441,9 @@ setkitskimming763_Fabiotest()
     history -w
     unset HISTFILE
     history -c
-    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitskimming763_Fabiotest_history
+    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitskimming763_Fabiotest_history
     touch -a $HISTFILE
+    export HISTFILE
 }
 
 setmva ()
@@ -437,8 +454,9 @@ setmva ()
     history -w
     unset HISTFILE
     history -c
-    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setmva_history
+    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setmva_history
     touch -a $HISTFILE
+    export HISTFILE
 }
 
 setmva9()
@@ -449,8 +467,9 @@ setmva9()
     history -w
     unset HISTFILE
     history -c
-    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setmva9_history
+    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setmva9_history
     touch -a $HISTFILE
+    export HISTFILE
 }
 
 setmva9v2()
@@ -461,10 +480,24 @@ setmva9v2()
     history -w
     unset HISTFILE
     history -c
-    export HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setmva9v2_history
+    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setmva9v2_history
     touch -a $HISTFILE
+    export HISTFILE
 }
 
+
+setmva10()
+{
+    cd ~/RWTH/MVAtraining/CMSSW_10_4_0_pre3/src
+    set_cmssw slc6_amd64_gcc700
+    #cd /nfs/dust/cms/user/glusheno/TauIDMVATraining2017/Summer19_25ns_V1_allPhotonsCut/tauId_v3_0/trainfilesfinal_v1
+    history -w
+    unset HISTFILE
+    history -c
+    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setmva10
+    touch -a $HISTFILE
+    export HISTFILE
+}
 
 # GIT Aliases
 alias pullArtus='cd $CMSSW_BASE/src/Artus; git fetch origin; git merge origin/master; cd -'
