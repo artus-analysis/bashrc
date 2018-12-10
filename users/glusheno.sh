@@ -1,23 +1,16 @@
 #!/bin/bash
-echo "Ok bash, glusheno.sh"
+echo " * --> export glusheno.sh"
+
 if [ -z "$BASHRCDIR" ]
 then
 	BASHRCDIR=$( cd "$( dirname "${BASH_SOURCE[0]}s" )/.." && pwd )
 fi
 
 alias vpi='voms-proxy-init -voms cms:/cms/dcms -valid 192:00'
-#echo -n "vpi:"
-type vpi
-
-alias gridftp='echo "cd /pnfs/physik.rwth-aachen.de/cms/store/user/ohlushch"; uberftp grid-ftp'
-#echo -n "gridftp:"
-type gridftp
-
 alias cmsdust='cd /nfs/dust/cms/user/glusheno/'
-#echo -n "cmsdust:"
 type cmsdust
 
-
+# Run ssh-agent
 eval "$(ssh-agent -s)"
 #ssh-add  ~/.ssh/id_rsa
 ssh-add  ~/.ssh/id_rsa_nopass
@@ -31,6 +24,7 @@ DIR_BASHHISTORY=/nfs/dust/cms/user/glusheno/bash_history
 SERVERBASH=${HOME}/RWTH/bashrc/users/glusheno.sh
 COMMONBASH=${HOME}/RWTH/bashrc/users/hlushchenko_common.sh  # ~ tilda is not expanded in scripts https://stackoverflow.com/a/3963747/3152072
 source ${DIR_BASH}/git-prompt.sh
+export HARRY_REMOTE_USER='ohlushch'
 # Path contains only pathes to the scripts
 export PATH="$HOME/.local/bin:$PATH"
 export PATH=$DIR_BASH/scripts:$PATH
@@ -50,6 +44,7 @@ shopt -s histappend                      # append to history, don't overwrite it
 # export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
 # export PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
 # https://unix.stackexchange.com/a/48113/137225 :
+# Forse to save all commands to the history : all history in all tabs is stored
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
 # CMSSW
@@ -72,7 +67,7 @@ alias myhtop='htop -u $USER'
 # alias gmerge='(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)'
 alias myvomsproxyinit='voms-proxy-init --voms cms:/cms/dcms --valid 192:00'
 
-scrambshort(){
+scrambshort() {
     touch temp_scramb_std.txt
     scram b -j $CORES &> temp_scramb_std.txt;
     if [ $? -ne 0 ] ; then
@@ -81,6 +76,15 @@ scrambshort(){
     fi
     rm temp_scramb_std.txt
     tput bel
+}
+
+transfer() {
+    # write to output to tmpfile because of progress bar
+    tmpfile=$( mktemp -t transferXXX )
+    curl --progress-bar --upload-file $1 https://transfer.sh/$(basename $1) >> $tmpfile;
+    # cat $tmpfile | pbcopy; # Only for OS X
+    cat $tmpfile;
+    rm -f $tmpfile;
 }
 
 ## CMSSW working environments
@@ -512,4 +516,47 @@ setsshaggent()
 {
         eval "$(ssh-agent -s)"
         ssh-add  ~/.ssh/id_rsa
+}
+
+
+set_zeus()
+{
+    # Previously located in .profile
+    CDPATH=.:$HOME:
+    PRINTER=zeusps1
+    LPDEST=$PRINTER
+    export LPDEST PRINTER
+    export zeus_pool=/afs/desy.de/group/zeus/pool/glusheno
+    export dust=/nfs/dust/zeus/group/glusheno
+
+    #stty erase \^\?
+    set bell-style none
+
+    # instead source set_env_HFSTABLE.sh
+        # compiler
+        #source /afs/cern.ch/sw/lcg/contrib/gcc/4.3/x86_64-slc5-gcc43-opt/setup.sh
+        source /cvmfs/sft.cern.ch/lcg/contrib/gcc/4.8/x86_64-slc6-gcc48-opt/setup.sh
+
+        #. /afs/cern.ch/sw/lcg/contrib/gcc/4.3/i686-slc5-gcc43-opt/setup.sh
+        # cernlib
+        ##export CERN_ROOT=/afs/cern.ch/sw/lcg/external/cernlib/2006a/x86_64-slc5-gcc43-opt
+        #export CERN_ROOT=/afs/cern.ch/sw/lcg/external/cernlib/2006a/i686-slc5-gcc43-opt
+
+        # root
+        #cd /afs/cern.ch/sw/lcg/app/releases/ROOT/5.34.00/x86_64-slc5-gcc43-opt/root/
+        #. /afs/cern.ch/sw/lcg/app/releases/ROOT/5.34.00/x86_64-slc5-gcc43-opt/root/bin/thisroot.sh
+        #cd -
+        #cd /afs/cern.ch/sw/lcg/app/releases/ROOT/5.34.00/i686-slc5-gcc43-opt/root/
+        #. /afs/cern.ch/sw/lcg/app/releases/ROOT/5.34.00/i686-slc5-gcc43-opt/root/bin/thisroot.sh
+
+        module load root/5.34
+
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/afs/desy.de/user/g/glusheno/KtJet-1.08/lib
+        ##export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/afs/desy.de/user/g/glusheno/programs/KtJet-1.08/lib
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/cvmfs/sft.cern.ch/lcg/external/clhep/2.0.4.5/x86_64-slc5-gcc43-opt/lib
+        #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/cvmfs/sft.cern.ch/lcg/external/clhep/2.2.0.4/x86_64-slc6-gcc48-opt/lib
+        ##export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/afs/cern.ch/sw/lcg/external/clhep/2.0.4.0/slc4_amd64_gcc34/lib
+
+    #cd /nfs/dust/zeus/group/glushenko/isolated_photons_summer/cross_sec_EB/
+    #echo home is /afs/desy.de/user/g/glusheno
 }

@@ -1,6 +1,10 @@
 #!/bin/bash
-# Bash setup for rwth
-# echo "Ok bash, I am hlushchenko.sh"
+echo " * --> export hlushchenko.sh (for rwth cluster)"
+
+alias vpi='voms-proxy-init -voms cms:/cms/dcms -valid 192:00'
+alias gridftp='echo "cd /pnfs/physik.rwth-aachen.de/cms/store/user/ohlushch"; uberftp grid-ftp'
+alias setsshagent='eval "$(ssh-agent -s)"; ssh-add  ~/.ssh/id_rsa'
+# type gridftp
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 source $DIR/hlushchenko_common.sh
@@ -14,10 +18,15 @@ transfer() {
     # write to output to tmpfile because of progress bar
     tmpfile=$( mktemp -t transferXXX )
     curl --progress-bar --upload-file $1 https://transfer.sh/$(basename $1) >> $tmpfile;
-    cat $tmpfile | pbcopy;
+    # cat $tmpfile | pbcopy;
     cat $tmpfile;
-
     rm -f $tmpfile;
+}
+
+setsshaggent()
+{
+    eval "$(ssh-agent -s)"
+    ssh-add  ~/.ssh/id_rsa
 }
 
 # CMSSW
@@ -31,8 +40,10 @@ export LS_OPTIONS="-N -T 0 --color=auto"
 
 # ALIASES
 nafn(){
- ssh -XYt "glusheno@naf-cms$1.desy.de"
+    echo "glusheno@naf-cms$1.desy.de"
+    ssh -XYt "glusheno@naf-cms$1.desy.de"
 }
+alias nafcms='ssh -XYt glusheno@naf-cms.desy.de'
 alias nafcms14='ssh -XYt glusheno@naf-cms14.desy.de'
 alias nafcms12='ssh -XYt glusheno@naf-cms12.desy.de'
 alias scramb='scram b -j `grep -c ^processor /proc/cpuinfo`; echo $?'
@@ -112,7 +123,7 @@ pullKappaFunction()
 }
 
 # Job Submission
-setcrab3() 
+setcrab3()
 {
     source /cvmfs/cms.cern.ch/crab3/crab.sh
 }
@@ -123,16 +134,16 @@ export USERPC='lx3b83'
 
 #################### Set Skimming #####################
 
-setskimming763() 
+setskimming763()
 {
     startingDir=$(pwd)
-    cd /.automount/home/home__home2/institut_3b/hlushchenko/Work/CMSSW_7_6_3/src    
+    cd /.automount/home/home__home2/institut_3b/hlushchenko/Work/CMSSW_7_6_3/src
     set_cmssw slc6_amd64_gcc493
     cd $startingDir
     cd $CMSSW_BASE/src/
 }
 
-setskimming8014 () 
+setskimming8014 ()
 {
     startingDir=$(pwd)
     cd ~/Work/CMSSW_8_0_14/src;
@@ -141,7 +152,7 @@ setskimming8014 ()
     cd $CMSSW_BASE/src/
 }
 
-setskimming8020 () 
+setskimming8020 ()
 {
     startingDir=$(pwd)
     cd ~/Work/CMSSW_8_0_20/src;
@@ -151,7 +162,7 @@ setskimming8020 ()
 }
 
 
-setskimming8026patch1 () 
+setskimming8026patch1 ()
 {
     startingDir=$(pwd)
     cd ~/Work/CMSSW_8_0_26_patch1/src;
@@ -188,7 +199,7 @@ setKSkimming929 ()
 
 #################### Set Analysis #####################
 
-setanalysis715() 
+setanalysis715()
 {
     startingDir=$(pwd)
     cd /home/home2/institut_3b/hlushchenko/Work/CheckReciep/CMSSW_7_1_5/src
@@ -198,10 +209,10 @@ setanalysis715()
     cd $CMSSW_BASE/src/
 }
 
-setanalysis747() 
+setanalysis747()
 {
     startingDir=$(pwd)
-    cd /home/home2/institut_3b/hlushchenko/Work/CMSSW_7_4_7/src       
+    cd /home/home2/institut_3b/hlushchenko/Work/CMSSW_7_4_7/src
     set_cmssw slc6_amd64_gcc491
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
     cd $startingDir
@@ -211,17 +222,17 @@ setanalysis747()
 setanalysis747_TauES()
 {
     startingDir=$(pwd)
-    cd /home/home2/institut_3b/hlushchenko/Work/TauES/CMSSW_7_4_7/src 
+    cd /home/home2/institut_3b/hlushchenko/Work/TauES/CMSSW_7_4_7/src
     set_cmssw slc6_amd64_gcc491
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
     cd $startingDir
     cd $CMSSW_BASE/src/
 }
 
-setanalysis747_new() 
+setanalysis747_new()
 {
     startingDir=$(pwd)
-    cd /home/home2/institut_3b/hlushchenko/Work/CheckReciep/CMSSW_7_4_7/src 
+    cd /home/home2/institut_3b/hlushchenko/Work/CheckReciep/CMSSW_7_4_7/src
     set_cmssw slc6_amd64_gcc491
     echo "CMSSW_BASE: $CMSSW_BASE"
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
@@ -231,20 +242,20 @@ setanalysis747_new()
 
 setskimming924()
 {
-	startingDir=$(pwd)	
+	startingDir=$(pwd)
 	cd /home/home2/institut_3b/hlushchenko/Work/CMSSW_9_2_4/src
 	set_cmssw slc6_amd64_gcc530
 	cd $startingDir
-	cd $CMSSW_BASE/src/	
+	cd $CMSSW_BASE/src/
 }
 
 setskimming940()
 {
-	startingDir=$(pwd) 
+	startingDir=$(pwd)
 	cd  /home/home2/institut_3b/hlushchenko/Work/Skimming/CMSSW_9_4_0/src
 	set_cmssw slc6_amd64_gcc630
 	cd $startingDir
-	cd $CMSSW_BASE/src/     
+	cd $CMSSW_BASE/src/
 }
 
 setskimming942()
@@ -281,8 +292,3 @@ setanalysis810()
     cd $CMSSW_BASE/src/
 }
 
-setsshaggent()
-{
-	eval "$(ssh-agent -s)"
-	ssh-add  ~/.ssh/id_rsa
-}
