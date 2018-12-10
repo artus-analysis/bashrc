@@ -31,7 +31,7 @@ DIR_BASH="${DIR}/.."
 SERVERBASH=${DIR_BASH}/users/hlushchenko.sh
 COMMONBASH=${DIR_BASH}/users/hlushchenko_common.sh  # ~ tilda is not expanded in scripts https://stackoverflow.com/a/3963747/3152072
 DIR_PRIVATESETTINGS=${HOME}/dirtyscripts
-source ${DIR_PRIVATESETTINGS}/git-prompt.sh
+source ${DIR_PRIVATESETTINGS}/env_scripts/git-prompt.sh
 # !!! PATH sould contain only pathes to the scripts !!!
 export PATH="$HOME/.local/bin:$PATH"
 export PATH=$DIR_BASH/scripts:$PATH
@@ -56,9 +56,8 @@ nafn(){
 alias nafcms='ssh -XYt glusheno@naf-cms.desy.de'
 alias nafcms14='ssh -XYt glusheno@naf-cms14.desy.de'
 alias nafcms12='ssh -XYt glusheno@naf-cms12.desy.de'
-alias scramb='scram b -j `grep -c ^processor /proc/cpuinfo`; echo $?'
+
 #alias scramb='scram b -j 8; echo $?'
-alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
 alias myrsync='rsync -avSzh --progress'
 alias myhtop='htop -u $USER'
 alias meld='export PATH=/usr/bin/:$PATH && meld'
@@ -78,6 +77,8 @@ alias vimbashcommon="vim $COMMONBASH"
 alias cdbash="cd $DIR_BASH"
 
 # CMSSW
+alias scramb='scram b -j `grep -c ^processor /proc/cpuinfo`; echo $?'
+alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
 alias setanalysis='setanalysis747'
 alias setcrab='setcrab3'
 alias setskimming='setskimming8020'
