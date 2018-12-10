@@ -23,12 +23,6 @@ transfer() {
     rm -f $tmpfile;
 }
 
-setsshaggent()
-{
-    eval "$(ssh-agent -s)"
-    ssh-add  ~/.ssh/id_rsa
-}
-
 # CMSSW
 [ -f $BASHRCDIR/cmssw.sh ] && source $BASHRCDIR/cmssw.sh
 
