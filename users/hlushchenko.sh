@@ -38,6 +38,10 @@ export LANG=en_US.UTF-8
 export EDITOR=vim
 export LS_OPTIONS="-N -T 0 --color=auto"
 
+# Harryplotter
+export HARRY_REMOTE_USER='ohlushch'
+export HARRY_USERPC='lx3b57.rwth-aachen.de'
+
 # ALIASES
 nafn(){
     echo "glusheno@naf-cms$1.desy.de"
