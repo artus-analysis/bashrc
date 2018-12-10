@@ -26,6 +26,18 @@ transfer() {
 # CMSSW
 [ -f $BASHRCDIR/cmssw.sh ] && source $BASHRCDIR/cmssw.sh
 
+DIR_BASHHISTORY=/net/scratch_cms3b/hlushchenko/bash_history
+DIR_BASH="${DIR}/.."
+SERVERBASH=${DIR_BASH}/users/hlushchenko.sh
+COMMONBASH=${DIR_BASH}/users/hlushchenko_common.sh  # ~ tilda is not expanded in scripts https://stackoverflow.com/a/3963747/3152072
+DIR_PRIVATESETTINGS=${HOME}/dirtyscripts
+source ${DIR_PRIVATESETTINGS}/git-prompt.sh
+# !!! PATH sould contain only pathes to the scripts !!!
+export PATH="$HOME/.local/bin:$PATH"
+export PATH=$DIR_BASH/scripts:$PATH
+export PATH=$DIR_PRIVATESETTINGS/gc:$PATH
+export PATH=$DIR_PRIVATESETTINGS/playground:$PATH
+
 # ENVIRONMENT
 export PS1="\[\033[104m\]\h : \w \$\[\033[00m\] "
 export LANG=en_US.UTF-8
@@ -57,6 +69,13 @@ alias pushbash='cd $BASHRCDIR; git pull; git add -p; git commit -m "olena:from r
 alias pullbash='cd $BASHRCDIR; git pull; cd -'
 alias vimbash='vim "$BASHRCDIR"/users/hlushchenko.sh'
 alias vimbashcommon='vim "$BASHRCDIR"/users/hlushchenko_common.sh'
+
+alias Pushbash="cd $DIR_BASH; git pull; git add *; git commit -m 'olena:from naf'; git push; cd -"
+alias pushbash="cd $DIR_BASH; git pull; git add -p; git commit -m 'olena:from naf'; git push; cd -"
+alias pullbash="cd $DIR_BASH; git pull; cd -; source $COMMONBASH"
+alias vimbash="vim $SERVERBASH"
+alias vimbashcommon="vim $COMMONBASH"
+alias cdbash="cd $DIR_BASH"
 
 # CMSSW
 alias setanalysis='setanalysis747'
