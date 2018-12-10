@@ -149,34 +149,22 @@ alias setcombine='setcombine810'
 setcombine810(){
     cd ~/RWTH/KIT/Combine/CMSSW_8_1_0/src/
 	set_cmssw slc6_amd64_gcc530
-    history -w
-    unset HISTFILE
-    history -c
-    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setcombine810_history
-    touch -a $HISTFILE
-    export HISTFILE
+
+    changeHistfile ${FUNCNAME[0]}
 }
 setcombine747(){
 	cd ~/RWTH/KIT/Combine/CMSSW_7_4_7/src/
 	set_cmssw slc6_amd64_gcc491
-    history -w
-    unset HISTFILE
-    history -c
-    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setcombine747_history
-    touch -a $HISTFILE
-    export HISTFILE
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 setharry() {
 	cd  ~/RWTH/Artus/CMSSW_7_4_7/src/
 	set_cmssw slc6_amd64_gcc491
 	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
-    history -w
-    unset HISTFILE
-    history -c
-    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setharry_history
-    touch -a $HISTFILE
-    export HISTFILE
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 setshapes949_naf() {
@@ -192,12 +180,8 @@ setshapes949_naf() {
     source bin/setup_env.sh
 
     DIR_SMHTT=""
-    history -w
-    unset HISTFILE
-    history -c
-    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setshapes949_naf_history
-    touch -a $HISTFILE
-    export HISTFILE
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 setff804_swoz() {
@@ -241,12 +225,8 @@ setff804_swoz() {
     KAPPA_DATABASE=/afs/desy.de/user/g/glusheno/RWTH/KIT/Artus/CMSSW_9_4_9/src/Kappa/Skimming/data/datasets.json
     FF_database_ET=/afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/ES-subanalysis/sm-htt-analysis/CMSSW_8_0_4/src/HTTutilities/Jet2TauFakes/data_2017/SM2017/tight/vloose/et/fakeFactors.root
 
-    history -w
-    unset HISTFILE
-    history -c
-    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setff804_history
-    touch -a $HISTFILE
-    export HISTFILE
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 setff804() {
@@ -289,12 +269,8 @@ setff804() {
     FF_database_ET=/afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/ES-subanalysis/sm-htt-analysis/CMSSW_8_0_4/src/HTTutilities/Jet2TauFakes/data_2017/SM2017/tight/vloose/et/fakeFactors.root
     FF_database_ET=/nfs/dust/cms/user/glusheno/FF/Jet2TauFakesFiles/SM2017/tight/vloose/et/fakeFactors.root
 
-    history -w
-    unset HISTFILE
-    history -c
-    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setff804_history
-    touch -a $HISTFILE
-    export HISTFILE
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 setkitanalysis949_naf() {
@@ -307,12 +283,8 @@ setkitanalysis949_naf() {
 
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 
-    history -w
-    unset HISTFILE
-    history -c
-    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitanalysis949_naf_history
-    touch -a $HISTFILE
-    export HISTFILE
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 setkitartus949_naf() {
@@ -325,12 +297,8 @@ setkitartus949_naf() {
 
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 
-    history -w
-    unset HISTFILE
-    history -c
-    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitartus949_naf_history
-    touch -a $HISTFILE
-    export HISTFILE
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 setkitartus9412_naf() {
@@ -341,12 +309,8 @@ setkitartus9412_naf() {
 
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 
-    history -w
-    unset HISTFILE
-    history -c
-    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitartus9412_naf_history
-    touch -a $HISTFILE
-    export HISTFILE
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 setkitskimming9412()
@@ -355,12 +319,8 @@ setkitskimming9412()
     set_cmssw slc6_amd64_gcc630
     cd $CMSSW_BASE/src/
 
-    history -w
-    unset HISTFILE
-    history -c
-    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitskimming9412
-    touch -a $HISTFILE
-    export HISTFILE
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 
@@ -368,12 +328,8 @@ setkitskimming763() {
 	cd ~/home/cms/htt/skimming/CMSSW_7_6_3/src
 	set_cmssw slc6_amd64_gcc493
 	cd $CMSSW_BASE/src/
-    history -w
-    unset HISTFILE
-    history -c
-    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitskimming763_history
-    touch -a $HISTFILE
-    export HISTFILE
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 #/afs/desy.de/user/g/glusheno/RWTH/CMSSW_7_4_7
@@ -383,12 +339,8 @@ setkitanalysis747() {
     set_cmssw slc6_amd64_gcc491
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
     cd $CMSSW_BASE/src/
-    history -w
-    unset HISTFILE
-    history -c
-    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitanalysis747_history
-    touch -a $HISTFILE
-    export HISTFILE
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 
@@ -396,36 +348,24 @@ setkitskimming8014() {
     cd /afs/desy.de/user/g/glusheno/RWTH/CMSSW_8_0_14/src
     set_cmssw slc6_amd64_gcc530
     cd $CMSSW_BASE/src/
-    history -w
-    unset HISTFILE
-    history -c
-    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitskimming8014_history
-    touch -a $HISTFILE
-    export HISTFILE
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 setkitskimming8020() {
 	cd /afs/desy.de/user/g/glusheno/RWTH/CMSSW_8_0_20/src
     set_cmssw slc6_amd64_gcc530
     cd $CMSSW_BASE/src/
-    history -w
-    unset HISTFILE
-    history -c
-    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitskimming8020_history
-    touch -a $HISTFILE
-    export HISTFILE
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 setrasp(){
     cd /afs/desy.de/user/g/glusheno/RWTH/CMSSW_8_0_7_patch2/src
     set_cmssw slc6_amd64_gcc530
     cd -
-    history -w
-    unset HISTFILE
-    history -c
-    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setrasp_history
-    touch -a $HISTFILE
-    export HISTFILE
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 setkitskimming8026patch1Crabtest()
@@ -433,12 +373,8 @@ setkitskimming8026patch1Crabtest()
     cd /afs/desy.de/user/g/glusheno/RWTH/CRABtest/CMSSW_8_0_26_patch1/src
     set_cmssw slc6_amd64_gcc530;
     cd $CMSSW_BASE/src/
-    history -w
-    unset HISTFILE
-    history -c
-    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitskimming8026patch1Crabtest_history
-    touch -a $HISTFILE
-    export HISTFILE
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 setkitskimming763_Fabiotest()
@@ -446,12 +382,8 @@ setkitskimming763_Fabiotest()
 	cd  ~/RWTH/CMSSW_7_6_3/src #~/home/cms/htt/skimming/CMSSW_7_6_3/src
     set_cmssw slc6_amd64_gcc493
     cd $CMSSW_BASE/src/
-    history -w
-    unset HISTFILE
-    history -c
-    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setkitskimming763_Fabiotest_history
-    touch -a $HISTFILE
-    export HISTFILE
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 setmva ()
@@ -459,12 +391,8 @@ setmva ()
 	cd  ~/RWTH/MVAtraining/CMSSW_8_0_26_patch1/src
     set_cmssw slc6_amd64_gcc530;
 	cd  /nfs/dust/cms/user/glusheno/TauIDMVATraining2016/Summer16_25ns_V1/tauId_v3_0/trainfilesfinal_v1
-    history -w
-    unset HISTFILE
-    history -c
-    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setmva_history
-    touch -a $HISTFILE
-    export HISTFILE
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 setmva9()
@@ -472,12 +400,8 @@ setmva9()
     cd  ~/RWTH/MVAtraining/CMSSW_9_2_4/src
     set_cmssw slc6_amd64_gcc530;#slc6_amd64_gcc700;
 	cd /nfs/dust/cms/user/glusheno/TauIDMVATraining2017/Summer17_25ns_V1_allPhotonsCut/tauId_v3_0/trainfilesfinal_v1
-    history -w
-    unset HISTFILE
-    history -c
-    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setmva9_history
-    touch -a $HISTFILE
-    export HISTFILE
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 setmva9v2()
@@ -485,12 +409,8 @@ setmva9v2()
     cd ~/RWTH/MVAtraining/CMSSW_9_4_2/src
 	set_cmssw slc6_amd64_gcc630
     #cd /nfs/dust/cms/user/glusheno/TauIDMVATraining2017/Summer19_25ns_V1_allPhotonsCut/tauId_v3_0/trainfilesfinal_v1
-    history -w
-    unset HISTFILE
-    history -c
-    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setmva9v2_history
-    touch -a $HISTFILE
-    export HISTFILE
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 
@@ -499,12 +419,8 @@ setmva10()
     cd ~/RWTH/MVAtraining/CMSSW_10_4_0_pre3/src
     set_cmssw slc6_amd64_gcc700
     #cd /nfs/dust/cms/user/glusheno/TauIDMVATraining2017/Summer19_25ns_V1_allPhotonsCut/tauId_v3_0/trainfilesfinal_v1
-    history -w
-    unset HISTFILE
-    history -c
-    HISTFILE=/nfs/dust/cms/user/glusheno/bash_history/setmva10
-    touch -a $HISTFILE
-    export HISTFILE
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 # GIT Aliases

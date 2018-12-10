@@ -3,7 +3,12 @@ echo " * --> export hlushchenko.sh (for rwth cluster)"
 
 alias vpi='voms-proxy-init -voms cms:/cms/dcms -valid 192:00'
 alias gridftp='echo "cd /pnfs/physik.rwth-aachen.de/cms/store/user/ohlushch"; uberftp grid-ftp'
-alias setsshagent='eval "$(ssh-agent -s)"; ssh-add  ~/.ssh/id_rsa'
+
+# Run ssh-agent : https://stackoverflow.com/questions/17846529/could-not-open-a-connection-to-your-authentication-agent/4086756#4086756
+# alias setsshagent='eval "$(ssh-agent -s)"; ssh-add  ~/.ssh/id_rsa'
+eval `ssh-agent -s`
+ssh-add  ~/.ssh/id_rsa_nopass
+
 # type gridftp
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
@@ -151,7 +156,6 @@ export SKIM_WORK_BASE=/net/scratch_cms3b/$USER/kappa
 export USERPC='lx3b83'
 
 #################### Set Skimming #####################
-
 setskimming763()
 {
     startingDir=$(pwd)
@@ -159,6 +163,8 @@ setskimming763()
     set_cmssw slc6_amd64_gcc493
     cd $startingDir
     cd $CMSSW_BASE/src/
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 setskimming8014 ()
@@ -168,6 +174,8 @@ setskimming8014 ()
     set_cmssw slc6_amd64_gcc530;
     cd $startingDir
     cd $CMSSW_BASE/src/
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 setskimming8020 ()
@@ -177,6 +185,8 @@ setskimming8020 ()
     set_cmssw slc6_amd64_gcc530;
     cd $startingDir
     cd $CMSSW_BASE/src/
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 
@@ -200,6 +210,8 @@ setKSkimming8026patch1 ()
     cd $CMSSW_BASE/src
     ARTUSPATH=/.automount/home/home__home2/institut_3b/hlushchenko/Work/CMSSW_7_4_7/src/Artus/
     SKIM_WORK_BASE=/.automount/home/home__home2/institut_3b/hlushchenko/Work/Skimming/CMSSW_8_0_26_patch1/src/SKIM_WORK_BASE
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 
@@ -212,6 +224,8 @@ setKSkimming929 ()
     cd $CMSSW_BASE/src
     ARTUSPATH=/.automount/home/home__home2/institut_3b/hlushchenko/Work/CMSSW_7_4_7/src/Artus/
     SKIM_WORK_BASE=/.automount/home/home__home2/institut_3b/hlushchenko/Work/Skimming/CMSSW_8_0_26_patch1/src/SKIM_WORK_BASE
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 
@@ -225,6 +239,8 @@ setanalysis715()
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
     cd $startingDir
     cd $CMSSW_BASE/src/
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 setanalysis747()
@@ -235,6 +251,8 @@ setanalysis747()
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
     cd $startingDir
     cd $CMSSW_BASE/src/
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 setanalysis747_TauES()
@@ -245,6 +263,8 @@ setanalysis747_TauES()
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
     cd $startingDir
     cd $CMSSW_BASE/src/
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 setanalysis747_new()
@@ -256,6 +276,8 @@ setanalysis747_new()
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
     cd $startingDir
     cd $CMSSW_BASE/src/
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 setskimming924()
@@ -265,6 +287,8 @@ setskimming924()
 	set_cmssw slc6_amd64_gcc530
 	cd $startingDir
 	cd $CMSSW_BASE/src/
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 setskimming940()
@@ -274,24 +298,30 @@ setskimming940()
 	set_cmssw slc6_amd64_gcc630
 	cd $startingDir
 	cd $CMSSW_BASE/src/
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 setskimming942()
 {
-        startingDir=$(pwd)
-        cd  /home/home2/institut_3b/hlushchenko/Work/Skimming/CMSSW_9_4_2/src
-        set_cmssw slc6_amd64_gcc630
-        cd $startingDir
-        cd $CMSSW_BASE/src/
+    startingDir=$(pwd)
+    cd  /home/home2/institut_3b/hlushchenko/Work/Skimming/CMSSW_9_4_2/src
+    set_cmssw slc6_amd64_gcc630
+    cd $startingDir
+    cd $CMSSW_BASE/src/
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 setskimming944()
 {
-        startingDir=$(pwd)
-        cd  /home/home2/institut_3b/hlushchenko/Work/Skimming/CMSSW_9_4_4/src
-        set_cmssw slc6_amd64_gcc630
-        cd $startingDir
-        cd $CMSSW_BASE/src/
+    startingDir=$(pwd)
+    cd  /home/home2/institut_3b/hlushchenko/Work/Skimming/CMSSW_9_4_4/src
+    set_cmssw slc6_amd64_gcc630
+    cd $startingDir
+    cd $CMSSW_BASE/src/
+
+    changeHistfile ${FUNCNAME[0]}
 }
 
 
@@ -308,5 +338,7 @@ setanalysis810()
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
     cd $startingDir
     cd $CMSSW_BASE/src/
+
+    changeHistfile ${FUNCNAME[0]}
 }
 

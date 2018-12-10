@@ -139,6 +139,16 @@ transfer() {
     rm -f $tmpfile;
 }
 
+changeHistfile()
+{
+    history -w
+    unset HISTFILE
+    history -c
+    HISTFILE=${DIR_BASHHISTORY}/$1
+    touch -a $HISTFILE
+    export HISTFILE
+}
+
 # https://unix.stackexchange.com/questions/37313/how-do-i-grep-for-multiple-patterns-with-pattern-having-a-pipe-character
 grepcc() {
     grep -rn $1 | grep  -e "\.cc" -e "\.h" | grep $1
