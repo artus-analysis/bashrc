@@ -131,6 +131,7 @@ setcrab3() {
 alias zombie='kinit; aklog'
 alias grep='/bin/grep'
 # Updating bash repository
+alias Pushbash="cd $DIR_BASH; git pull; git add *; git commit -m 'olena:from naf'; git push; cd -"
 alias pushbash="cd $DIR_BASH; git pull; git add -p; git commit -m 'olena:from naf'; git push; cd -"
 alias pullbash="cd $DIR_BASH; git pull; cd -; source $COMMONBASH"
 alias vimbash="vim $SERVERBASH"
