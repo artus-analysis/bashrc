@@ -84,8 +84,9 @@ alias cdbash="cd $DIR_BASH"
 # CMSSW
 alias scramb='scram b -j `grep -c ^processor /proc/cpuinfo`; echo $?'
 alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
-alias setanalysis='setanalysis747'
 alias setcrab='setcrab3'
+## CMSSW working environments
+alias setanalysis='setanalysis747'
 alias setskimming='setskimming8020'
 #alias setgenerator='setgenerator7118'
 

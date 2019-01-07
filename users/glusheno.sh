@@ -31,6 +31,8 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH=$DIR_BASH/scripts:$PATH
 export PATH=$DIR_PRIVATESETTINGS/gc:$PATH
 export PATH=$DIR_PRIVATESETTINGS/playground:$PATH
+export PATH=$DIR_PRIVATESETTINGS/artus:$PATH
+# export PATH=$DIR_PRIVATESETTINGS/python_wrappers:$PATH
 # Path contains only pathes to MODULES with __init__ defined
 [[ ":$PYTHONPATH:" != *"$HOME/.local/lib/python2.7/site-packages:"* ]] && PYTHONPATH="$HOME/.local/lib/python2.7/site-packages:${PYTHONPATH}"
 [[ ":$PYTHONPATH:" != *"$DIR_PRIVATESETTINGS:"* ]] && PYTHONPATH="$DIR_PRIVATESETTINGS:${PYTHONPATH}"
@@ -62,8 +64,6 @@ export LS_OPTIONS="-N -T 0 --color=auto"
 
 # ALIASES
 CORES=`grep -c ^processor /proc/cpuinfo`
-alias scramb='scram b -j $CORES; echo $?; tput bel'
-alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
 alias myrsync='rsync -avSzh --progress'
 alias myhtop='htop -u $USER'
 # alias meld='export PATH=/usr/bin/:$PATH && meld'
@@ -90,18 +90,24 @@ transfer() {
     rm -f $tmpfile;
 }
 
+# CMSSW
+alias scramb='scram b -j $CORES; echo $?; tput bel'
+alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
+alias setcrab='setcrab3'
 ## CMSSW working environments
+## Top level alias
+alias setanalysis='setkitanalysis'
+alias setartus='setkitartus'
+alias setskimming='setkitskimming'
+alias setshapes='setharry ; setkitshapes'
+alias setff='setkitff'
+alias setcombine='setcombine810'
+### KIT
 alias setkitanalysis='setkitanalysis949_naf'
 alias setkitartus='setkitartus949_naf'
 alias setkitskimming='setkitskimming9412'
-alias setcrab='setcrab3'
-# Top level alias
-alias setanalysis='setkitanalysis'
-alias setartus='setkitartus'
-alias setcrab='setcrab3'
-alias setskimming='setkitskimming'
-alias setshapes='setshapes949_naf'
-alias setff='setff804'
+alias setkitshapes='setshapes949_naf'
+alias setkitff='setff804'
 
 # dCache
 # https://twiki.opensciencegrid.org/bin/view/ReleaseDocumentation/LcgUtilities#Using_LCG_Utils_commands
@@ -145,7 +151,18 @@ alias pushdirt="cd $DIR_PRIVATESETTINGS; git pull; git add -p; git commit -m 'fr
 alias pulldirt="cd $DIR_PRIVATESETTINGS; git pull; cd -;"
 alias cddirt="cd $DIR_PRIVATESETTINGS"
 
-alias setcombine='setcombine810'
+monitoreNumOpenFiles(){
+    MAXOPENFILES="$(lsof | grep glusheno | grep Higg | wc -l)"
+
+    while true
+    do
+        n="$(lsof | grep glusheno | grep Higg | wc -l)"
+        [[ $n -gt $MAXOPENFILES ]] && MAXOPENFILES=$n
+        sleep 1;
+        echo "MAXOPENFILES:" $MAXOPENFILES "opened:" $n
+    done
+}
+
 setcombine810(){
     cd ~/RWTH/KIT/Combine/CMSSW_8_1_0/src/
 	set_cmssw slc6_amd64_gcc530
@@ -181,6 +198,42 @@ setshapes949_naf() {
 
     DIR_SMHTT=""
 
+    changeHistfile ${FUNCNAME[0]}
+}
+
+
+setshapesmaster_naf() {
+    echo "CMSSW env taken from /afs/desy.de/user/g/glusheno/RWTH/KIT/sm-htt-analysis/CMSSW_9_4_9/src"
+    cd /afs/desy.de/user/g/glusheno/RWTH/KIT/sm-htt-analysis/CMSSW_9_4_9/src
+    SCRAM_ARCH=slc6_amd64_gcc630
+    export $SCRAM_ARCH
+    source $VO_CMS_SW_DIR/cmsset_default.sh
+    set_cmssw slc6_amd64_gcc630
+    cd -
+
+    cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/master/sm-htt-analysis
+
+    source ../../ES-subanalysis/bin/setup_cvmfs_sft.sh
+
+    declare -a modules=(
+        $PWD/datacard-producer
+        $PWD/shape-producer
+        $PWD/shape-producer/shape_producer/
+        $PWD
+    )
+
+    for i in "${modules[@]}"
+    do
+        if [ -d "$i" ]
+        then
+            [[ ":$PYTHONPATH:" != *"$i:"* ]] && PYTHONPATH="$i:${PYTHONPATH}"
+        else
+            echo "Couldn't find package: " $i
+        fi
+    done
+    export PYTHONPATH
+
+    renice -n 19 -u `whoami`
     changeHistfile ${FUNCNAME[0]}
 }
 
@@ -432,13 +485,6 @@ alias pullall='pullArtus; pullKappaTools; pullHtTT; pullKappa'
 alias scramball='cd $CMSSW_BASE/src; scramb ; cd -'
 alias pullandscramb='pullall; scramball'
 
-setsshaggent()
-{
-        eval "$(ssh-agent -s)"
-        ssh-add  ~/.ssh/id_rsa
-}
-
-
 set_zeus()
 {
     # Previously located in .profile
@@ -454,7 +500,6 @@ set_zeus()
 
     # instead source set_env_HFSTABLE.sh
         # compiler
-        #source /afs/cern.ch/sw/lcg/contrib/gcc/4.3/x86_64-slc5-gcc43-opt/setup.sh
         source /cvmfs/sft.cern.ch/lcg/contrib/gcc/4.8/x86_64-slc6-gcc48-opt/setup.sh
 
         #. /afs/cern.ch/sw/lcg/contrib/gcc/4.3/i686-slc5-gcc43-opt/setup.sh

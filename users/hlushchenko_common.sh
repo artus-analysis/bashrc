@@ -13,6 +13,7 @@ export PS1="\[\033[104m\]\h : \w \$\[\033[00m\] "
 export LANG=en_US.UTF-8
 
 CORES=`grep -c ^processor /proc/cpuinfo`
+export CORES
 
 if [ -z "$BASHRCDIR" ]
 then
@@ -147,6 +148,7 @@ changeHistfile()
     HISTFILE=${DIR_BASHHISTORY}/$1
     touch -a $HISTFILE
     export HISTFILE
+    echo "TODO: fix the first-time-use error"
 }
 
 # https://unix.stackexchange.com/questions/37313/how-do-i-grep-for-multiple-patterns-with-pattern-having-a-pipe-character
