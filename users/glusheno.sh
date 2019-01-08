@@ -211,8 +211,8 @@ setshapesmaster_naf() {
     set_cmssw slc6_amd64_gcc630
     cd -
 
+    # get the propper python
     cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/master/sm-htt-analysis
-
     source ../../ES-subanalysis/bin/setup_cvmfs_sft.sh
 
     declare -a modules=(
