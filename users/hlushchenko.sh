@@ -42,6 +42,7 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH=$DIR_BASH/scripts:$PATH
 export PATH=$DIR_PRIVATESETTINGS/gc:$PATH
 export PATH=$DIR_PRIVATESETTINGS/playground:$PATH
+# export PATH=~/.local/bin:$PATH
 
 # ENVIRONMENT
 export PS1="\[\033[104m\]\h : \w \$\[\033[00m\] "
