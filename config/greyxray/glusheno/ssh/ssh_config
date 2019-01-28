@@ -1,0 +1,5 @@
+RSAAuthentication yes
+PubkeyAuthentication yes
+AuthorizedKeysFile  %h/.ssh/authorized_keys
+
+UsePAM yes
