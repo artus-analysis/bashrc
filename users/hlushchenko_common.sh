@@ -28,6 +28,16 @@ export PYTHONPATH
 # Bash Functions
 #-------------------------------------------------------------
 
+
+# time(/afs/desy.de/user/g/glusheno/RWTH/MVAtraining/CMSSW_10_4_0_pre3/bin/slc6_amd64_gcc700/trainTauIdMVA /nfs/dust/cms/user/glusheno/TauIDMVATraining2018/Autum2018tauId_v1/tauId_dR05_old_v1/train_test.py &> delme)
+# mytime() {
+#     START=$(date +%s.%N)
+#     # /afs/desy.de/user/g/glusheno/RWTH/MVAtraining/CMSSW_10_4_0_pre3/bin/slc6_amd64_gcc700/trainTauIdMVA /nfs/dust/cms/user/glusheno/TauIDMVATraining2018/Autum2018tauId_v1/tauId_dR05_old_v1/train_test.py &> delme
+#     END=$(date +%s.%N)
+#     DIFF=$(echo "$END - $START" | bc)
+#     echo $DIFF
+# }
+
 savelog() {  # TODO: make it function with & in a separate pipe
     logfile="savelog.log"
     command=""
@@ -127,6 +137,7 @@ numfiles() {
     N="$(ls $1 | wc -l)";
     echo "$N files in $1";
 }
+alias count=numfiles
 # https://jef.works/blog/2017/08/13/5-useful-bash-aliases-and-functions/
 
 # SSH
@@ -172,6 +183,32 @@ dus() {
     du -sh $1/* | sort -hr
 }
 
+function countdown(){
+   date1=$((`date +%s` + $1));
+   while [ "$date1" -ge `date +%s` ]; do
+     echo -ne "$(date -u --date @$(($date1 - `date +%s`)) +%H:%M:%S)\r";
+     sleep 0.1
+   done
+}
+function stopwatch(){
+  date1=`date +%s`;
+   while true; do
+    echo -ne "$(date -u --date @$((`date +%s` - $date1)) +%H:%M:%S)\r";
+    sleep 0.1
+   done
+}
+
+mytree(){
+    re='^[0-9]+$'
+    if [[ $# -eq 0 ]] ; then
+        tree -d  -L 1 .
+    elif ! [[ $1 =~ $re ]] ; then
+        tree -d "${@}"
+    else
+        tree -d  -L "${@}"
+    fi
+}
+
 
 #-------------------------------------------------------------
 # Bash aliases
@@ -180,10 +217,12 @@ alias hgrep='history | grep'
 alias hist='history'
 alias ltr='ls -ltr'
 alias ltrd='ls -ltrd */'
+alias tr='mytree'
 # alias grep="grep -c `processor /proc/cpuinfo`"
 alias myrsync='rsync -avSzh --progress'
 alias myhtop='htop -u $USER'
 alias screen='screen2'
+
 
 #-------------------------------------------------------------
 # Git
@@ -192,10 +231,9 @@ alias pull='git pull'
 alias push='git push'
 alias gitpull='git pull'
 alias gitfetch='git fetch origin'
-alias gdiff='git diff'
+alias gitfo='git fetch origin'
 alias gitd='git diff'
 alias gits='git status'
-alias gitf='git fetch origin'
 alias gitl='git log'
 alias gitln='git log -n'
 alias gitdw='git diff --ignore-all-space'

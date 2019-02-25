@@ -28,10 +28,36 @@ source ${DIR_PRIVATESETTINGS}/env_scripts/git-prompt.sh
 export HARRY_REMOTE_USER='ohlushch'
 # Path contains only pathes to the scripts
 export PATH="$HOME/.local/bin:$PATH"
-export PATH=$DIR_BASH/scripts:$PATH
-export PATH=$DIR_PRIVATESETTINGS/gc:$PATH
-export PATH=$DIR_PRIVATESETTINGS/playground:$PATH
-export PATH=$DIR_PRIVATESETTINGS/artus:$PATH
+# export PATH=$DIR_BASH/scripts:$PATH
+# export PATH=$DIR_PRIVATESETTINGS/gc:$PATH
+# export PATH=$DIR_PRIVATESETTINGS/playground:$PATH
+# export PATH=$DIR_PRIVATESETTINGS/artus:$PATH
+# export PATH=$DIR_PRIVATESETTINGS/root_scripts:$PATH
+# export PATH=$DIR_PRIVATESETTINGS/python_scripts:$PATH
+
+setprivatesettings(){
+    declare -a modules=(
+        $DIR_BASH/scripts
+        $DIR_PRIVATESETTINGS/gc
+        $DIR_PRIVATESETTINGS/playground
+        $DIR_PRIVATESETTINGS/artus
+        $DIR_PRIVATESETTINGS/root_scripts
+        $DIR_PRIVATESETTINGS/python_scripts
+    )
+
+    for i in "${modules[@]}"
+    do
+        if [ -d "$i" ]
+        then
+            [[ ":$PATH:" != *"$i:"* ]] && PATH="$i:${PATH}"
+        else
+            echo "Couldn't find package: " $i
+        fi
+    done
+    export PATH
+}
+setprivatesettings
+
 # export PATH=$DIR_PRIVATESETTINGS/python_wrappers:$PATH
 # Path contains only pathes to MODULES with __init__ defined
 [[ ":$PYTHONPATH:" != *"$HOME/.local/lib/python2.7/site-packages:"* ]] && PYTHONPATH="$HOME/.local/lib/python2.7/site-packages:${PYTHONPATH}"
@@ -50,7 +76,9 @@ shopt -s histappend                      # append to history, don't overwrite it
 # export PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
 # https://unix.stackexchange.com/a/48113/137225 :
 # Forse to save all commands to the history : all history in all tabs is stored
-export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+# export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+# https://unix.stackexchange.com/a/1292/137225 : After each command, append to the history file and reread it
+export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
 
 # CMSSW
 [ -f $BASHRCDIR/cmssw.sh ] && source $BASHRCDIR/cmssw.sh
@@ -99,13 +127,14 @@ alias setcrab='setcrab3'
 alias setanalysis='setkitanalysis'
 alias setartus='setkitartus'
 alias setskimming='setkitskimming'
+alias setkappa='setskimming'
 alias setshapes='setharry ; setkitshapes'
 alias setff='setkitff'
 alias setcombine='setcombine810'
 ### KIT
 alias setkitanalysis='setkitanalysis949_naf'
 alias setkitartus='setkitartus949_naf'
-alias setkitskimming='setkitskimming9412'
+alias setkitskimming='setkitskimming10210'
 alias setkitshapes='setshapes949_naf'
 alias setkitff='setff804'
 
@@ -114,6 +143,16 @@ alias setkitff='setff804'
 alias mylcg-ls='lcg-ls -b -v -l -D srmv2'
 alias mylcg-cp='lcg-cp -v -b -D srmv2'
 alias mylcg-del='lcg-del -b -v -l -D srmv2'
+
+# HTC_condor
+alias c_sub='condor_submit'
+alias c_q='condor_q'
+#condor_rm [username]: kill all your jobs
+alias c_rm='condor_rm'
+alias c_hist='condor_history'
+alias c_status='condor_status'
+alias c_inspect='condor_status -long'
+alias c_list='condor_status -constraint '
 
 # Syntax highlighting in less
 VLESS=$(find /usr/share/vim -name "less.sh")
@@ -362,6 +401,25 @@ setkitartus9412_naf() {
 
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 
+
+    changeHistfile ${FUNCNAME[0]}
+}
+
+# setkitskimming1029()
+# {
+#     cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Kappa/CMSSW_10_2_9/src
+#     export SCRAM_ARCH=slc6_amd64_gcc700
+#     source $VO_CMS_SW_DIR/cmsset_default.sh
+#     set_cmssw slc6_amd64_gcc700
+#     cd $CMSSW_BASE/src/
+
+#     changeHistfile ${FUNCNAME[0]}
+# }
+setkitskimming10210()
+{
+    cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Kappa/CMSSW_10_2_10/src
+    set_cmssw slc6_amd64_gcc700
+    cd $CMSSW_BASE/src/
 
     changeHistfile ${FUNCNAME[0]}
 }
