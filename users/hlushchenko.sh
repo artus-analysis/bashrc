@@ -1,9 +1,10 @@
 #!/bin/bash
 echo " * --> export hlushchenko.sh (for rwth cluster)"
 
-alias vpi='voms-proxy-init -voms cms:/cms/dcms -valid 192:00'
-alias gridftp='echo "cd /pnfs/physik.rwth-aachen.de/cms/store/user/ohlushch"; uberftp grid-ftp'
+# Grid certificates
+source $BASHRCDIR/users/greyxray/grid.sh
 
+# SSH connections
 # Run ssh-agent : https://stackoverflow.com/questions/17846529/could-not-open-a-connection-to-your-authentication-agent/4086756#4086756
 # alias setsshagent='eval "$(ssh-agent -s)"; ssh-add  ~/.ssh/id_rsa'
 eval `ssh-agent -s`
@@ -68,8 +69,6 @@ alias myrsync='rsync -avSzh --progress'
 alias myhtop='htop -u $USER'
 alias meld='export PATH=/usr/bin/:$PATH && meld'
 alias gmerge='(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)'
-alias myvomsproxyinit='voms-proxy-init --voms cms:/cms/dcms --valid 192:00'
-
 alias pushbash='cd $BASHRCDIR; git pull; git add -p; git commit -m "olena:from rwth"; git push; cd -'
 alias pullbash='cd $BASHRCDIR; git pull; cd -'
 alias vimbash='vim "$BASHRCDIR"/users/hlushchenko.sh'

@@ -8,8 +8,10 @@ fi
 #DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 #cd $0
 
-source  ~/bashrc/users/hlushchenko_common.sh
+source $BASHRCDIR/users/hlushchenko_common.sh
 
+# Grid certificates
+source $BASHRCDIR/users/greyxray/grid.sh
 
 # CMSSW
 [ -f $BASHRCDIR/cmssw.sh ] && source $BASHRCDIR/cmssw.sh
@@ -28,7 +30,6 @@ alias myrsync='rsync -avSzh --progress'
 alias myhtop='htop -u $USER'
 alias meld='export PATH=/usr/bin/:$PATH && meld'
 alias gmerge='(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)'
-alias myvomsproxyinit='voms-proxy-init --voms cms:/cms/dcms --valid 192:00'
 alias gits='git status'
 alias gitf='git fetch origin'
 alias gitl='git log'

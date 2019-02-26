@@ -164,13 +164,13 @@ changeHistfile()
 
 # https://unix.stackexchange.com/questions/37313/how-do-i-grep-for-multiple-patterns-with-pattern-having-a-pipe-character
 grepcc() {
-    grep -rn $1 | grep  -e "\.cc" -e "\.h" | grep $1
+    grep -rnI $1 | grep  -e "\.cc" -e "\.h" | grep $1
 }
 greppy() {
-    grep -rn $1 | grep  -e "\.py" | grep $1
+    grep -rnI $1 | grep  -e "\.py" | grep $1
 }
 grepj() {
-    grep -rn $1 | grep  -e "\.json" | grep $1
+    grep -rnI $1 | grep  -e "\.json" | grep $1
 }
 
 dus() {
@@ -213,6 +213,7 @@ mytree(){
 #-------------------------------------------------------------
 # Bash aliases
 #-------------------------------------------------------------
+alias grep='grep -I'
 alias hgrep='history | grep'
 alias hist='history'
 alias ltr='ls -ltr'
@@ -233,7 +234,9 @@ alias gitpull='git pull'
 alias gitfetch='git fetch origin'
 alias gitfo='git fetch origin'
 alias gitd='git diff'
-alias gits='git status'
+alias gitss='git status'
+alias gits='git status .'
+alias gits.='git status .'
 alias gitl='git log'
 alias gitln='git log -n'
 alias gitdw='git diff --ignore-all-space'

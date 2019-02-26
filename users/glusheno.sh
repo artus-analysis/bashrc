@@ -6,7 +6,9 @@ then
 	BASHRCDIR=$( cd "$( dirname "${BASH_SOURCE[0]}s" )/.." && pwd )
 fi
 
-alias vpi='voms-proxy-init -voms cms:/cms/dcms -valid 192:00'
+# Grid certificates
+source $BASHRCDIR/users/greyxray/grid.sh
+
 alias cmsdust='cd /nfs/dust/cms/user/glusheno/'
 type cmsdust
 
