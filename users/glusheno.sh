@@ -9,9 +9,6 @@ fi
 # Grid certificates
 source $BASHRCDIR/users/greyxray/grid.sh
 
-alias cmsdust='cd /nfs/dust/cms/user/glusheno/'
-type cmsdust
-
 # Run ssh-agent
 eval "$(ssh-agent -s)"
 #ssh-add  ~/.ssh/id_rsa
@@ -43,7 +40,7 @@ setprivatesettings(){
         $DIR_PRIVATESETTINGS/gc
         $DIR_PRIVATESETTINGS/playground
         $DIR_PRIVATESETTINGS/artus
-        $DIR_PRIVATESETTINGS/root_scripts
+        # $DIR_PRIVATESETTINGS/root_scripts
         $DIR_PRIVATESETTINGS/python_scripts
     )
 
@@ -51,6 +48,7 @@ setprivatesettings(){
     do
         if [ -d "$i" ]
         then
+            chmod +x $i/*
             [[ ":$PATH:" != *"$i:"* ]] && PATH="$i:${PATH}"
         else
             echo "Couldn't find package: " $i
@@ -98,7 +96,9 @@ alias myrsync='rsync -avSzh --progress'
 alias myhtop='htop -u $USER'
 # alias meld='export PATH=/usr/bin/:$PATH && meld'
 # alias gmerge='(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)'
-alias myvomsproxyinit='voms-proxy-init --voms cms:/cms/dcms --valid 192:00'
+# alias myvomsproxyinit='voms-proxy-init --voms cms:/cms/dcms --valid 192:00'
+DUST=/nfs/dust/cms/user/glusheno/
+alias cddust='cd $DUST'
 
 scrambshort() {
     touch temp_scramb_std.txt
@@ -147,9 +147,9 @@ alias mylcg-cp='lcg-cp -v -b -D srmv2'
 alias mylcg-del='lcg-del -b -v -l -D srmv2'
 
 # HTC_condor
+# condor_rm [username]: kill all your jobs
 alias c_sub='condor_submit'
 alias c_q='condor_q'
-#condor_rm [username]: kill all your jobs
 alias c_rm='condor_rm'
 alias c_hist='condor_history'
 alias c_status='condor_status'
