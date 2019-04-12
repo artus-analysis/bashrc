@@ -21,7 +21,7 @@ export N_CORES=`grep -c ^processor /proc/cpuinfo`
 export N_PARALLEL=$(( $N_CORES < 20 ? $N_CORES : 20 ))
 
 # ALIASES
-alias scramb='scram b -j ${N_PARALLEL}; echo $?'
+alias scramb='scram b -j ${N_PARALLEL}; echo $?' #building the project via scram b -j 4
 alias scrambdebug='scram b -j ${N_PARALLEL} USER_CXXFLAGS="-g"'
 alias myrsync='rsync -avSzh --progress'
 alias myhtop='htop -u $USER'
@@ -99,7 +99,8 @@ setkitanalysis810() {
 	
 	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 	
-	cd $CMSSW_BASE/src/
+	cd $CMSSW_BASE/
+	cd ..
 }
 
 
