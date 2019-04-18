@@ -1,0 +1,3 @@
+[submodule "config/thomas-mueller"]
+	path = config/thomas-mueller
+	url = git@github.com:thomas-mueller/configs.git
