@@ -1,4 +1,5 @@
 echo " * --> export hlushchenko_common.sh"
+source ~/.ssh/app-env
 #-------------------------------------------------------------
 # System exports and variables
 #-------------------------------------------------------------
@@ -94,6 +95,40 @@ savelog() {  # TODO: make it function with & in a separate pipe
     $command &> $logfile
 }
 
+
+com(){
+    tfile=$(mktemp /tmp/foo.XXXXXXXXX)
+    mv $tfile $tfile.sh
+    touch $tfile.OUT
+    vim -c 'startinsert' $tfile.sh
+
+    # add '#!\/usr\/bin\/env bash' to the header of file
+    if [ "$(uname)" == "Darwin" ]; then
+        # Do something under Mac OS X platform
+        # http://abhi.sanoujam.com/posts/sed-newline-mac/
+        # sed -i '' '1s/^/#!\/bin\/bash\'$'\n/' $tfile.sh
+        sed -i '' '1s/^/#!\/usr\/bin\/env bash\'$'\n/' $tfile.sh
+        sed -i '' '2s/^/FAIL=0'$'\n/' $tfile.sh
+    elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+        # Do something under GNU/Linux platform
+        sed -i  '1s/^/#!\/bin\/bash\nFAIL=0\n/' $tfile.sh
+    elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
+        # Do something under 32 bits Windows NT platform
+        echo 'not for 32 bits Windows NT platform'
+        sed -i  '1s/^/#!\/bin\/bash\nFAIL=0\n/' $tfile.sh
+    elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
+        # Do something under 64 bits Windows NT platform
+        echo 'not for 32 bits Windows NT platform'
+        sed -i  '1s/^/#!\/bin\/bash\nFAIL=0\n/' $tfile.sh
+    fi
+
+    cat ${DIR_BASH}/users/greyxray/templ_wait.sh >> $tfile.sh
+
+    chmod +x $tfile.sh
+    ( source $tfile.sh &> $tfile.OUT; send "com $tfile.sh finished with status "$?". Output stream: $tfile.OUT") &
+    echo "executing file: " $tfile.sh
+}
+
 screen2() {
     # To save the real arguments
     arguments=""
@@ -141,6 +176,21 @@ alias count=numfiles
 # https://jef.works/blog/2017/08/13/5-useful-bash-aliases-and-functions/
 
 # SSH
+
+send() {
+    message="Done"
+    if [[ $# -eq 1 ]] ; then
+        message=$1
+    elif ! [[ $# -eq 0 ]] ; then
+        echo "Unknown extra parametes ignored"
+    fi
+    curl -s \
+        -X POST \
+        https://api.telegram.org/bot$apiToken/sendMessage \
+        -d text="$message" \
+        -d chat_id=$chatId
+}
+
 transfer() {
     # write to output to tmpfile because of progress bar
     tmpfile=$( mktemp -t transferXXX )
@@ -153,13 +203,18 @@ transfer() {
 
 changeHistfile()
 {
+    filename=${DIR_BASHHISTORY}/$1
+    if [ ! -f $filename ]; then
+        echo 'The history file wasnt present and will be recreated'
+        touch $filename
+    fi
     history -w
     unset HISTFILE
     history -c
-    HISTFILE=${DIR_BASHHISTORY}/$1
-    touch -a $HISTFILE
+    HISTFILE=$filename
+    # touch -a $HISTFILE
     export HISTFILE
-    echo "TODO: fix the first-time-use error"
+    echo "TODO: fix the first-time-use error!"
 }
 
 # https://unix.stackexchange.com/questions/37313/how-do-i-grep-for-multiple-patterns-with-pattern-having-a-pipe-character
@@ -201,6 +256,17 @@ function stopwatch(){
 mytree(){
     re='^[0-9]+$'
     if [[ $# -eq 0 ]] ; then
+        tree  -L 1 .
+    elif ! [[ $1 =~ $re ]] ; then
+        tree "${@}"
+    else
+        tree  -L "${@}"
+    fi
+}
+
+mydtree(){
+    re='^[0-9]+$'
+    if [[ $# -eq 0 ]] ; then
         tree -d  -L 1 .
     elif ! [[ $1 =~ $re ]] ; then
         tree -d "${@}"
@@ -209,21 +275,21 @@ mytree(){
     fi
 }
 
-
 #-------------------------------------------------------------
 # Bash aliases
 #-------------------------------------------------------------
-alias grep='grep -I'
-alias hgrep='history | grep'
-alias hist='history'
-alias ltr='ls -ltr'
-alias ltrd='ls -ltrd */'
-alias tr='mytree'
+alias grep='grep -rI'
+alias hgrep=' history | grep'
+alias hist=' history'
+alias ltr=' ls -ltr'
+alias ltrd=' ls -ltrd */'
+alias tr=' mytree '
+alias trd=' mydtree '
 # alias grep="grep -c `processor /proc/cpuinfo`"
 alias myrsync='rsync -avSzh --progress'
-alias myhtop='htop -u $USER'
-alias screen='screen2'
-
+alias myhtop=' htop -u $USER'
+alias screen=' screen2'
+alias ps=' ps -o pid,pcpu,pri,args'
 
 #-------------------------------------------------------------
 # Git
