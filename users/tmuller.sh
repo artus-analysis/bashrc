@@ -5,6 +5,12 @@ then
 	BASHRCDIR=$( cd "$( dirname "${BASH_SOURCE[0]}s" )/.." && pwd )
 fi
 
+# Ubuntu/Gnome
+textsize()
+{
+	gsettings set org.gnome.desktop.interface text-scaling-factor ${1-1.0}
+}
+
 # screen
 [ -f $BASHRCDIR/screenrc.sh ] && ln -s $BASHRCDIR/screenrc ~/.screenrc
 
@@ -53,6 +59,8 @@ alias settauvalidation='settauvalidation9001'
 alias setcrab='setcrab3'
 export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch/
 export PATH=/afs/cern.ch/user/v/valya/public/dasgoclient/:$PATH
+
+alias setnotes='setnotes_git'
 
 # Operation
 rdesktop_cerntscms()
@@ -210,7 +218,7 @@ setjuno() {
 }
 
 
-setnotes() {
+setnotes_svn() {
 	# https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/wiki/Papers#analysis-notes
 	cd ~/Notes/notes
 	eval `./tdr runtime -sh`
@@ -222,6 +230,30 @@ setnotes() {
 	done
 	echo ""
 }
+
+
+setnotes_git() {
+	# https://twiki.cern.ch/twiki/bin/viewauth/CMS/Internal/TdrProcessing
+	cd ~/Notes
+	
+	git config --global user.name "Thomas Müller"
+	git config --global user.email "t.muller@cern.ch"
+	git config --global http.emptyAuth true
+	kinit tmuller@CERN.CH
+	
+	# git clone --recursive https://:@gitlab.cern.ch:8443/tdr/papers/SMP-18-010.git
+	# git clone --recursive https://:@gitlab.cern.ch:8443/tdr/notes/AN-18-051.git
+	# git clone --recursive https://:@gitlab.cern.ch:8443/tdr/notes/AN-18-050.git
+	
+	for NOTE in *-*-*; do
+		echo ""
+		echo "cd ${NOTE} && eval \`utils/tdr runtime -sh\`"
+		echo "git pull; gitk --all&"
+		echo "tdr --temp_dir=\`pwd\`/tmp --clean --style=`[[ ${NOTE} = AN-* ]] && echo "an" || echo "paper"` b ${NOTE} && gnome-open tmp/${NOTE}_temp.pdf &> /dev/null"
+	done
+	echo ""
+}
+
 
 clean_root_partition() {
 	sudo apt-get autoremove

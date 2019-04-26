@@ -14,6 +14,29 @@ eval "$(ssh-agent -s)"
 #ssh-add  ~/.ssh/id_rsa
 ssh-add  ~/.ssh/id_rsa_nopass
 
+# Kerberos ticket
+# for screen sessions: https://twiki.cern.ch/twiki/bin/viewauth/CMS/KITHiggsAnalysisTWiki
+CREDENTIAL_PATH=${KRB5CCNAME/FILE:/}
+LOCAL_KERBEROS_PATH=${HOME}/.krb/$(basename $CREDENTIAL_PATH)
+# Move to Home
+if test -f "$LOCAL_KERBEROS_PATH"; then
+    echo "$LOCAL_KERBEROS_PATH exist"
+else
+    cp ${CREDENTIAL_PATH} $LOCAL_KERBEROS_PATH
+fi
+# Reset KRB5CCNAME
+echo "$KRB5CCNAME  -->  FILE:$LOCAL_KERBEROS_PATH"
+export KRB5CCNAME=FILE:$LOCAL_KERBEROS_PATH
+renewablekinit() {
+   while true;
+   do
+      kinit -R
+      aklog
+      sleep 21600
+   done
+}
+# kinit -l 48h -r 100d
+renewablekinit &
 
 #DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 #cd $0
@@ -71,6 +94,7 @@ mkdir -p $DIR_BASHHISTORY
 export HISTTIMEFORMAT="%F %T: "
 # Save and reload the history after each command finishes : https://unix.stackexchange.com/a/18443/137225
 export HISTCONTROL=ignoreboth  # no duplicate entries
+# shopt -s  # command for inspection
 shopt -s histappend                      # append to history, don't overwrite it
 # export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
 # export PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
@@ -121,13 +145,22 @@ transfer() {
 }
 
 # CMSSW
-alias scramb='scram b -j $CORES; echo $?; tput bel'
+# alias scramb='scram b -j $CORES; temp_reply=$?; tput bel; return $temp_reply'
+scrambb() {
+    scram b -j $CORES
+    temp_reply=$?
+    tput bel
+    return $temp_reply
+}
+alias scramb='scrambb'
 alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
 alias setcrab='setcrab3'
 ## CMSSW working environments
 ## Top level alias
 alias setanalysis='setkitanalysis'
 alias setartus='setkitartus'
+alias setartus2017='setkitartus949_naf'
+alias setartus2018='setkitartus10213_naf'
 alias setskimming='setkitskimming'
 alias setkappa='setskimming'
 alias setshapes='setharry ; setkitshapes'
@@ -135,8 +168,8 @@ alias setff='setkitff'
 alias setcombine='setcombine810'
 ### KIT
 alias setkitanalysis='setkitanalysis949_naf'
-alias setkitartus='setkitartus949_naf'
-alias setkitskimming='setkitskimming10210'
+alias setkitartus='setkitartus10213_naf'
+alias setkitskimming='setkitskimming10213'
 alias setkitshapes='setshapes949_naf'
 alias setkitff='setff804'
 
@@ -218,9 +251,23 @@ setcombine747(){
 }
 
 setharry() {
-	cd  ~/RWTH/Artus/CMSSW_7_4_7/src/
-	set_cmssw slc6_amd64_gcc491
+	cd  ~/RWTH/Artus/CMSSW_8_1_0/src/
+	set_cmssw slc6_amd64_gcc530
 	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+
+    # web plotting
+    CREDENTIAL_PATH=${KRB5CCNAME/FILE:/}
+    LOCAL_KERBEROS_PATH=${HOME}/.krb/HP/$(basename $CREDENTIAL_PATH)
+    # Move to Home
+    if test -f "$LOCAL_KERBEROS_PATH"; then
+        echo "$LOCAL_KERBEROS_PATH exist"
+    else
+        cp ${CREDENTIAL_PATH} $LOCAL_KERBEROS_PATH
+    fi
+    # Reset KRB5CCNAME
+    echo "$KRB5CCNAME  -->  FILE:$LOCAL_KERBEROS_PATH"
+    export KRB5CCNAME=FILE:$LOCAL_KERBEROS_PATH
+    # export KRB5CCNAME=/afs/desy.de/user/g/glusheno/.krb/ticket
 
     changeHistfile ${FUNCNAME[0]}
 }
@@ -381,6 +428,19 @@ setkitanalysis949_naf() {
     changeHistfile ${FUNCNAME[0]}
 }
 
+setkitartus10213_naf() {
+    cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Artus/CMSSW_10_2_13/src
+    SCRAM_ARCH=slc6_amd64_gcc700
+    export $SCRAM_ARCH
+    source $VO_CMS_SW_DIR/cmsset_default.sh
+    # cmsenv
+    set_cmssw slc6_amd64_gcc700
+
+    source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+
+
+    changeHistfile ${FUNCNAME[0]}
+}
 setkitartus949_naf() {
     cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Artus/CMSSW_9_4_9/src
     SCRAM_ARCH=slc6_amd64_gcc630
@@ -417,6 +477,15 @@ setkitartus9412_naf() {
 
 #     changeHistfile ${FUNCNAME[0]}
 # }
+setkitskimming10213()
+{
+    cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Kappa/CMSSW_10_2_13/src
+    set_cmssw slc6_amd64_gcc700
+    cd $CMSSW_BASE/src/
+
+    changeHistfile ${FUNCNAME[0]}
+}
+
 setkitskimming10210()
 {
     cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Kappa/CMSSW_10_2_10/src
