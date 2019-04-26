@@ -93,6 +93,7 @@ export USERPC='lx3b57'
 
 
 setkitanalysis810() {
+	export HARRY_REMOTE_USER=mfarkas
 	cd /.automount/home/home__home2/institut_3b/farkas/Documents/BA/CMSSW_8_1_0/src
 	
 	set_cmssw slc7_amd64_gcc530
@@ -101,6 +102,7 @@ setkitanalysis810() {
 	
 	cd $CMSSW_BASE/
 	cd ..
+	setgitcolors
 }
 
 
