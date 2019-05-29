@@ -12,15 +12,16 @@ fi
 [ -f $BASHRCDIR/cmssw.sh ] && source $BASHRCDIR/cmssw.sh
 
 # ENVIRONMENT
-export PS1="\[\033[104m\]\h : \w \$\[\033[00m\] "
+export PS1HOSTCOLOR="1;32"
+export PS1='\[\e[${PS1HOSTCOLOR}m\][\u\[\e[1;32m\]@\[\e[${PS1HOSTCOLOR}m\]\h \[\e[m\]\[\e[1;34m\]\W\[\e[${PS1HOSTCOLOR}m\]]\[\e[1;33m\]$(parse_git_branch_and_add_brackets) \[\e[1;32m\]\$\[\e[m\] \[\e[1;37m\]\[\033[00m\]'
 export LANG=en_US.UTF-8
 export EDITOR=vim
-export LS_OPTIONS="-N -T 0 --color=auto"
+export LS_OPTIONS="-hN --color=auto --group-directories-first"
 export X509_USER_PROXY=$HOME/.globus/x509up
 
 # ALIASES
-alias scramb='scram b -j 8; echo $?'
-alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
+alias scramb='scram b -j `grep -c ^processor /proc/cpuinfo` ; echo $?'
+alias scrambdebug='scram b -j `grep -c ^processor /proc/cpuinfo` USER_CXXFLAGS="-g"'
 alias myrsync='rsync -avSzh --progress'
 alias myhtop='htop -u $USER'
 alias meld='export PATH=/usr/bin/:$PATH && meld'
@@ -29,8 +30,8 @@ alias myvomsproxyinit='voms-proxy-init --voms cms:/cms/dcms --valid 192:00'
 alias gitpullcmssw='git fetch origin && git merge origin/master'
 
 # CMSSW
-alias setkitanalysis='setkitanalysis747'
-alias setkitskimming='setkitskimming80261'
+alias setkitanalysis='setkitanalysis810'
+alias setkitskimming='setkitskimming9411'
 alias settauvalidation='settauvalidation9001'
 alias setcrab='setcrab3'
 export PATH=/afs/cern.ch/user/v/valya/public/dasgoclient/:$PATH
@@ -64,15 +65,58 @@ setcrab3() {
 
 
 # Artus
-export USERPC='lx3b85'
+#export USERPC='lx3b09'
+export USERPC='lx3b15'
 
+
+setkitanalysis810() {
+	#cd ~/home/cms/htt/analysis/CMSSW_8_1_0/src
+	#cd /.automount/home/home__home2/institut_3b/wiens/Analysis/CMSSW_8_1_0/src
+	cd /.automount/home/home__home2/institut_3b/wiens/Analysis/analysis/CMSSW_8_1_0/src
+
+	set_cmssw slc7_amd64_gcc530
+	#set_cmssw slc6_amd64_gcc530
+
+	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+
+	cd $CMSSW_BASE/src/
+}
 
 
 setkitanalysis747() {
-	cd /.automount/home/home__home2/institut_3b/wiens/Bachelorarbeit/Analysis/CMSSW_7_4_7/src 	
+	cd /.automount/home/home__home2/institut_3b/wiens/Analysis/CMSSW_7_4_7/src
+
 	set_cmssw slc6_amd64_gcc491
-	
+
+	export HARRY_REMOTE_USER=lwiens
+	export HARRY_USERPC=lx3b15.rwth-aachen.de
+	export HARRY_SSHPC=$HARRY_USERPC
+
 	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
-	
+
 	cd $CMSSW_BASE/src/
+}
+
+setkitskimming9411() {
+	cd /home/home2/institut_3b/wiens/Analysis/skimming/CMSSW_9_4_11_cand2/src
+	#set_cmssw slc6_amd64_gcc530
+	set_cmssw slc7_amd64_gcc530
+
+	source /cvmfs/cms.cern.ch/crab3/crab.sh
+	#export X509_USER_PROXY='/home/home2/institut_3b/wiens/.globus/x509'
+	export PATH=$PATH:$CMSSW_BASE/src/grid-control:$CMSSW_BASE/src/grid-control/scripts
+
+	cd $CMSSW_BASE/src/
+}
+
+setkitskimming20190515() {
+	cd /home/home2/institut_3b/wiens/Analysis/skimming/skim20190515/CMSSW_9_4_11_cand2/src
+	#export X509_USER_PROXY='/home/home2/institut_3b/wiens/.globus/x509'
+
+	#set_cmssw slc6_amd64_gcc530
+	set_cmssw slc7_amd64_gcc530
+
+	cd $CMSSW_BASE/src/
+	#source /cvmfs/cms.cern.ch/crab3/crab.sh
+	export PATH=$PATH:$CMSSW_BASE/src/grid-control:$CMSSW_BASE/src/grid-control/scripts
 }
