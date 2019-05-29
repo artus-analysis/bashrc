@@ -184,8 +184,8 @@ renewablekinit() {
       sleep 21600
    done
 }
-kinit -l 48h -r 100d
-renewablekinit &
+#kinit -l 48h -r 100d
+#renewablekinit &
 
 setharry ()
 {
