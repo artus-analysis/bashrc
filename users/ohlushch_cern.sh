@@ -68,7 +68,7 @@ export RFIO_USE_CASTOR_V2=yes
 export STAGE_SVCCLASS=ilcdata
 export STAGE_HOST=castorpublic
 # Aliases
-alias pushbash='cd ~/bashrc; git pull; git add -p; git commit -m "olena:from cern"; git push; cd -'
+alias pushbash='cd ~/bashrc && git pull && git add -p && git commit -m "olena: cern" && git push && cd -'
 alias vimbash="vim ~/bashrc/users/ohlushch_cern.sh"
 alias vimbashcommon="vim ~/bashrc/users/hlushchenko_common.sh"
 alias meld='export PATH=/usr/bin/:$PATH && meld'
@@ -122,6 +122,14 @@ setrelval1030()
     cd /afs/cern.ch/user/o/ohlushch/workspace/relVal/CMSSW_10_3_0_pre4/src/
     SCRAM_ARCH=slc6_amd64_gcc700; export $SCRAM_ARCH
     cmsenv
+}
+alias setmass=setmass9413UL1
+
+setwondermass()
+{
+    cd /afs/cern.ch/user/o/ohlushch/workspace/Nostradamass/WonderMass/CMSSW_9_4_13_UL1/src
+    SCRAM_ARCH=slc6_amd64_gcc630
+    set_cmssw slc6_amd64_gcc630
 }
 
 # Mass regression
@@ -195,7 +203,8 @@ setharry ()
     source $VO_CMS_SW_DIR/cmsset_default.sh
     cd ~/workspace/HP/CMSSW_8_1_0/src/
 
-    # set_cmssw slc6_amd64_gcc630;
+    set_cmssw slc6_amd64_gcc630
+    eval `scramv1 runtime -sh`
     source /afs/cern.ch/user/o/ohlushch/workspace/HP/CMSSW_8_1_0/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh;
     # CREDENTIAL_PATH=${KRB5CCNAME/FILE:/};
     # LOCAL_KERBEROS_PATH=${HOME}/.krb/HP/$(basename $CREDENTIAL_PATH);
