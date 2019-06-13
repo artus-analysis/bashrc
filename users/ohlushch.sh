@@ -8,10 +8,45 @@ fi
 #DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 #cd $0
 
-source $BASHRCDIR/users/hlushchenko_common.sh
-
 # Grid certificates
 source $BASHRCDIR/users/greyxray/grid.sh
+
+#DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+#cd $0
+DIR_BASH=${HOME}/bashrc
+# DIR_BASHHISTORY=/nfs/dust/cms/user/glusheno/bash_history
+SERVERBASH=${DIR_BASH}/users/ohlushch.sh
+COMMONBASH=${DIR_BASH}/users/hlushchenko_common.sh  # ~ tilda is not expanded in scripts https://stackoverflow.com/a/3963747/3152072
+# Updating bash repository
+alias pushbash="cd $DIR_BASH; git pull; git add -p; git commit -m 'olena:from naf'; git push; cd -"
+alias pullbash="cd $DIR_BASH; git pull; cd -; source $COMMONBASH"
+alias vimbash="vim $SERVERBASH"
+alias vimbashcommon="vim $COMMONBASH"
+alias cdbash="cd $DIR_BASH"
+
+# Run ssh-agent
+eval "$(ssh-agent -s)"
+#ssh-add  ~/.ssh/id_rsa
+ssh-add  ~/.ssh/id_rsa_nopass
+
+source  ~/bashrc/users/hlushchenko_common.sh
+#source $BASHRCDIR/users/hlushchenko_common.sh
+
+source ~/git-prompt.sh
+
+# History
+# mkdir -p $DIR_BASHHISTORY
+export HISTTIMEFORMAT="%F %T: "
+# Save and reload the history after each command finishes : https://unix.stackexchange.com/a/18443/137225
+export HISTCONTROL=ignoreboth  # no duplicate entries
+shopt -s histappend                      # append to history, don't overwrite it
+# export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
+# export PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
+# https://unix.stackexchange.com/a/48113/137225 :
+# Forse to save all commands to the history : all history in all tabs is stored
+# export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+# https://unix.stackexchange.com/a/1292/137225 : After each command, append to the history file and reread it
+export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
 
 # CMSSW
 [ -f $BASHRCDIR/cmssw.sh ] && source $BASHRCDIR/cmssw.sh
@@ -68,7 +103,7 @@ setcrab3() {
 	source /cvmfs/cms.cern.ch/crab3/crab.sh
 }
 
-
+alias setartus=setanalysis10214
 ## Working environments
 alias grep='/bin/grep'
 sethappy() {
@@ -78,8 +113,17 @@ sethappy() {
 
 }
 
+setanalysis10214(){
+    cd  ~/Work/Artus/CMSSW_10_2_14/src
+    SCRAM_ARCH=slc6_amd64_gcc700
+    export $SCRAM_ARCH
+    source $VO_CMS_SW_DIR/cmsset_default.sh
+    set_cmssw slc6_amd64_gcc700
+    source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+}
+
 setanalysis949(){
-    cd ~/Artus/CMSSW_9_4_9/src
+    cd  ~/Work/Artus/CMSSW_9_4_9/src
     SCRAM_ARCH=slc6_amd64_gcc630; export $SCRAM_ARCH
         source $VO_CMS_SW_DIR/cmsset_default.sh
     set_cmssw slc6_amd64_gcc630

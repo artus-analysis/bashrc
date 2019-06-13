@@ -168,11 +168,14 @@ untargz() {
     tar -zxvf $1;
 }
 
+# count
 numfiles() {
     N="$(ls $1 | wc -l)";
     echo "$N files in $1";
 }
-alias count=numfiles
+count() {
+    wc -l $a
+}
 # https://jef.works/blog/2017/08/13/5-useful-bash-aliases-and-functions/
 
 # SSH
@@ -218,6 +221,7 @@ changeHistfile()
 }
 
 # https://unix.stackexchange.com/questions/37313/how-do-i-grep-for-multiple-patterns-with-pattern-having-a-pipe-character
+alias gr="grep -rn "
 grepcc() {
     grep -rnI $1 | grep  -e "\.cc" -e "\.h" | grep $1
 }
