@@ -27,8 +27,11 @@ export N_CORES=`grep -c ^processor /proc/cpuinfo`
 export N_PARALLEL=$(( $N_CORES < 20 ? $N_CORES : 20 ))
 
 # ALIASES
+alias slc6='singularity shell /cvmfs/singularity.opensciencegrid.org/bbockelm/cms\:rhel6'
+#alias slc6='singularity exec /cvmfs/singularity.opensciencegrid.org/bbockelm/cms\:rhel6 lsb_release -i -r'
 alias scramb='scram b -j ${N_PARALLEL}; echo $?'
 alias scrambdebug='scram b -j ${N_PARALLEL} USER_CXXFLAGS="-g"'
+alias scrambmove='scram b ProjectRename'
 alias myrsync='rsync -avSzh --progress'
 alias myhtop='htop -u $USER'
 alias meld='export PATH=/usr/bin/:$PATH && meld'
@@ -53,8 +56,9 @@ rdesktop_winsrv_us()
 }
 
 # CMSSW
-alias setkitanalysis='setkitanalysis810'
-alias setkitskimming='setkitskimming80261'
+alias setsingularity='singularity shell /cvmfs/singularity.opensciencegrid.org/bbockelm/cms\:rhel6'
+alias setkitanalysis='setkitanalysis810_slc6'
+alias setkitskimming='setkitskimming8032'
 alias settauvalidation='settauvalidation9001'
 alias setcrab='setcrab3'
 export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch/
@@ -125,8 +129,17 @@ setkitanalysis747() {
 	
 	cd $CMSSW_BASE/src/
 }
-setkitanalysis810() {
-	cd ~/home/cms/htt/analysis/CMSSW_8_1_0/src
+setkitanalysis810_slc6() {
+	cd ~/home/cms/htt/analysis/slc6/CMSSW_8_1_0/src
+	
+	set_cmssw slc6_amd64_gcc530
+	
+	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+	
+	cd $CMSSW_BASE/src/
+}
+setkitanalysis810_slc7() {
+	cd ~/home/cms/htt/analysis/slc7/CMSSW_8_1_0/src
 	
 	set_cmssw slc7_amd64_gcc530
 	
@@ -157,12 +170,26 @@ setkitskimming8021() {
 	
 	cd $CMSSW_BASE/src/
 }
-setkitskimming80261() {
+setkitskimming80261_slc6() {
 	cd ~/home/cms/htt/skimming/CMSSW_8_0_26_patch1/src
 	
-	set_cmssw slc7_amd64_gcc530
+	set_cmssw slc6_amd64_gcc530
 	
 	cd $CMSSW_BASE/src/
+}
+setkitskimming80261_slc7() {
+        cd ~/home/cms/htt/skimming/slc7/CMSSW_8_0_26_patch1/src
+
+        set_cmssw slc7_amd64_gcc530
+
+        cd $CMSSW_BASE/src/
+}
+setkitskimming8032() {
+        cd ~/home/cms/htt/skimming/slc7/CMSSW_8_0_32/src
+
+        set_cmssw slc7_amd64_gcc530
+
+        cd $CMSSW_BASE/src/
 }
 setkitskimming949() {
 	cd ~/home/cms/htt/skimming/CMSSW_9_4_9/src
