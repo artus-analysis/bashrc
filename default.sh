@@ -15,6 +15,11 @@ fi
 export PATH=$BASHRCDIR/scripts:$PATH
 
 #-------------------------------------------------------------
+# Possibility to type special german characters without breaking the command line (not `export LC_CTYPE="de_DE.utf8"` to avoid changing variables in CMSSW)
+#-------------------------------------------------------------
+LC_CTYPE="de_DE.utf8"
+
+#-------------------------------------------------------------
 # Terminal colors
 #-------------------------------------------------------------
 [ -f "$BASHRCDIR/dir_colors" ] && eval `dircolors $BASHRCDIR/dir_colors` || eval `dircolors -b`
