@@ -1,5 +1,5 @@
 #!/bin/bash
-echo " * --> export glusheno.sh"
+echo " * --> export glusheno.sh for naf"
 
 if [ -z "$BASHRCDIR" ]
 then
@@ -25,8 +25,8 @@ else
     cp ${CREDENTIAL_PATH} $LOCAL_KERBEROS_PATH
 fi
 # Reset KRB5CCNAME
-echo "$KRB5CCNAME  -->  FILE:$LOCAL_KERBEROS_PATH"
-export KRB5CCNAME=FILE:$LOCAL_KERBEROS_PATH
+# echo "$KRB5CCNAME  -->  FILE:$LOCAL_KERBEROS_PATH"
+# export KRB5CCNAME=FILE:$LOCAL_KERBEROS_PATH
 renewablekinit() {
    while true;
    do
@@ -36,7 +36,7 @@ renewablekinit() {
    done
 }
 # kinit -l 48h -r 100d
-renewablekinit &
+# renewablekinit &
 
 #DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 #cd $0
@@ -45,6 +45,7 @@ DIR_BASHHISTORY=/nfs/dust/cms/user/glusheno/bash_history
 SERVERBASH=${HOME}/RWTH/bashrc/users/glusheno.sh
 COMMONBASH=${HOME}/RWTH/bashrc/users/hlushchenko_common.sh  # ~ tilda is not expanded in scripts https://stackoverflow.com/a/3963747/3152072
 
+# GIT extras
 DIR_PRIVATESETTINGS=${HOME}/RWTH/KIT/privatesettings
 source ${DIR_PRIVATESETTINGS}/env_scripts/git-prompt.sh
 export HARRY_REMOTE_USER='ohlushch'
@@ -56,6 +57,13 @@ export PATH="$HOME/.local/bin:$PATH"
 # export PATH=$DIR_PRIVATESETTINGS/artus:$PATH
 # export PATH=$DIR_PRIVATESETTINGS/root_scripts:$PATH
 # export PATH=$DIR_PRIVATESETTINGS/python_scripts:$PATH
+#GIT lfs
+export PATH=$PATH:/nfs/dust/cms/user/glusheno/afs/apps/go/bin  #  actual go
+# GOROOT == /nfs/dust/cms/user/glusheno/afs/apps/go/ - don't touch this!
+export GOPATH=/nfs/dust/cms/user/glusheno/afs/apps/go_path  #  git-lfs is installed here
+export GOBIN="$GOPATH/bin"
+export PATH=$PATH:/nfs/dust/cms/user/glusheno/afs/apps/go_path/bin/  #  git-lfs served from here
+
 
 setprivatesettings(){
     declare -a modules=(
@@ -90,24 +98,20 @@ source $COMMONBASH
 export PYTHONPATH
 
 # History
-# https://www.thomaslaurenson.com/blog/2018/07/02/better-bash-history/
 mkdir -p $DIR_BASHHISTORY
 export HISTTIMEFORMAT="%F %T: "
 # Save and reload the history after each command finishes : https://unix.stackexchange.com/a/18443/137225
 export HISTCONTROL=ignoreboth  # no duplicate entries
 # shopt -s  # command for inspection
 shopt -s histappend                      # append to history, don't overwrite it
-shopt -s cmdhist
 # export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
 # export PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
 # https://unix.stackexchange.com/a/48113/137225 :
 # Forse to save all commands to the history : all history in all tabs is stored
 # export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
-# Save and reload the history after each command finishes
-# export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 # https://unix.stackexchange.com/a/1292/137225 : After each command, append to the history file and reread it
 export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
-# export PROMPT_COMMAND="history -a; history -c; history -r; ${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+
 # CMSSW
 [ -f $BASHRCDIR/cmssw.sh ] && source $BASHRCDIR/cmssw.sh
 
@@ -163,19 +167,20 @@ alias setcrab='setcrab3'
 ## Top level alias
 alias setanalysis='setkitanalysis'
 alias setartus='setkitartus'
-alias setartus2017='setkitartus949_naf'
-alias setartus2018='setkitartus10213_naf'
-alias setskimming='setkitskimming'
+alias setartus2017='setkitartus949'
+alias setartus2018='setkitartus10214'
 alias setkappa='setskimming'
+alias setskimming='setkitskimming'
 alias setshapes='setharry ; setkitshapes'
 alias setff='setkitff'
 alias setcombine='setcombine810'
 ### KIT
-alias setkitanalysis='setkitanalysis949_naf'
-alias setkitartus='setkitartus10213_naf'
-alias setkitskimming='setkitskimming10213'
-alias setkitshapes='setshapes949_naf'
+alias setkitanalysis='setkitanalysis949'
+alias setkitartus='setkitartus10214'
+alias setkitskimming='setkitskimming10214'
+alias setkitshapes='setshapes949'
 alias setkitff='setff804'
+alias setfriends='setfriends10214'
 
 # dCache
 # https://twiki.opensciencegrid.org/bin/view/ReleaseDocumentation/LcgUtilities#Using_LCG_Utils_commands
@@ -241,12 +246,20 @@ monitoreNumOpenFiles(){
     done
 }
 
+setfriends10214(){
+    cd /nfs/dust/cms/user/glusheno/afs/RWTH/KIT/FriendTreeProducer/CMSSW_10_2_14/src/
+    set_cmssw slc6_amd64_gcc700
+
+    changeHistfile ${FUNCNAME[0]}
+}
+
 setcombine810(){
     cd ~/RWTH/KIT/Combine/CMSSW_8_1_0/src/
 	set_cmssw slc6_amd64_gcc530
 
     changeHistfile ${FUNCNAME[0]}
 }
+
 setcombine747(){
 	cd ~/RWTH/KIT/Combine/CMSSW_7_4_7/src/
 	set_cmssw slc6_amd64_gcc491
@@ -276,7 +289,7 @@ setharry() {
     changeHistfile ${FUNCNAME[0]}
 }
 
-setshapes949_naf() {
+setshapes949() {
     echo "CMSSW env taken from /afs/desy.de/user/g/glusheno/RWTH/KIT/sm-htt-analysis/CMSSW_9_4_9/src"
     cd /afs/desy.de/user/g/glusheno/RWTH/KIT/sm-htt-analysis/CMSSW_9_4_9/src
     SCRAM_ARCH=slc6_amd64_gcc630
@@ -418,7 +431,7 @@ setff804() {
     changeHistfile ${FUNCNAME[0]}
 }
 
-setkitanalysis949_naf() {
+setkitanalysis949() {
 	cd /afs/desy.de/user/g/glusheno/RWTH/KIT/sm-htt-analysis/CMSSW_9_4_9/src
 	SCRAM_ARCH=slc6_amd64_gcc630
     export $SCRAM_ARCH
@@ -432,7 +445,21 @@ setkitanalysis949_naf() {
     changeHistfile ${FUNCNAME[0]}
 }
 
-setkitartus10213_naf() {
+setkitartus10214() {
+    cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Artus/CMSSW_10_2_14/src
+    SCRAM_ARCH=slc6_amd64_gcc700
+    export $SCRAM_ARCH
+    source $VO_CMS_SW_DIR/cmsset_default.sh
+    # cmsenv
+    set_cmssw slc6_amd64_gcc700
+
+    source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+
+
+    changeHistfile ${FUNCNAME[0]}
+}
+
+setkitartus10213() {
     cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Artus/CMSSW_10_2_13/src
     SCRAM_ARCH=slc6_amd64_gcc700
     export $SCRAM_ARCH
@@ -445,7 +472,7 @@ setkitartus10213_naf() {
 
     changeHistfile ${FUNCNAME[0]}
 }
-setkitartus949_naf() {
+setkitartus949() {
     cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Artus/CMSSW_9_4_9/src
     SCRAM_ARCH=slc6_amd64_gcc630
     export $SCRAM_ARCH
@@ -459,7 +486,7 @@ setkitartus949_naf() {
     changeHistfile ${FUNCNAME[0]}
 }
 
-setkitartus9412_naf() {
+setkitartus9412() {
     cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Artus/CMSSW_9_4_12/src
     export SCRAM_ARCH=slc6_amd64_gcc630
     source $VO_CMS_SW_DIR/cmsset_default.sh
@@ -481,6 +508,22 @@ setkitartus9412_naf() {
 
 #     changeHistfile ${FUNCNAME[0]}
 # }
+setkitskimming10214()
+{
+
+
+    cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Kappa/CMSSW_10_2_14/src
+    set_cmssw slc6_amd64_gcc700
+    # export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch;
+    # source $VO_CMS_SW_DIR/cmsset_default.sh
+    # cmsenv
+    source /cvmfs/cms.cern.ch/crab3/crab.sh
+    export PATH=$PATH:$CMSSW_BASE/src/grid-control:$CMSSW_BASE/src/grid-control/scripts
+
+
+    changeHistfile ${FUNCNAME[0]}
+}
+
 setkitskimming10213()
 {
     cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Kappa/CMSSW_10_2_13/src
