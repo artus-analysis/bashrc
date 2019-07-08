@@ -98,19 +98,24 @@ source $COMMONBASH
 export PYTHONPATH
 
 # History
+# https://www.thomaslaurenson.com/blog/2018/07/02/better-bash-history/
 mkdir -p $DIR_BASHHISTORY
 export HISTTIMEFORMAT="%F %T: "
 # Save and reload the history after each command finishes : https://unix.stackexchange.com/a/18443/137225
 export HISTCONTROL=ignoreboth  # no duplicate entries
 # shopt -s  # command for inspection
 shopt -s histappend                      # append to history, don't overwrite it
+# shopt -s cmdhist
 # export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
 # export PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
 # https://unix.stackexchange.com/a/48113/137225 :
 # Forse to save all commands to the history : all history in all tabs is stored
 # export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+# Save and reload the history after each command finishes
+# export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 # https://unix.stackexchange.com/a/1292/137225 : After each command, append to the history file and reread it
 export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+# export PROMPT_COMMAND="history -a; history -c; history -r; ${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
 
 # CMSSW
 [ -f $BASHRCDIR/cmssw.sh ] && source $BASHRCDIR/cmssw.sh

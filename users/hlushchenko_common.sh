@@ -29,13 +29,14 @@ export PYTHONPATH
 # Bash Functions
 #-------------------------------------------------------------
 
-# filelist
-# find /pnfs/desy.de/cms/tier2/store/user/jbechtel/higgs-kit/skimming/gc_DYAutumn18/GC_SKIM/190521_111141/DYJetsToLLM50_RunIIAutumn18MiniAOD_102X_13TeV_MINIAOD_madgraph-pythia8_v1/ -type f
+# filelist - recursive
+# find -type f /pnfs/desy.de/cms/tier2/store/user/jbechtel/higgs-kit/skimming/gc_DYAutumn18/GC_SKIM/190521_111141/DYJetsToLLM50_RunIIAutumn18MiniAOD_102X_13TeV_MINIAOD_madgraph-pythia8_v1/
 
 # Find & Replace
 # find /path/to/files -type f -exec sed -i 's/oldstring/new string/g' {} \;
 # grep -rl 'windows' ./ | xargs sed -i 's/windows/linux/g'
 
+# Find & Replace
 # find . -type f -exec sed -i 's/deepcp/deepcopy/g' {} \;
 # grep -rl 'deepcp' ./ | xargs sed -i 's/deepcp/deepcopy/g'
 
@@ -287,6 +288,10 @@ mydtree(){
     else
         tree -d  -L "${@}"
     fi
+}
+
+monitore_pid(){
+    (while ps -p "${@}" &> /dev/null ; do sleep 5; done ; send "${@} is done") &
 }
 
 #-------------------------------------------------------------
