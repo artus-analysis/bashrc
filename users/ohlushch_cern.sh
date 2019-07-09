@@ -124,6 +124,18 @@ source $VO_CMS_SW_DIR/cmsset_default.sh
 #-------------------------------------------------------------
 # CMS environments
 #-------------------------------------------------------------
+setartus(){
+    cd /afs/cern.ch/work/o/ohlushch/Artus/CMSSW_10_2_14/src
+    SCRAM_ARCH=slc6_amd64_gcc700;
+    export $SCRAM_ARCH;
+    source $VO_CMS_SW_DIR/cmsset_default.sh;
+    set_cmssw slc6_amd64_gcc700;
+    cmsenv
+    source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh;
+    export ARTUS_WORK_BASE=/afs/cern.ch/work/o/ohlushch/htautau/artus/
+
+}
+
 setrelval940()
 {
     cd /afs/cern.ch/user/o/ohlushch/workspace/CMSSW_9_4_0_pre3/src/
