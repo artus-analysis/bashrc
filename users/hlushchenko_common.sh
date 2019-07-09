@@ -163,8 +163,7 @@ screen2() {
 }
 
 targzrm() {
-    tar -zcvf $1.tar.gz $1;
-    rm -r $1;
+    tar -zcvf $1.tar.gz $1 && rm -r $1;
 }
 
 targz() {
@@ -172,11 +171,16 @@ targz() {
 }
 
 untargzrm() {
-    tar -zxvf $1;
-    rm -r $1;
+    tar -zxvf $1 && rm -r $1;
 }
 untargz() {
     tar -zxvf $1;
+}
+untarxzrm() {
+    tar -xvf $1 && rm -r $1;
+}
+untarxz() {
+    tar -xvf $1
 }
 
 # count
@@ -319,9 +323,8 @@ alias gitpull='git pull'
 alias gitfetch='git fetch origin'
 alias gitfo='git fetch origin'
 alias gitd='git diff'
-alias gitss='git status'
-alias gits='git status .'
-alias gits.='git status .'
+alias gitss='git status '
+alias gits='git status . '
 alias gitl='git log'
 alias gitln='git log -n'
 alias gitdw='git diff --ignore-all-space'

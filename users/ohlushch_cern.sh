@@ -1,9 +1,15 @@
 #!/bin/bash
 #echo "Ok bash, ohlushch.sh is for cern machine"
 source  ~/bashrc/users/hlushchenko_common.sh
+source  ~/bashrc/users/hlushchenko_common_cmssw.sh
+source  ~/bashrc/users/greyxray/grid.sh
 
 # law
-source /afs/cern.ch/user/m/mrieger/public/law_sw/setup.sh
+if  [[ $version>=7.0 ]]
+then
+    source /afs/cern.ch/user/y/mrieger/public/law_sw/setup.sh
+fi
+
 
 # b bril lumi tool
 export PATH=$HOME/.local/bin:/afs/cern.ch/cms/lumi/brilconda-1.1.7/bin:$PATH
@@ -21,6 +27,15 @@ fi
 #cd $0
 DIR_PRIVATESETTINGS=${HOME}/dirtyscripts
 source ${DIR_PRIVATESETTINGS}/env_scripts/git-prompt.sh
+export GIT_PS1_SHOWUNTRACKEDFILES=''       # '%'=untracked
+export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+# export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+# export PROMPT_COMMAND='"[\[\$(date +%D\ %H:%M)\]]\n\[\033[104m\]\h : \w \[\033[00m\] \[\033[104m\]\\\$\[\033[00m\] "'
+# export PROMPT_COMMAND='__git_ps1 "[\[\$(date +%D\ %H:%M)\]]\n\[\033[104m\]\h : \w \[\033[00m\]" " \[\033[104m\]\\\$\[\033[00m\] "'
+# export PROMPT_COMMAND="history -a; history -c; history -r"
+
+# https://jonbellah.com/articles/recursively-remove-ds-store/
+alias rmosx="find . -name '.DS_Store' -type f -delete"
 #-------------------------------------------------------------
 # Terminal colors
 #-------------------------------------------------------------
@@ -84,8 +99,8 @@ setsshaggent()
 #-------------------------------------------------------------
 # CMS specific
 #-------------------------------------------------------------
-alias scramb='scram b -j $CORES; echo $?; tput bel'
-alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
+# alias scramb='scram b -j $CORES; echo $?; tput bel'
+# alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
 
 # CMSSW
 [ -f $BASHRCDIR/cmssw.sh ] && source $BASHRCDIR/cmssw.sh
@@ -96,7 +111,7 @@ alias setkitskimming=''
 
 # dCache
 # https://twiki.opensciencegrid.org/bin/view/ReleaseDocumentation/LcgUtilities#Using_LCG_Utils_commands
-alias myvomsproxyinit='voms-proxy-init --voms cms:/cms/dcms --valid 192:00'
+# alias myvomsproxyinit='voms-proxy-init --voms cms:/cms/dcms --valid 192:00'
 alias mylcg-ls='lcg-ls -b -v -l -D srmv2'
 alias mylcg-cp='lcg-cp -v -b -D srmv2'
 alias mylcg-del='lcg-del -b -v -l -D srmv2'
@@ -125,12 +140,26 @@ setrelval1030()
 }
 alias setmass=setmass9413UL1
 
+export Madgraph=/afs/cern.ch/user/o/ohlushch/workspace/Nostradamass/MG5_aMC_v2_6_5
+export MG=$Madgraph
+
 setwondermass()
 {
-    cd /afs/cern.ch/user/o/ohlushch/workspace/Nostradamass/WonderMass/CMSSW_9_4_13_UL1/src
-    SCRAM_ARCH=slc6_amd64_gcc630
-    set_cmssw slc6_amd64_gcc630
+    cd /afs/cern.ch/user/o/ohlushch/workspace/Nostradamass/WonderMass/CMSSW_9_4_13_UL1/src/
+    if  [[ $version>=7.0 ]]
+    then
+        SCRAM_ARCH=slc7_amd64_gcc700
+        set_cmssw slc7_amd64_gcc700
+    else
+        SCRAM_ARCH=slc6_amd64_gcc630
+        set_cmssw slc6_amd64_gcc630
+    fi
+    cd -
+    cd /afs/cern.ch/user/o/ohlushch/workspace/Nostradamass/WonderMass/CMSSW_9_4_13_UL1/src/WonderMass
+    setcrab3
+
 }
+alias setwm=setwondermass
 
 # Mass regression
 setmass9413UL1()
@@ -217,12 +246,5 @@ setharry ()
     # export KRB5CCNAME=FILE:$LOCAL_KERBEROS_PATH;
     # changeHistfile ${FUNCNAME[0]}
     cd $temp_pwd
+    alias get_entries=get_entries.py
 }
-# GIT Aliases
-alias pullArtus='cd $CMSSW_BASE/src/Artus; git fetch origin; git merge origin/master; cd -'
-alias pullKappaTools='cd $CMSSW_BASE/src/KappaTools;git fetch origin; git merge origin/master; cd -'
-alias pullHtTT='cd $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/; git fetch origin; git merge origin/master; cd -'
-alias pullKappa='cd $CMSSW_BASE/src/Kappa; git fetch origin; git merge origin/master; cd -'
-alias pullall='pullArtus; pullKappaTools; pullHtTT; pullKappa'
-alias scramball='cd $CMSSW_BASE/src; scramb ; cd -'
-alias pullandscramb='pullall; scramball'
