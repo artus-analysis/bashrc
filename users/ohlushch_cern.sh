@@ -19,9 +19,9 @@ if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
 
-if [ -z "$BASHRCDIR" ]
+if [ -z "$DIR_BASH" ]
 then
-    BASHRCDIR=$( cd "$( dirname "${BASH_SOURCE[0]}s" )/.." && pwd )
+    DIR_BASH=$( cd "$( dirname "${BASH_SOURCE[0]}s" )/.." && pwd )
 fi
 #DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 #cd $0
@@ -39,7 +39,7 @@ alias rmosx="find . -name '.DS_Store' -type f -delete"
 #-------------------------------------------------------------
 # Terminal colors
 #-------------------------------------------------------------
-[ -f "$BASHRCDIR/dir_colors" ] && eval `dircolors $BASHRCDIR/dir_colors` || eval `dircolors -b`
+[ -f "$DIR_BASH/dir_colors" ] && eval `dircolors $DIR_BASH/dir_colors` || eval `dircolors -b`
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls -h --color=auto'
@@ -103,7 +103,7 @@ setsshaggent()
 # alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
 
 # CMSSW
-[ -f $BASHRCDIR/cmssw.sh ] && source $BASHRCDIR/cmssw.sh
+[ -f $DIR_BASH/cmssw.sh ] && source $DIR_BASH/cmssw.sh
 
 ## CMSSW working environments
 alias setkitanalysis=''
@@ -121,7 +121,35 @@ alias setcrab='setcrab3'
 
 export VO_CMS_SW_DIR=/cvmfs/cms.cern.ch
 source $VO_CMS_SW_DIR/cmsset_default.sh
-#-------------------------------------------------------------
+
+DIR_PRIVATESETTINGS=/afs/cern.ch/work/o/ohlushch/dirtyscripts
+setprivatesettings(){
+    declare -a modules=(
+        $DIR_BASH/scripts
+        $DIR_PRIVATESETTINGS/gc
+        $DIR_PRIVATESETTINGS/playground
+        $DIR_PRIVATESETTINGS/artus
+        # $DIR_PRIVATESETTINGS/root_scripts
+        $DIR_PRIVATESETTINGS/python_scripts
+    )
+
+    for i in "${modules[@]}"
+    do
+        if [ -d "$i" ]
+        then
+            chmod +x $i/*
+            [[ ":$PATH:" != *"$i:"* ]] && PATH="$i:${PATH}"
+        else
+            echo "Couldn't find package: " $i
+        fi
+    done
+    export PATH
+}
+setprivatesettings
+[[ ":$PYTHONPATH:" != *"$DIR_PRIVATESETTINGS:"* ]] && PYTHONPATH="$DIR_PRIVATESETTINGS:${PYTHONPATH}"
+export PYTHONPATH
+
+#------------------------------------------------------------
 # CMS environments
 #-------------------------------------------------------------
 setartus(){
