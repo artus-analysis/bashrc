@@ -60,9 +60,11 @@ nafn(){
     echo "glusheno@naf-cms$1.desy.de"
     ssh -XYt "glusheno@naf-cms$1.desy.de"
 }
+# alias rwth='ssh -XYt ohlushch@physik.rwth-aachen.de'
 alias nafcms='ssh -XYt glusheno@naf-cms.desy.de'
 alias nafcms14='ssh -XYt glusheno@naf-cms14.desy.de'
 alias nafcms12='ssh -XYt glusheno@naf-cms12.desy.de'
+alias naf='nafcms'
 
 #alias scramb='scram b -j 8; echo $?'
 alias myrsync='rsync -avSzh --progress'
@@ -86,6 +88,7 @@ alias scramb='scram b -j `grep -c ^processor /proc/cpuinfo`; echo $?'
 alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
 alias setcrab='setcrab3'
 ## CMSSW working environments
+alias setartus='setartus10214'
 alias setanalysis='setanalysis747'
 alias setskimming='setskimming8020'
 #alias setgenerator='setgenerator7118'
@@ -231,7 +234,17 @@ setKSkimming929 ()
 
 
 #################### Set Analysis #####################
-
+setartus10214 ()
+{
+    startingDir=$(pwd)
+    export PYTHONPATH=/.automount/home/home__home2/institut_3b/hlushchenko/Work/KIT/Artus/CMSSW_10_2_14/src/grid-control/packages:/home/home2/institut_3b/hlushchenko/Templates/bashrc
+    cd  ~/Work/KIT/Artus/delme/CMSSW_10_2_14/src 
+    SCRAM_ARCH=slc6_amd64_gcc700;
+    export $SCRAM_ARCH;
+    source $VO_CMS_SW_DIR/cmsset_default.sh;
+    set_cmssw slc6_amd64_gcc700;
+    source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh;   
+}
 setanalysis715()
 {
     startingDir=$(pwd)
