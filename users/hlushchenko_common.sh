@@ -236,6 +236,7 @@ changeHistfile()
 }
 
 # https://unix.stackexchange.com/questions/37313/how-do-i-grep-for-multiple-patterns-with-pattern-having-a-pipe-character
+# alias grep='grep -rI'
 alias gr="grep -rn "
 grepcc() {
     grep -rnI $1 | grep  -e "\.cc" -e "\.h" | grep $1
@@ -301,18 +302,17 @@ monitore_pid(){
 #-------------------------------------------------------------
 # Bash aliases
 #-------------------------------------------------------------
-alias grep='grep -rI'
-alias hgrep=' history | grep'
-alias hist=' history'
-alias ltr=' ls -ltr'
-alias ltrd=' ls -ltrd */'
+alias hgrep=' history | grep '
+alias hist=' history '
+alias ltr=' ls -ltr '
+alias ltrd=' ls -ltrd */ '
 alias tr=' mytree '
 alias trd=' mydtree '
 # alias grep="grep -c `processor /proc/cpuinfo`"
-alias myrsync='rsync -avSzh --progress'
-alias myhtop=' htop -u $USER'
-alias screen=' screen2'
-alias ps=' ps -o pid,pcpu,pri,args'
+alias myrsync='rsync -avSzh --progress '
+alias myhtop=' htop -u $USER '
+alias screen=' screen2 '
+alias ps=' ps -o pid,pcpu,pri,args '
 
 #-------------------------------------------------------------
 # Git
