@@ -65,7 +65,7 @@ alias nafcms='ssh -XYt glusheno@naf-cms.desy.de'
 alias nafcms14='ssh -XYt glusheno@naf-cms14.desy.de'
 alias nafcms12='ssh -XYt glusheno@naf-cms12.desy.de'
 alias naf='nafcms'
-
+alias cern='ssh -XYt -o PreferredAuthentications=password -o PubkeyAuthentication=no ohlushch@lxplus6.cern.ch'
 #alias scramb='scram b -j 8; echo $?'
 alias myrsync='rsync -avSzh --progress'
 alias myhtop='htop -u $USER'
