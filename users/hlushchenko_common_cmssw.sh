@@ -6,13 +6,15 @@ os=$(lsb_release -si)
 version=$(lsb_release -sr)
 
 scrambshort() {
-    touch temp_scramb_std.txt
-    scram b -j $CORES &> temp_scramb_std.txt;
-    if [ $? -ne 0 ] ; then
-        cat temp_scramb_std.txt
+    tfile=$(mktemp /tmp/scrambshort.XXXXXXXXX)
+
+    scram b -j $CORES &> $tfile
+    if [ $? -ne 0 ] ; then  cat $tfile
     else echo "compiled"
     fi
-    rm temp_scramb_std.txt
+
+    # Delete the temp file
+    rm -f "$tfile"
     tput bel
 }
 
@@ -33,5 +35,6 @@ scrambb() {
     tput bel
     return $temp_reply
 }
-alias scramb='scrambb'
+
+alias scramb='scrambshort'
 alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
