@@ -201,12 +201,26 @@ setcrab3() {
 alias zombie='kinit; aklog'
 alias grep='/bin/grep'
 # Updating bash repository
-alias Pushbash="cd $DIR_BASH; git pull; git add *; git commit -m 'olena:from naf'; git push; cd -"
-alias pushbash="cd $DIR_BASH; git pull; git add -p; git commit -m 'olena:from naf'; git push; cd -"
 alias pullbash="cd $DIR_BASH; git pull; cd -; source $COMMONBASH"
 alias vimbash="vim $SERVERBASH"
 alias vimbashcommon="vim $COMMONBASH"
 alias cdbash="cd $DIR_BASH"
+alias Pushbash="cd $DIR_BASH; git pull; git add *; git commit -m 'olena:from naf'; git push; cd -"
+# alias pushbash="cd $DIR_BASH; git pull; git add -p; git commit -m 'olena:from naf'; git push; cd -"
+pushbash() {
+    cd $DIR_BASH
+    git pull
+    git add -p
+
+    if [[ $# -eq 0 ]] ; then
+        git commit -m 'olena:from naf'
+    else
+        git commit -m "\"$1\""
+    fi
+
+    git push
+    cd -
+}
 # Updating dirtyscripts repository
 alias pushdirt="cd $DIR_PRIVATESETTINGS; git pull; git add -p; git commit -m 'from naf'; git push; cd -"
 alias pulldirt="cd $DIR_PRIVATESETTINGS; git pull; cd -;"
