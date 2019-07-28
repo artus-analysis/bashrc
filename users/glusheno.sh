@@ -70,6 +70,7 @@ setprivatesettings(){
     declare -a modules=(
         $DIR_BASH/scripts
         $DIR_PRIVATESETTINGS/gc
+        $DIR_PRIVATESETTINGS/btagging
         $DIR_PRIVATESETTINGS/playground
         $DIR_PRIVATESETTINGS/artus
         # $DIR_PRIVATESETTINGS/root_scripts
@@ -245,24 +246,31 @@ setcombine747(){
 }
 
 setharry() {
+    curr_dirr=$PWD
 	cd  ~/RWTH/Artus/CMSSW_8_1_0/src/
 	set_cmssw slc6_amd64_gcc530
 	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+    export WEB_PLOTTING_MKDIR_COMMAND="xrdfs eosuser.cern.ch mkdir -p /eos/user/${HARRY_REMOTE_USER:0:1}/${HARRY_REMOTE_USER}/www/plots_archive/{subdir}"
+    export WEB_PLOTTING_COPY_COMMAND="xrdcp -s -f {source} root://eosuser.cern.ch//eos/user/${HARRY_REMOTE_USER:0:1}/${HARRY_REMOTE_USER}/www/plots_archive/{subdir}"
+    export WEB_PLOTTING_LS_COMMAND="xrdfs eosuser.cern.ch ls /eos/user/${HARRY_REMOTE_USER:0:1}/${HARRY_REMOTE_USER}/www/plots_archive/{subdir}"
 
-    # web plotting
-    CREDENTIAL_PATH=${KRB5CCNAME/FILE:/}
-    LOCAL_KERBEROS_PATH=${HOME}/.krb/HP/$(basename $CREDENTIAL_PATH)
+    echo $cernpass | kinit -l 120h ${HARRY_REMOTE_USER}@CERN.CH
+
+    # web plotting - ok didn't work
+    # CREDENTIAL_PATH=${KRB5CCNAME/FILE:/}
+    # LOCAL_KERBEROS_PATH=${HOME}/.krb/HP/$(basename $CREDENTIAL_PATH)
     # Move to Home
-    if test -f "$LOCAL_KERBEROS_PATH"; then
-        echo "$LOCAL_KERBEROS_PATH exist"
-    else
-        cp ${CREDENTIAL_PATH} $LOCAL_KERBEROS_PATH
-    fi
+    # if test -f "$LOCAL_KERBEROS_PATH"; then
+    #     echo "$LOCAL_KERBEROS_PATH exist"
+    # else
+    #     cp ${CREDENTIAL_PATH} $LOCAL_KERBEROS_PATH
+    # fi
     # Reset KRB5CCNAME
-    echo "$KRB5CCNAME  -->  FILE:$LOCAL_KERBEROS_PATH"
-    export KRB5CCNAME=FILE:$LOCAL_KERBEROS_PATH
+    # echo "$KRB5CCNAME  -->  FILE:$LOCAL_KERBEROS_PATH"
+    # export KRB5CCNAME=FILE:$LOCAL_KERBEROS_PATH
     # export KRB5CCNAME=/afs/desy.de/user/g/glusheno/.krb/ticket
-
+    cd $curr_dirr
+    cd -
     changeHistfile ${FUNCNAME[0]}
 }
 
