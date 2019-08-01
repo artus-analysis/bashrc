@@ -43,6 +43,13 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH=$DIR_BASH/scripts:$PATH
 export PATH=$DIR_PRIVATESETTINGS/gc:$PATH
 export PATH=$DIR_PRIVATESETTINGS/playground:$PATH
+# gitlfn
+export PATH=$PATH:~/.local/bin/go/bin  #  actual go
+# GOROOT == ~/.local/bin/go/- cant touch this!
+export GOPATH=~/.local/bin/go_path  #  git-lfs is installed here
+export GOBIN="$GOPATH/bin"
+export PATH=$PATH:~/.local/bin/go_path/bin/  #  git-lfs served from here
+
 # export PATH=~/.local/bin:$PATH
 
 # ENVIRONMENT
@@ -159,6 +166,16 @@ setcrab3()
 export SKIM_WORK_BASE=/net/scratch_cms3b/$USER/kappa
 export USERPC='lx3b83'
 
+setharry ()
+{
+    curr_dirr=$PWD
+    cd /home/home2/institut_3b/hlushchenko/Work/HP/CMSSW_8_1_0/src
+    set_cmssw slc6_amd64_gcc530
+    source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+    cd curr_dirr
+    cd -
+}
+
 #################### Set Skimming #####################
 setskimming763()
 {
@@ -238,13 +255,14 @@ setartus10214 ()
 {
     startingDir=$(pwd)
     export PYTHONPATH=/.automount/home/home__home2/institut_3b/hlushchenko/Work/KIT/Artus/CMSSW_10_2_14/src/grid-control/packages:/home/home2/institut_3b/hlushchenko/Templates/bashrc
-    cd  ~/Work/KIT/Artus/delme/CMSSW_10_2_14/src 
+    cd  ~/Work/KIT/Artus/delme/CMSSW_10_2_14/src
     SCRAM_ARCH=slc6_amd64_gcc700;
     export $SCRAM_ARCH;
     source $VO_CMS_SW_DIR/cmsset_default.sh;
     set_cmssw slc6_amd64_gcc700;
-    source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh;   
+    source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh;
 }
+
 setanalysis715()
 {
     startingDir=$(pwd)
