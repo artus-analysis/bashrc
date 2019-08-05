@@ -1,6 +1,6 @@
 #!/bin/bash
 echo " * --> export glusheno.sh for naf"
-source  ~/bashrc/users/hlushchenko_common_cmssw.sh
+source  ~/RWTH/bashrc/users/hlushchenko_common_cmssw.sh
 
 if [ -z "$BASHRCDIR" ]
 then
@@ -225,6 +225,9 @@ pushbash() {
 alias pushdirt="cd $DIR_PRIVATESETTINGS; git pull; git add -p; git commit -m 'from naf'; git push; cd -"
 alias pulldirt="cd $DIR_PRIVATESETTINGS; git pull; cd -;"
 alias cddirt="cd $DIR_PRIVATESETTINGS"
+alias pushpriv=pushdirt
+alias pullpriv=pulldirt
+alias cdprinv=cddirt
 
 monitoreNumOpenFiles(){
     MAXOPENFILES="$(lsof | grep glusheno | grep Higg | wc -l)"
@@ -285,6 +288,7 @@ setharry() {
     # export KRB5CCNAME=/afs/desy.de/user/g/glusheno/.krb/ticket
     cd $curr_dirr
     cd -
+    cd /nfs/dust/cms/group/higgs-kit/Legacy/BtagSF/2017/
     changeHistfile ${FUNCNAME[0]}
 }
 
@@ -317,12 +321,19 @@ setshapesmaster_naf() {
 
     # get the propper python
     cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/master/sm-htt-analysis
-    source ../../ES-subanalysis/bin/setup_cvmfs_sft.sh
+    # LCG_RELEASE=94
+    # source /cvmfs/sft.cern.ch/lcg/views/LCG_94/x86_64-slc6-gcc62-opt/setup.sh
+    source /cvmfs/sft.cern.ch/lcg/views/LCG_96/x86_64-slc6-gcc8-opt/setup.sh
+    [[ ":$PYTHONPATH:" != *"$HOME/.local/lib/python2.7/site-packages:"* ]] && PYTHONPATH="$HOME/.local/lib/python2.7/site-packages:${PYTHONPATH}"
 
     declare -a modules=(
         $PWD/datacard-producer
         $PWD/shape-producer
         $PWD/shape-producer/shape_producer/
+        $PWD/htt-ml
+        $PWD/fake-factor-application
+        $PWD/jdl_creator
+        $PWD/utils
         $PWD
     )
 
@@ -337,7 +348,11 @@ setshapesmaster_naf() {
     done
     export PYTHONPATH
 
-    renice -n 19 -u `whoami`
+    [[ ":$PATH:" != *"/afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/master/sm-htt-analysis/utils"* ]] && PATH="/afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/master/sm-htt-analysis/utils:${PATH}"
+    alias setup_samples_naf="source setup_samples_naf.sh"
+    BINNING=shapes/binning.yaml
+
+    # renice -n 19 -u `whoami`
     changeHistfile ${FUNCNAME[0]}
 }
 

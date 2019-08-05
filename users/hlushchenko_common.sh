@@ -317,6 +317,7 @@ alias ps=' ps -o pid,pcpu,pri,args '
 #-------------------------------------------------------------
 # Git
 #-------------------------------------------------------------
+# https://www.atlassian.com/git/tutorials/git-log
 alias pull='git pull'
 alias push='git push'
 alias gitpull='git pull'
@@ -325,8 +326,9 @@ alias gitfo='git fetch origin'
 alias gitd='git diff'
 alias gitss='git status '
 alias gits='git status . '
-alias gitl='git log'
-alias gitln='git log -n'
+alias gitl='gitls'
+alias gitln='gitl -n'
+alias gitlf='git log'
 alias gitdw='git diff --ignore-all-space'
 alias gitdeol='git diff --ignore-space-at-eol'
 alias gitdc='git diff --ignore-all-space --ignore-blank-lines'
@@ -334,6 +336,34 @@ alias gitdstore='touch "gitd_at_$(date +%F_%R).txt"; git diff >>  "gitd_at_$(dat
 alias gitdcstore='touch "gitdc_at_$(date +%F_%R).txt"; gitdc >>  "gitdc_at_$(date +%F_%R).txt"'
 alias gitstoreall='gitdstore; gitdcstore'
 alias gitds='git diff --cached'
+
+# https://stackoverflow.com/questions/424071/how-to-list-all-the-files-in-a-commit
+# list the changed between commits files: git show --pretty="format:" --name-only START_COMMIT..END_COMMIT | sort | uniq
+# git diff --name-only START_COMMIT..END_COMMIT
+gitlt(){
+    # sort by time
+    git ls-tree -r --name-only HEAD  $@ | while read filename; do
+        printf "\033[0;32m$(git log -1 --format='[%ar]: ' -- $filename)"
+        printf "\033[0;34m$(git log -1 --format='%s ' -- $filename)"
+        printf "\033[0;31m$(git log -1 --format='%aN ' -- $filename)"
+        printf "\033[0m$filename\n"
+    done
+    # git log -1 --oneline  --format='%C(auto,green)[%ar]: %C(auto, blue)(%s) %C(auto,red)[%aN]' -- $filename
+}
+gitls(){
+    # sorted by time
+    git log --format="%ar: %C(auto,red)(%s) %C(auto,green)[%aN]"
+    # re='^[0-9]+$'
+    # if [[ $# -eq 0 ]] ; then
+    #     git log --format="%ar: %C(auto,red)(%s) %C(auto,green)[%aN]"
+    # else if [[ $@ =~ $re ]] ; then
+    #     git log -n $@ --format="%ar: %C(auto,red)(%s) %C(auto,green)[%aN]"
+    # else
+    #     git log $@ --format="%ar: %C(auto,red)(%s) %C(auto,green)[%aN]"
+    # fi
+    #git log -3 --format="%ar: %C(auto,red)(%s) %C(auto,green)[%aN]"
+    #git log -3 --format="%ar: %C(auto,red)(%s) %C(auto,green)[%aN]" --name-status
+}
 
 gitignore(){
     # https://medium.com/@igloude/git-skip-worktree-and-how-i-used-to-hate-config-files-e84a44a8c859

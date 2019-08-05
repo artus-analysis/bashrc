@@ -28,7 +28,6 @@ transfer() {
 }
 
 # CMSSW
-# alias scramb='scram b -j $CORES; temp_reply=$?; tput bel; return $temp_reply'
 scrambb() {
     scram b -j $CORES
     temp_reply=$?
@@ -36,5 +35,6 @@ scrambb() {
     return $temp_reply
 }
 
+# alias scramb='scram b -j $CORES; temp_reply=$?; tput bel; return $temp_reply'
 alias scramb='scrambshort'
 alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
