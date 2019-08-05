@@ -3,7 +3,7 @@ echo " * --> export hlushchenko.sh (for rwth cluster)"
 
 # Grid certificates
 source $BASHRCDIR/users/greyxray/grid.sh
-
+shopt -s direxpand
 # SSH connections
 # Run ssh-agent : https://stackoverflow.com/questions/17846529/could-not-open-a-connection-to-your-authentication-agent/4086756#4086756
 # alias setsshagent='eval "$(ssh-agent -s)"; ssh-add  ~/.ssh/id_rsa'
