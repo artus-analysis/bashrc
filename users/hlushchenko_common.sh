@@ -328,7 +328,8 @@ alias gitss='git status '
 alias gits='git status . '
 alias gitl='gitls'
 alias gitln='gitl -n'
-alias gitlf='git log'
+alias gitL='git log'
+alias gitLn='git log -n'
 alias gitdw='git diff --ignore-all-space'
 alias gitdeol='git diff --ignore-space-at-eol'
 alias gitdc='git diff --ignore-all-space --ignore-blank-lines'
@@ -352,7 +353,7 @@ gitlt(){
 }
 gitls(){
     # sorted by time
-    git log --format="%ar: %C(auto,red)(%s) %C(auto,green)[%aN]"
+    git log --format="%ar: %C(auto,red)(%s) %C(auto,green)[%aN]" $@
     # re='^[0-9]+$'
     # if [[ $# -eq 0 ]] ; then
     #     git log --format="%ar: %C(auto,red)(%s) %C(auto,green)[%aN]"
