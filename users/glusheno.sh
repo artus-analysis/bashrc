@@ -264,6 +264,7 @@ setcombine747(){
 }
 
 setharry() {
+    renice -n 19 -u `whoami`
     curr_dirr=$PWD
 	cd  ~/RWTH/Artus/CMSSW_8_1_0/src/
 	set_cmssw slc6_amd64_gcc530
@@ -353,7 +354,7 @@ setshapesmaster_naf() {
     alias setup_samples_naf="source setup_samples_naf.sh"
     BINNING=shapes/binning.yaml
 
-    # renice -n 19 -u `whoami`
+    renice -n 19 -u `whoami`
     changeHistfile ${FUNCNAME[0]}
 }
 
