@@ -198,7 +198,8 @@ setcrab3() {
 }
 
 ## Working environments
-alias zombie='kinit; aklog'
+alias zombie='echo $nafpass | kinit glusheno@DESY.DE; aklog'
+(while true ; do sleep 83000 ; zombie; done) &
 alias grep='/bin/grep'
 # Updating bash repository
 alias pullbash="cd $DIR_BASH; git pull; cd -; source $COMMONBASH"
