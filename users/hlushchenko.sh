@@ -65,10 +65,10 @@ export HARRY_USERPC='lx3b57.rwth-aachen.de'
 # ALIASES
 nafn(){
     echo "glusheno@naf-cms$1.desy.de"
-    ssh -XYt "glusheno@naf-cms$1.desy.de"
+    sshpass -p $nafpass ssh -XYt "glusheno@naf-cms$1.desy.de"
 }
 # alias rwth='ssh -XYt ohlushch@physik.rwth-aachen.de'
-alias nafcms='ssh -XYt glusheno@naf-cms.desy.de'
+alias nafcms='sshpass -p $nafpass ssh -XYt glusheno@naf-cms.desy.de'
 alias nafcms14='ssh -XYt glusheno@naf-cms14.desy.de'
 alias nafcms12='ssh -XYt glusheno@naf-cms12.desy.de'
 alias naf='nafcms'
