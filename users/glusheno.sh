@@ -313,12 +313,12 @@ setshapes949() {
 
 
 setshapesmaster_naf() {
-    echo "CMSSW env taken from /afs/desy.de/user/g/glusheno/RWTH/KIT/sm-htt-analysis/CMSSW_9_4_9/src"
-    cd /afs/desy.de/user/g/glusheno/RWTH/KIT/sm-htt-analysis/CMSSW_9_4_9/src
-    SCRAM_ARCH=slc6_amd64_gcc630
+    echo "CMSSW env taken from /afs/desy.de/user/g/glusheno/RWTH/KIT/Artus/CMSSW_10_2_14/src"
+    cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Artus/CMSSW_10_2_14/src
+    SCRAM_ARCH=slc6_amd64_gcc700
     export $SCRAM_ARCH
     source $VO_CMS_SW_DIR/cmsset_default.sh
-    set_cmssw slc6_amd64_gcc630
+    set_cmssw slc6_amd64_gcc700
     cd -
 
     # get the propper python
@@ -326,6 +326,7 @@ setshapesmaster_naf() {
     # LCG_RELEASE=94
     # source /cvmfs/sft.cern.ch/lcg/views/LCG_94/x86_64-slc6-gcc62-opt/setup.sh
     source /cvmfs/sft.cern.ch/lcg/views/LCG_96/x86_64-slc6-gcc8-opt/setup.sh
+    # source /cvmfs/sft.cern.ch/lcg/views/LCG_95/x86_64-slc6-gcc8-opt/setup.sh
     [[ ":$PYTHONPATH:" != *"$HOME/.local/lib/python2.7/site-packages:"* ]] && PYTHONPATH="$HOME/.local/lib/python2.7/site-packages:${PYTHONPATH}"
 
     declare -a modules=(
@@ -354,7 +355,7 @@ setshapesmaster_naf() {
     alias setup_samples_naf="source setup_samples_naf.sh"
     BINNING=shapes/binning.yaml
 
-    renice -n 19 -u `whoami`
+    #renice -n 19 -u `whoami`
     changeHistfile ${FUNCNAME[0]}
 }
 

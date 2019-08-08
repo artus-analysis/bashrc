@@ -217,6 +217,7 @@ transfer() {
     cat $tmpfile;
 
     rm -f $tmpfile;
+    echo
 }
 
 changeHistfile()
@@ -302,6 +303,7 @@ monitore_pid(){
 #-------------------------------------------------------------
 # Bash aliases
 #-------------------------------------------------------------
+alias reniceme='renice -n 19 -u `whoami`'
 alias hgrep=' history | grep '
 alias hist=' history '
 alias ltr=' ls -ltr '
