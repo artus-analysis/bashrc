@@ -30,6 +30,7 @@ eval "$(ssh-agent -s)"
 ssh-add  ~/.ssh/id_rsa_nopass
 
 source  ~/bashrc/users/hlushchenko_common.sh
+source  ~/bashrc/users/hlushchenko_common_cmssw.sh
 #source $BASHRCDIR/users/hlushchenko_common.sh
 
 source ~/git-prompt.sh
@@ -39,13 +40,7 @@ source ~/git-prompt.sh
 export HISTTIMEFORMAT="%F %T: "
 # Save and reload the history after each command finishes : https://unix.stackexchange.com/a/18443/137225
 export HISTCONTROL=ignoreboth  # no duplicate entries
-shopt -s histappend                      # append to history, don't overwrite it
-# export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
-# export PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
-# https://unix.stackexchange.com/a/48113/137225 :
-# Forse to save all commands to the history : all history in all tabs is stored
-# export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
-# https://unix.stackexchange.com/a/1292/137225 : After each command, append to the history file and reread it
+shopt -s histappend
 export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
 
 # CMSSW
@@ -57,18 +52,17 @@ export LANG=en_US.UTF-8
 export EDITOR=vim
 export LS_OPTIONS="-N -T 0 --color=auto"
 
+
+export HARRY_REMOTE_USER='ohlushch'
+export PATH="$HOME/.local/bin:$HOME/usr/bin:$PATH"
+export DIR_PRIVATESETTINGS=${HOME}/Work/dirtyscripts
+source ~/bashrc/users/greyxray/dirtyscripts.sh
+
+
 # ALIASES
-CORES=`grep -c ^processor /proc/cpuinfo`
-alias scramb='scram b -j $CORES; echo $?; tput bel'
-alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
-alias myrsync='rsync -avSzh --progress'
-alias myhtop='htop -u $USER'
 alias meld='export PATH=/usr/bin/:$PATH && meld'
 alias gmerge='(export PATH=/usr/bin/:$PATH && git mergetool --tool meld)'
-alias gits='git status'
-alias gitf='git fetch origin'
-alias gitl='git log'
-alias gitln='git log -n'
+
 
 ## CMSSW working environments
 alias setkitanalysis='setkitanalysis949_naf'
@@ -88,31 +82,100 @@ if [ ! -z $VLESS ]; then
 	alias less=$VLESS
 fi
 
-# GIT
-setgitcolors()
-{
-	git config color.branch auto
-	git config color.diff auto
-	git config color.interactive auto
-	git config color.status auto
-	git config color.ui auto
-}
-
 # Job Submission
 setcrab3() {
 	source /cvmfs/cms.cern.ch/crab3/crab.sh
 }
 
 alias setartus=setanalysis10214
-## Working environments
-alias grep='/bin/grep'
-sethappy() {
-	cd  ~/RWTH/Artus/CMSSW_7_4_7/src/
-	set_cmssw slc6_amd64_gcc491;
-	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh;
 
+## Working environments
+
+### Shapes
+alias setshapes='setharry ; setshapes949'
+setshapes949() {
+    set -a ; source   $HOME/Work/SHAPES/sm-htt-analysis/utils/setup_samples.sh; set +a
+    cd /home/ohlushch/Work/SHAPES/ES-subanalysis
+    source bin/setup_env.sh
+
+    DIR_SMHTT=""
+}
+setshapesmaster() {
+    echo "CMSSW env taken from ~/Work/Artus/CMSSW_10_2_14/src"
+    cd ~/Work/Artus/CMSSW_10_2_14/src
+    export SCRAM_ARCH=slc6_amd64_gcc700
+    source $VO_CMS_SW_DIR/cmsset_default.sh
+    set_cmssw slc6_amd64_gcc700
+    cd -
+
+    cd /home/ohlushch/Work/SHAPES/sm-htt-analysis
+
+    # get the propper python
+    LCG_RELEASE=94
+    if uname -a | grep ekpdeepthought
+    then
+        source /cvmfs/sft.cern.ch/lcg/views/LCG_${LCG_RELEASE}/x86_64-ubuntu1604-gcc54-dbg/setup.sh
+    else
+        source /cvmfs/sft.cern.ch/lcg/views/LCG_${LCG_RELEASE}/x86_64-slc6-gcc62-opt/setup.sh
+    fi
+    [[ ":$PYTHONPATH:" != *"$HOME/.local/lib/python2.7/site-packages:"* ]] && PYTHONPATH="$HOME/.local/lib/python2.7/site-packages:${PYTHONPATH}"
+    export PYTHONPATH
+
+    declare -a modules=(
+        $PWD/datacard-producer
+        $PWD/shape-producer
+        $PWD/shape-producer/shape_producer/
+        $PWD
+    )
+    for i in "${modules[@]}"
+    do
+        if [ -d "$i" ]
+        then
+            [[ ":$PYTHONPATH:" != *"$i:"* ]] && PYTHONPATH="$i:${PYTHONPATH}"
+        else
+            echo "Couldn't find package: " $i
+        fi
+    done
+    export PYTHONPATH
+
+    renice -n 19 -u `whoami`
 }
 
+### HP
+setharry() {
+    renice -n 19 -u `whoami`
+    curr_dirr=$PWD
+    # cd /home/ohlushch/Work/HP/CMSSW_8_1_0/src
+    cd /home/ohlushch/Work/HP/CMSSW_10_2_16/src
+    set_cmssw slc6_amd64_gcc530
+
+    source $CMSSW_BASE/src/Artus/Configuration/scripts/ini_ArtusAnalysis.sh
+    source $CMSSW_BASE/src/Artus/HarryPlotter/scripts/ini_harry_cmssw.sh
+    export KITHIGGSTOTAUTAUPATH=$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau
+
+    # overwrite artus settings
+    export ARTUS_WORK_BASE="/storage/8/${USER}/htautau/artus/"
+    export WEB_PLOTTING_MKDIR_COMMAND="mkdir -p /ekpwww/web/ohlushch/public_html/{subdir}"
+    export WEB_PLOTTING_COPY_COMMAND="cp {source} /ekpwww/web/ohlushch/public_html/{subdir}"
+    export WEB_PLOTTING_LS_COMMAND="ls /ekpwww/web/ohlushch/public_html/{subdir}"
+
+    # echo $cernpass | kinit -l 120h ${HARRY_REMOTE_USER}@CERN.CH
+    # use then you get this fancy index with regex search: http://ekpwww.etp.kit.edu/~jbechtel/plots_archive/2019_08_07/plots/mt/index.html
+    # cp /home/jbechtel/WebGallery/gallery.py  /ekpwww/web/ohlushch/
+    # python  /ekpwww/web/ohlushch/gallery.py /ekpwww/web/ohlushch/public_html/{subdir} --metadata blah
+
+    cd $curr_dirr
+    cd -
+}
+# alias grep='/bin/grep'
+# sethappy() {
+# 	cd  ~/RWTH/Artus/CMSSW_7_4_7/src/
+# 	set_cmssw slc6_amd64_gcc491;
+# 	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh;
+
+# }
+
+### Artus
 setanalysis10214(){
     cd  ~/Work/Artus/CMSSW_10_2_14/src
     SCRAM_ARCH=slc6_amd64_gcc700
@@ -121,7 +184,6 @@ setanalysis10214(){
     set_cmssw slc6_amd64_gcc700
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 }
-
 setanalysis949(){
     cd  ~/Work/Artus/CMSSW_9_4_9/src
     SCRAM_ARCH=slc6_amd64_gcc630; export $SCRAM_ARCH
@@ -129,95 +191,6 @@ setanalysis949(){
     set_cmssw slc6_amd64_gcc630
  source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 }
-
-setkitanalysis949() {
-	cd /afs/desy.de/user/g/glusheno/RWTH/KIT/sm-htt-analysis/CMSSW_9_4_9/src
-	SCRAM_ARCH=slc6_amd64_gcc630; export $SCRAM_ARCH
-	source $VO_CMS_SW_DIR/cmsset_default.sh
-	# cmsenv
-    set_cmssw slc6_amd64_gcc630
-
-    source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
-}
-
-setkitskimming763() {
-	cd ~/home/cms/htt/skimming/CMSSW_7_6_3/src
-	set_cmssw slc6_amd64_gcc493
-	cd $CMSSW_BASE/src/
-}
-
-#/afs/desy.de/user/g/glusheno/RWTH/CMSSW_7_4_7
-
-setkitanalysis747() {
-    cd /afs/desy.de/user/g/glusheno/RWTH/CMSSW_7_4_7/src
-    set_cmssw slc6_amd64_gcc491
-    source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
-    cd $CMSSW_BASE/src/
-}
-
-
-setkitskimming8014() {
-    cd /afs/desy.de/user/g/glusheno/RWTH/CMSSW_8_0_14/src
-    set_cmssw slc6_amd64_gcc530
-    cd $CMSSW_BASE/src/
-}
-
-setkitskimming8020() {
-	cd /afs/desy.de/user/g/glusheno/RWTH/CMSSW_8_0_20/src
-    set_cmssw slc6_amd64_gcc530
-    cd $CMSSW_BASE/src/
-}
-
-setrasp(){
-    cd /afs/desy.de/user/g/glusheno/RWTH/CMSSW_8_0_7_patch2/src
-    set_cmssw slc6_amd64_gcc530
-    cd -
-}
-
-setkitskimming8026patch1Crabtest()
-{
-    cd /afs/desy.de/user/g/glusheno/RWTH/CRABtest/CMSSW_8_0_26_patch1/src
-    set_cmssw slc6_amd64_gcc530;
-    cd $CMSSW_BASE/src/
-}
-
-setkitskimming763_Fabiotest()
-{
-	cd  ~/RWTH/CMSSW_7_6_3/src #~/home/cms/htt/skimming/CMSSW_7_6_3/src
-    set_cmssw slc6_amd64_gcc493
-    cd $CMSSW_BASE/src/
-}
-
-setmva ()
-{
-	cd  ~/RWTH/MVAtraining/CMSSW_8_0_26_patch1/src
-    set_cmssw slc6_amd64_gcc530;
-	cd  /nfs/dust/cms/user/glusheno/TauIDMVATraining2016/Summer16_25ns_V1/tauId_v3_0/trainfilesfinal_v1
-}
-
-setmva9()
-{
-    cd  ~/RWTH/MVAtraining/CMSSW_9_2_4/src
-    set_cmssw slc6_amd64_gcc530;#slc6_amd64_gcc700;
-	cd /nfs/dust/cms/user/glusheno/TauIDMVATraining2017/Summer17_25ns_V1_allPhotonsCut/tauId_v3_0/trainfilesfinal_v1
-}
-
-setmva9v2()
-{
-    cd ~/RWTH/MVAtraining/CMSSW_9_4_2/src
-	set_cmssw slc6_amd64_gcc630
-    #cd /nfs/dust/cms/user/glusheno/TauIDMVATraining2017/Summer19_25ns_V1_allPhotonsCut/tauId_v3_0/trainfilesfinal_v1
-}
-
-
-# GIT Aliases
-alias pullArtus='cd $CMSSW_BASE/src/Artus; git fetch origin; git merge origin/master; cd -'
-alias pullKappaTools='cd $CMSSW_BASE/src/KappaTools;git fetch origin; git merge origin/master; cd -'
-alias pullHtTT='cd $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/; git fetch origin; git merge origin/master; cd -'
-alias pullKappa='cd $CMSSW_BASE/src/Kappa; git fetch origin; git merge origin/master; cd -'
-alias pullall='pullArtus; pullKappaTools; pullHtTT; pullKappa'
-alias scramball='cd $CMSSW_BASE/src; scramb ; cd -'
-alias pullandscramb='pullall; scramball'
 
 setsshaggent()
 {
