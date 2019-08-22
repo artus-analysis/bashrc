@@ -1,3 +1,4 @@
+
 echo " * --> export hlushchenko_common.sh"
 source ~/.ssh/app-env
 #-------------------------------------------------------------
@@ -328,7 +329,11 @@ alias gitfo='git fetch origin'
 alias gitd='git diff'
 alias gitss='git status '
 alias gits='git status . '
+alias gitsh='gitswno'
+alias gitshf='gitswno $@ ; git show $@ '
+alias gitSh='gitswno $@ ; git show $@ '
 alias gitl='gitls'
+alias gitls='git log --format="%ar: %C(auto,red)(%s) %C(auto,green)[%aN] %C(auto,blue) %H"'
 alias gitln='gitl -n'
 alias gitL='git log'
 alias gitLn='git log -n'
@@ -341,8 +346,15 @@ alias gitstoreall='gitdstore; gitdcstore'
 alias gitds='git diff --cached'
 
 # https://stackoverflow.com/questions/424071/how-to-list-all-the-files-in-a-commit
-# list the changed between commits files: git show --pretty="format:" --name-only START_COMMIT..END_COMMIT | sort | uniq
-# git diff --name-only START_COMMIT..END_COMMIT
+gitswno(){
+    echo "Patched files:"
+    for i in $(git show --name-only --format="" $@ )
+    do
+        echo -e "\e[36m $i \e[0m"
+    done
+    echo
+}
+
 gitlt(){
     # sort by time
     git ls-tree -r --name-only HEAD  $@ | while read filename; do
@@ -351,21 +363,6 @@ gitlt(){
         printf "\033[0;31m$(git log -1 --format='%aN ' -- $filename)"
         printf "\033[0m$filename\n"
     done
-    # git log -1 --oneline  --format='%C(auto,green)[%ar]: %C(auto, blue)(%s) %C(auto,red)[%aN]' -- $filename
-}
-gitls(){
-    # sorted by time
-    git log --format="%ar: %C(auto,red)(%s) %C(auto,green)[%aN]" $@
-    # re='^[0-9]+$'
-    # if [[ $# -eq 0 ]] ; then
-    #     git log --format="%ar: %C(auto,red)(%s) %C(auto,green)[%aN]"
-    # else if [[ $@ =~ $re ]] ; then
-    #     git log -n $@ --format="%ar: %C(auto,red)(%s) %C(auto,green)[%aN]"
-    # else
-    #     git log $@ --format="%ar: %C(auto,red)(%s) %C(auto,green)[%aN]"
-    # fi
-    #git log -3 --format="%ar: %C(auto,red)(%s) %C(auto,green)[%aN]"
-    #git log -3 --format="%ar: %C(auto,red)(%s) %C(auto,green)[%aN]" --name-status
 }
 
 gitignore(){

@@ -91,13 +91,23 @@ alias setartus=setanalysis10214
 
 ## Working environments
 
+### Combine
+alias setcombine='setcombine10216ul'
+setcombine10216ul()
+{
+    # https://github.com/KIT-CMS/sm-htt-analysis/blob/master/utils/init_cmssw.sh
+    cd /home/ohlushch/Work/Combine/CMSSW_10_2_16_UL/src
+    set_cmssw slc7_amd64_gcc700
+}
 ### Shapes
 alias setshapes='setharry ; setshapes949'
+alias setmastershapes='setshapesmaster'
 setshapes949() {
     set -a ; source   $HOME/Work/SHAPES/sm-htt-analysis/utils/setup_samples.sh; set +a
     cd /home/ohlushch/Work/SHAPES/ES-subanalysis
     source bin/setup_env.sh
 
+    # renice -n 19 -u `whoami`
     DIR_SMHTT=""
 }
 setshapesmaster() {
@@ -138,12 +148,18 @@ setshapesmaster() {
     done
     export PYTHONPATH
 
-    renice -n 19 -u `whoami`
+    # start with 2017
+    source utils/setup_samples.sh 2017
+    ERA=2017
+    CHANNELS="et"
+    BINNING=shapes/binning.yaml
+
+    # renice -n 19 -u `whoami`
 }
 
 ### HP
 setharry() {
-    renice -n 19 -u `whoami`
+    # renice -n 19 -u `whoami`
     curr_dirr=$PWD
     # cd /home/ohlushch/Work/HP/CMSSW_8_1_0/src
     cd /home/ohlushch/Work/HP/CMSSW_10_2_16/src
@@ -154,10 +170,13 @@ setharry() {
     export KITHIGGSTOTAUTAUPATH=$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau
 
     # overwrite artus settings
+    export HARRY_URL=http://etpwww.etp.kit.edu/~${HARRY_REMOTE_USER}/
     export ARTUS_WORK_BASE="/storage/8/${USER}/htautau/artus/"
-    export WEB_PLOTTING_MKDIR_COMMAND="mkdir -p /ekpwww/web/ohlushch/public_html/{subdir}"
-    export WEB_PLOTTING_COPY_COMMAND="cp {source} /ekpwww/web/ohlushch/public_html/{subdir}"
-    export WEB_PLOTTING_LS_COMMAND="ls /ekpwww/web/ohlushch/public_html/{subdir}"
+    export WEB_PLOTTING_MKDIR_COMMAND="mkdir -p /etpwww/web/ohlushch/public_html/{subdir}"
+    export WEB_PLOTTING_COPY_COMMAND="cp {source} /etpwww/web/ohlushch/public_html/{subdir}"
+    export WEB_PLOTTING_LS_COMMAND="ls /etpwww/web/ohlushch/public_html/{subdir}"
+
+    export HP_WORK_BASE_COMMON="/storage/8/${USER}/htautau/artus/HP_WORK_BASE_COMMON"
 
     # echo $cernpass | kinit -l 120h ${HARRY_REMOTE_USER}@CERN.CH
     # use then you get this fancy index with regex search: http://ekpwww.etp.kit.edu/~jbechtel/plots_archive/2019_08_07/plots/mt/index.html

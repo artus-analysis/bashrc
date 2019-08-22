@@ -1,6 +1,6 @@
 #!/bin/bash
 echo " * --> export hlushchenko_common_cmssw.sh"
-
+shopt -s direxpand
 # http://qaru.site/questions/6390755/multiple-conditions-in-an-if-statement-in-bash-not-working
 os=$(lsb_release -si)
 version=$(lsb_release -sr)
