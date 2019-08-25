@@ -29,6 +29,18 @@ transfer() {
     rm -f $tmpfile;
 }
 
+# CREAM
+purgecream() {
+    l=1
+    while [[ l  -gt 0 ]]
+    do
+        l="$(glite-ce-job-list --endpoint grid-ce.physik.rwth-aachen.de:8443 | wc -l)"
+        echo "$l left"
+        sleep 30
+    done
+    sent "CREAM job purging is finished"
+}
+
 # CMSSW
 [ -f $BASHRCDIR/cmssw.sh ] && source $BASHRCDIR/cmssw.sh
 
