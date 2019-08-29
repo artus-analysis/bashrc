@@ -1,6 +1,14 @@
 #!/bin/bash
 echo " * --> export hlushchenko.sh (for rwth cluster)"
 
+alias jobq='LCG_GFAL_INFOSYS=egee-bdii.cnaf.infn.it:2170 lcg-infosites --vo cms ce -f rwth-aachen'
+alias jq='jobq'
+#alias gestat='glite-ce-job-status -L 2 https://grid-ce.physik.rwth-aachen.de:8443/"$1"'
+function gestat() {
+    glite-ce-job-status -L 2  https://grid-ce.physik.rwth-aachen.de:8443/${1}
+}
+alias js='gestat'
+alias ges='gestat'
 # Grid certificates
 source $BASHRCDIR/users/greyxray/grid.sh
 shopt -s direxpand
