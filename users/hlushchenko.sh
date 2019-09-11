@@ -9,6 +9,24 @@ function gestat() {
 }
 alias js='gestat'
 alias ges='gestat'
+alias s='screen'
+screensub() {
+    tfile=$(mktemp /tmp/XXXXXXXXX)
+    if  [[ $# -eq 1 ]] ; then
+        echo "cahnging file to $1"
+        tfile=$1
+        touch $tfile
+    fi
+    vim -c 'startinsert' $tfile
+    echo "launching screenrc: $tfile"
+    screen -S $(basename $tfile) -c $tfile
+}
+alias ssub='screensub'
+sq() {
+    screen -SX $1 quit
+}
+alias sr='screen -rd'
+alias sl='screen -l'
 # Grid certificates
 source $BASHRCDIR/users/greyxray/grid.sh
 shopt -s direxpand
@@ -93,6 +111,8 @@ alias nafcms14='ssh -XYt glusheno@naf-cms14.desy.de'
 alias nafcms12='ssh -XYt glusheno@naf-cms12.desy.de'
 alias naf='nafcms'
 alias cern='ssh -XYt -o PreferredAuthentications=password -o PubkeyAuthentication=no ohlushch@lxplus6.cern.ch'
+alias ekp1=' sshpass -p $ekppass ssh -XY ohlushch@bms1.etp.kit.edu'
+alias ekp='ekp1'
 #alias scramb='scram b -j 8; echo $?'
 alias myrsync='rsync -avSzh --progress'
 alias myhtop='htop -u $USER'
