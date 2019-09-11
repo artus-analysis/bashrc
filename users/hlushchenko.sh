@@ -21,6 +21,12 @@ screensub() {
     echo "launching screenrc: $tfile"
     screen -S $(basename $tfile) -c $tfile
 }
+ssubr() {
+    if [ $# -eq 1 ] && [ -f "$1"] ; then
+      rm $1
+    fi
+    screensub $@
+}
 alias ssub='screensub'
 sq() {
     screen -SX $1 quit
