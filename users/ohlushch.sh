@@ -97,25 +97,37 @@ setcombine10216ul()
 {
     # https://github.com/KIT-CMS/sm-htt-analysis/blob/master/utils/init_cmssw.sh
     cd /home/ohlushch/Work/Combine/CMSSW_10_2_16_UL/src
-    set_cmssw slc7_amd64_gcc700
+
+    if version_gteq $OSVER '7' ; then
+        set_cmssw slc7_amd64_gcc700
+    elif version_gteq $OSVER '6' ; then
+        set_cmssw slc6_amd64_gcc700
+    fi
+    cd /home/ohlushch/Work/Combine/CMSSW_10_2_16_UL/src/CombineHarvester/MSSMvsSMRun2Legacy
+
 }
 ### Shapes
 alias setshapes='setharry ; setshapes949'
 alias setmastershapes='setshapesmaster'
+
 setshapes949() {
     set -a ; source   $HOME/Work/SHAPES/sm-htt-analysis/utils/setup_samples.sh; set +a
     cd /home/ohlushch/Work/SHAPES/ES-subanalysis
     source bin/setup_env.sh
-
-    # renice -n 19 -u `whoami`
+    # GIT_PS1_HIDE_IF_PWD_IGNORED='disable'
     DIR_SMHTT=""
 }
+
 setshapesmaster() {
     echo "CMSSW env taken from ~/Work/Artus/CMSSW_10_2_14/src"
     cd ~/Work/Artus/CMSSW_10_2_14/src
-    export SCRAM_ARCH=slc6_amd64_gcc700
+    if version_gteq $OSVER '7' ; then
+        export SCRAM_ARCH=slc7_amd64_gcc700
+    elif version_gteq $OSVER '6' ; then
+        export SCRAM_ARCH=slc6_amd64_gcc700
+    fi
     source $VO_CMS_SW_DIR/cmsset_default.sh
-    set_cmssw slc6_amd64_gcc700
+    set_cmssw $SCRAM_ARCH
     cd -
 
     cd /home/ohlushch/Work/SHAPES/sm-htt-analysis
@@ -126,7 +138,13 @@ setshapesmaster() {
     then
         source /cvmfs/sft.cern.ch/lcg/views/LCG_${LCG_RELEASE}/x86_64-ubuntu1604-gcc54-dbg/setup.sh
     else
-        source /cvmfs/sft.cern.ch/lcg/views/LCG_${LCG_RELEASE}/x86_64-slc6-gcc62-opt/setup.sh
+        if version_gteq $OSVER '7' ; then
+            echo /cvmfs/sft.cern.ch/lcg/views/LCG_${LCG_RELEASE}/x86_64-centos7-gcc62-opt/setup.sh
+            source /cvmfs/sft.cern.ch/lcg/views/LCG_${LCG_RELEASE}/x86_64-centos7-gcc62-opt/setup.sh
+        elif version_gteq $OSVER '6' ; then
+            echo /cvmfs/sft.cern.ch/lcg/views/LCG_${LCG_RELEASE}/x86_64-slc6-gcc62-opt/setup.sh
+            source /cvmfs/sft.cern.ch/lcg/views/LCG_${LCG_RELEASE}/x86_64-slc6-gcc62-opt/setup.sh
+        fi
     fi
     [[ ":$PYTHONPATH:" != *"$HOME/.local/lib/python2.7/site-packages:"* ]] && PYTHONPATH="$HOME/.local/lib/python2.7/site-packages:${PYTHONPATH}"
     export PYTHONPATH
@@ -153,17 +171,15 @@ setshapesmaster() {
     ERA=2017
     CHANNELS="et"
     BINNING=shapes/binning.yaml
-
-    # renice -n 19 -u `whoami`
 }
 
 ### HP
 setharry() {
-    # renice -n 19 -u `whoami`
+    alias grfc='get_root_file_content.py'
     curr_dirr=$PWD
     # cd /home/ohlushch/Work/HP/CMSSW_8_1_0/src
     cd /home/ohlushch/Work/HP/CMSSW_10_2_16/src
-    set_cmssw slc6_amd64_gcc530
+    set_cmssw slc6_amd64_gcc700
 
     source $CMSSW_BASE/src/Artus/Configuration/scripts/ini_ArtusAnalysis.sh
     source $CMSSW_BASE/src/Artus/HarryPlotter/scripts/ini_harry_cmssw.sh

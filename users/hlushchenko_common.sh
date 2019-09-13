@@ -17,6 +17,58 @@ export LANG=en_US.UTF-8
 CORES=`grep -c ^processor /proc/cpuinfo`
 export CORES
 
+
+# TODO: expand on OSX
+# https://stackoverflow.com/questions/16989598/bash-comparing-version-numbers
+function version_gteq() { test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1" -o "$2" == "$1" ; }
+function version_gt() { test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1" ; }
+
+# if version_gt $first_version $second_version; then ...
+if [ -f /etc/os-release ]; then
+    # freedesktop.org and systemd
+    . /etc/os-release
+    export OSNAME=$NAME
+    export OSVER=$VERSION_ID
+elif type lsb_release >/dev/null 2>&1; then
+    # linuxbase.org
+    export OSNAME=$(lsb_release -si)
+    export OSVER=$(lsb_release -sr)
+elif [ -f /etc/lsb-release ]; then
+    # For some versions of Debian/Ubuntu without lsb_release command
+    . /etc/lsb-release
+    export OSNAME=$DISTRIB_ID
+    export OSVER=$DISTRIB_RELEASE
+elif [ -f /etc/debian_version ]; then
+    # Older Debian/Ubuntu/etc.
+    export OSNAME=Debian
+    export OSVER=$(cat /etc/debian_version)
+# elif [ -f /etc/SuSe-release ]; then
+#     # Older SuSE/etc.
+#     ...
+# elif [ -f /etc/redhat-release ]; then
+#     # Older Red Hat, CentOS, etc.
+#     ...
+else
+    # Fall back to uname, e.g. "Linux <version>", also works for BSD, etc.
+    export OSNAME=$(uname -s)
+    export OSVER=$(uname -r)
+fi
+# function tt()
+# {
+#     echo $1 $2
+#     if test "$(printf '%s\n' "$@" | sort -V | head -n 1)" != "$1" ; then
+#         echo 1:1
+#     else
+#         echo 1:0
+#     fi
+#     if test "$2" == "$1" ; then
+#         echo 2:1
+#     else
+#         echo 2:0
+#     fi
+# }
+# if tt $OSVER '7' ; then echo 1; else echo 0; fi
+
 if [ -z "$BASHRCDIR" ]
 then
     BASHRCDIR=$( cd "$( dirname "${BASH_SOURCE[0]}s" )/.." && pwd )
@@ -141,6 +193,38 @@ com(){
     echo "executing file: " $tfile.sh
 }
 
+comcat(){
+    tfile=$(mktemp /tmp/foo.XXXXXXXXX)
+    mv $tfile $tfile.sh
+    touch $tfile.OUT
+    vim -c 'startinsert' $tfile.sh
+
+    # add '#!\/usr\/bin\/env bash' to the header of file
+    if [ "$(uname)" == "Darwin" ]; then
+        # Do something under Mac OS X platform
+        # http://abhi.sanoujam.com/posts/sed-newline-mac/
+        # sed -i '' '1s/^/#!\/bin\/bash\'$'\n/' $tfile.sh
+        sed -i '' '1s/^/#!\/usr\/bin\/env bash\'$'\n/' $tfile.sh
+        sed -i '' '2s/^/FAIL=0'$'\n/' $tfile.sh
+    elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+        # Do something under GNU/Linux platform
+        sed -i  '1s/^/#!\/bin\/bash\nFAIL=0\n/' $tfile.sh
+    elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
+        # Do something under 32 bits Windows NT platform
+        echo 'not for 32 bits Windows NT platform'
+        sed -i  '1s/^/#!\/bin\/bash\nFAIL=0\n/' $tfile.sh
+    elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
+        # Do something under 64 bits Windows NT platform
+        echo 'not for 32 bits Windows NT platform'
+        sed -i  '1s/^/#!\/bin\/bash\nFAIL=0\n/' $tfile.sh
+    fi
+
+    cat ${DIR_BASH}/users/greyxray/templ_wait.sh >> $tfile.sh
+
+    chmod +x $tfile.sh
+    ( source $tfile.sh &> $tfile.OUT; send "com $tfile.sh finished with status "$?". Output stream: $tfile.OUT" ; cat $tfile.OUT) &
+    echo "executing file: " $tfile.sh
+}
 screen2() {
     # To save the real arguments
     arguments=""
