@@ -21,16 +21,34 @@ screensub() {
     echo "launching screenrc: $tfile"
     screen -S $(basename $tfile) -c $tfile
 }
+# ssubd(){
+#     tfile=$(mktemp /tmp/XXXXXXXXX)
+#     if  [[ $# -eq 1 ]] ; then
+#         echo "cahnging file to $1"
+#         tfile=$1
+#         touch $tfile
+#     fi
+#     vim -c 'startinsert' $tfile
+#     echo "launching screenrc: $tfile"
+#     screen -d -S $(basename $tfile) -c $tfile
+# }
 ssubr() {
     if [ $# -eq 1 ] && [ -f "$1"] ; then
       rm $1
     fi
     screensub $@
 }
+# ssubrd() {
+#     if [ $# -eq 1 ] && [ -f "$1"] ; then
+#       rm $1
+#     fi
+#     ssubd $@
+# }
 alias ssub='screensub'
 sq() {
-    screen -SX $1 quit
+    screen -XS $1 quit
 }
+alias screenkill='sq'
 alias sr='screen -rd'
 alias sl='screen -l'
 # Grid certificates
@@ -137,13 +155,16 @@ alias vimbashcommon="vim $COMMONBASH"
 alias cdbash="cd $DIR_BASH"
 
 # CMSSW
-alias scramb='scram b -j `grep -c ^processor /proc/cpuinfo`; echo $?'
-alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
-alias setcrab='setcrab3'
+# alias scramb='scram b -j `grep -c ^processor /proc/cpuinfo`; echo $?'
+# alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
+# alias setcrab='setcrab3'
 ## CMSSW working environments
-alias setartus='setartus10214'
+alias setartus='setartusmva'
+alias setartusdeep='setartus10214'
+alias setartusmva='setartus10214mva'
+alias setmvaartus='setartusmva'
 alias setanalysis='setanalysis747'
-alias setskimming='setskimming8020'
+alias setskimming='setskimming10216'
 #alias setgenerator='setgenerator7118'
 
 # dCache
@@ -223,6 +244,16 @@ setharry ()
 }
 
 #################### Set Skimming #####################
+setskimming10216()
+{
+    startingDir=$(pwd);
+    export PYTHONPATH=/.automount/home/home__home2/institut_3b/hlushchenko/Work/KIT/Artus/CMSSW_10_2_14/src/grid-control/packages:/home/home2/institut_3b/hlushchenko/Templates/bashrc;
+    cd  ~/Work/Skimming/CMSSW_10_2_16_patch1/src
+    set_cmssw slc6_amd64_gcc700
+    export PATH=${CMSSW_BASE}/src/grid-control/:${CMSSW_BASE}/src/grid-control/scripts/:${PATH}
+    cd $startingDir
+    cd $CMSSW_BASE/src/
+}
 setskimming763()
 {
     startingDir=$(pwd)
@@ -302,6 +333,19 @@ setartus10214 ()
     startingDir=$(pwd)
     export PYTHONPATH=/.automount/home/home__home2/institut_3b/hlushchenko/Work/KIT/Artus/CMSSW_10_2_14/src/grid-control/packages:/home/home2/institut_3b/hlushchenko/Templates/bashrc
     cd  ~/Work/KIT/Artus/delme/CMSSW_10_2_14/src
+    SCRAM_ARCH=slc6_amd64_gcc700;
+    export $SCRAM_ARCH;
+    source $VO_CMS_SW_DIR/cmsset_default.sh;
+    set_cmssw slc6_amd64_gcc700;
+    source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh;
+}
+setartus10214mva ()
+{
+    echo "do: 'singularity shell /cvmfs/singularity.opensciencegrid.org/bbockelm/cms\:rhel6'"
+    # singularity shell /cvmfs/singularity.opensciencegrid.org/bbockelm/cms\:rhel6
+    startingDir=$(pwd)
+    export PYTHONPATH=/home/home2/institut_3b/hlushchenko/Templates/bashrc
+    cd   ~/Work/KIT/Artus/MVAID/CMSSW_10_2_16/src
     SCRAM_ARCH=slc6_amd64_gcc700;
     export $SCRAM_ARCH;
     source $VO_CMS_SW_DIR/cmsset_default.sh;
@@ -419,4 +463,3 @@ setanalysis810()
 
     changeHistfile ${FUNCNAME[0]}
 }
-

@@ -282,8 +282,9 @@ count() {
 
 send() {
     message="Done"
+    echo $#
     if [[ $# -eq 1 ]] ; then
-        message=$1
+        message="$1"
     elif ! [[ $# -eq 0 ]] ; then
         echo "Unknown extra parametes ignored"
     fi
@@ -293,6 +294,24 @@ send() {
         -d text="$message" \
         -d chat_id=$chatId
 }
+sendstdin() {
+    local input
+    while IFS= read line; do
+        input="${input}"$'\n'"${line}"
+    done
+
+    local message="$input"
+    [ -z "$message" ] && message="Done"
+
+    curl -s \
+        -X POST \
+        "https://api.telegram.org/bot$apiToken/sendMessage" \
+        -d text="$message" \
+        -d chat_id="$chatId"
+}
+# sendjq='(LCG_GFAL_INFOSYS=egee-bdii.cnaf.infn.it:2170 lcg-infosites --vo cms ce -f rwth-aachen | while send x ; do sleep 600 ; done ) &'
+# alias sendjq='( while true ; do LCG_GFAL_INFOSYS=egee-bdii.cnaf.infn.it:2170 lcg-infosites --vo cms ce -f rwth-aachen | sendstdin ; sleep 60 ; done ) & '
+
 
 transfer() {
     # write to output to tmpfile because of progress bar
@@ -411,8 +430,8 @@ alias gitpull='git pull'
 alias gitfetch='git fetch origin'
 alias gitfo='git fetch origin'
 alias gitd='git diff'
-alias gitss='git status '
-alias gits='git status . '
+# alias gitss='git status .'
+alias gits='git status'
 alias gitsh='gitswno'
 alias gitshf='gitswno $@ ; git show $@ '
 alias gitSh='gitswno $@ ; git show $@ '
@@ -428,6 +447,9 @@ alias gitdstore='touch "gitd_at_$(date +%F_%R).txt"; git diff >>  "gitd_at_$(dat
 alias gitdcstore='touch "gitdc_at_$(date +%F_%R).txt"; gitdc >>  "gitdc_at_$(date +%F_%R).txt"'
 alias gitstoreall='gitdstore; gitdcstore'
 alias gitds='git diff --cached'
+alias gitcp='git cherry-pick -x --signoff' # To include A just type git cherry-pick A^..B
+alias gitss='git stash save'
+alias gitdisc='git checkout --'
 
 # https://stackoverflow.com/questions/424071/how-to-list-all-the-files-in-a-commit
 gitswno(){

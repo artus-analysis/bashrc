@@ -38,3 +38,6 @@ scrambb() {
 # alias scramb='scram b -j $CORES; temp_reply=$?; tput bel; return $temp_reply'
 alias scramb='scrambshort'
 alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
+alias scramblong='scram b -j `grep -c ^processor /proc/cpuinfo`; echo $?'
+
+alias setcrab='setcrab3'
