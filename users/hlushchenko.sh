@@ -33,7 +33,7 @@ screensub() {
 #     screen -d -S $(basename $tfile) -c $tfile
 # }
 ssubr() {
-    if [ $# -eq 1 ] && [ -f "$1"] ; then
+    if [ $# -eq 1 ] && [ -f "$1" ] ; then
       rm $1
     fi
     screensub $@
