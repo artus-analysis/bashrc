@@ -225,6 +225,7 @@ comcat(){
     ( source $tfile.sh &> $tfile.OUT; send "com $tfile.sh finished with status "$?". Output stream: $tfile.OUT" ; cat $tfile.OUT) &
     echo "executing file: " $tfile.sh
 }
+alias sR='screen -R'
 screen2() {
     # To save the real arguments
     arguments=""
@@ -419,6 +420,9 @@ alias myrsync='rsync -avSzh --progress '
 alias myhtop=' htop -u $USER '
 alias screen=' screen2 '
 alias ps=' ps -o pid,pcpu,pri,args '
+alias pscmn=' ps -f | cat'
+alias psall=' ps -U $(whoami)'
+
 
 #-------------------------------------------------------------
 # Git
@@ -522,4 +526,3 @@ setgitcolors()
     git config color.status auto
     git config color.ui auto
 }
-                          
