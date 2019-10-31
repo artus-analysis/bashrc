@@ -522,3 +522,4 @@ setgitcolors()
     git config color.status auto
     git config color.ui auto
 }
+                          
