@@ -1,5 +1,6 @@
 #!/bin/bash
 echo " * --> export hlushchenko.sh (for rwth cluster)"
+source "$BASHRCDIR/users/hlushchenko_common_cmssw.sh"
 
 alias jobq='LCG_GFAL_INFOSYS=egee-bdii.cnaf.infn.it:2170 lcg-infosites --vo cms ce -f rwth-aachen'
 alias jq='jobq'
