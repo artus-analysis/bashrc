@@ -39,6 +39,7 @@ scrambb() {
 alias scramb='scrambshort'
 alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
 alias scramblong='scram b -j `grep -c ^processor /proc/cpuinfo`; echo $?'
+alias scrambl='scramblong'
 
 alias setcrab='setcrab3'
 
@@ -61,7 +62,7 @@ check_download_merge() {
         d=$1
         redo=$2
     fi
-
+    #
     # if test -f ${d}/merg*.log ; then
     #     i="${d}"
     #     #echo "   "$i
@@ -72,16 +73,21 @@ check_download_merge() {
     #     fi
     #     #echo "   "$i
     # fi
-
+    #
     if ! test -f ${d}/merg*.log ; then
         if [[ $redo -gt 0 ]] ; then
-            ((redo = redo - 1))
-            artusMergeOutputs.py -n $CORES  ${d}/ &> ${d}/merge.log
-            check_merge $d $redo
-        else
             echo "   "${d}" ... merge.log not found"
+            ((redo = redo - 1))
+            echo "merging"
+            rm ${d}/merge.log ; artusMergeOutputs.py -n $CORES  ${d}/ &> ${d}/merge.log
+            check_download_merge $d $redo
+            echo "merged"
+        else
+            echo "   "${d}" ... merge.log not found but merge not allowed"
+            return
         fi
-    else
+    fi
+    if test -f ${d}/merg*.log ; then
         n=$(($(cat ${d}/merg*.log | grep -i 'fail' | wc -l) + $(cat ${d}/merg*.log | grep -i 'err' | wc -l) + $(cat ${d}/merg*.log | grep -i 'command not found' | wc -l) ))
         if [ ! $n -eq "0" ] ; then
             failed=1
@@ -92,27 +98,38 @@ check_download_merge() {
             else
                 cat ${d}/merg*.log | grep -i 'hadd exiting due to error in' | while read -r result ; do
                     echo ${result}
+                    echo "Downloading jobid: ${jobid}"
                     jobid=${result%_output.root*}  # retain the part before the end
                     jobid=${jobid##*_}  # retain the part after the last _
+                    echo "Downloading jobid: ${jobid}"
                     se_output_download.py --verify-md5 --keep-se-ok --keep-local-ok  --no-mark-dl --ignore-mark-dl --no-mark-fail --keep-se-fail \
                         -J id:${jobid} \
-                        -o ${d}/output ${d}/grid-control_config.conf &> /dev/null
+                        -o ${d}/output ${d}/grid-control_config.conf #&> /dev/null
+                    echo "...downloaded"
                 done
             fi
         else
             n=$(tail -n 1 ${d}/merg*.log | grep 'done' | wc -l)
             if [ ! $n -eq "1" ] ; then
                 failed=1
-                echo "   "${d}/merg*.log "... ERRORED merge might be interupted";
+                echo "   "${d}/merg*.log "... ERRORED merge might be interupted1";
             else
-                echo "   "${d}/merg*.log "... MERGED OK";
+                l=$( tail -c 5 ${d}/merg*.log )
+                if [[ $l = 'done^D' || $l = 'done' ]]
+                then
+                    echo "   "${d}/merg*.log "... MERGED OK"
+                else
+                    echo "   "${d}/merg*.log "... ERRORED merge might be interupted2"
+                fi
             fi
         fi
         # merge if there were errors and it is allowd
         if [[ $failed -eq 1 && $redo -gt 0 ]] ; then
+            echo "merging"
             ((redo = redo - 1))
-            artusMergeOutputs.py -n $CORES  ${d}/ &> ${d}/merge.log
-            check_merge $d $redo
+            rm ${d}/merge.log ; artusMergeOutputs.py -n $CORES  ${d}/ &> ${d}/merge.log
+            echo "merged"
+            check_download_merge $d $redo
         fi
     fi
 }
@@ -124,9 +141,19 @@ check_jobs_number() {
     fi
     wd=$1
     echo $wd
+    sum=0
     for i in ${wd}/output/*
     do
-        ls $i | wc -l
+        s1=$(ls $i | wc -l)
+        ((sum = sum + s1))
     done
+    echo "SUM:                                                               " $sum
+    # echo "SUCCESS:"
+    # report.py ${wd}/grid-control_config.conf -J state:SUCCESS
+    echo "TOTAL:"
     report.py ${wd}/grid-control_config.conf
 }
+# echo /net/scratch_cms3b/hlushchenko/artus//MSSM_Legacy_mva_v0/delme/MSSM_2017/data_nominal/f40/analysis_2019-10-18_17-53/
+# echo "sum-success:" $( echo "1973 - 1973 " | bc )
+# echo "tot-success:" $( echo "1973  - 1973 " | bc )
+# echo ""

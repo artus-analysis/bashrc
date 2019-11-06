@@ -106,6 +106,8 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH=$DIR_BASH/scripts:$PATH
 export PATH=$DIR_PRIVATESETTINGS/gc:$PATH
 export PATH=$DIR_PRIVATESETTINGS/playground:$PATH
+export PATH=$DIR_PRIVATESETTINGS/python_scripts:$PATH
+
 # gitlfn
 export PATH=$PATH:~/.local/bin/go/bin  #  actual go
 # GOROOT == ~/.local/bin/go/- cant touch this!
@@ -161,7 +163,8 @@ alias cdbash="cd $DIR_BASH"
 # alias setcrab='setcrab3'
 ## CMSSW working environments
 alias setartus='setartusmva'
-alias setartusdeep='setartus10214'
+alias setartusdeep='setartus10214deeptau'
+alias setdeepartus='setartusdeep'
 alias setartusmva='setartus10214mva'
 alias setmvaartus='setartusmva'
 alias setanalysis='setanalysis747'
@@ -239,6 +242,7 @@ setharry ()
     curr_dirr=$PWD
     cd /home/home2/institut_3b/hlushchenko/Work/HP/CMSSW_8_1_0/src
     set_cmssw slc6_amd64_gcc530
+    echo ${cernpass} | web_plotting_no_passwd
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
     cd curr_dirr
     cd -
@@ -329,6 +333,7 @@ setKSkimming929 ()
 
 
 #################### Set Analysis #####################
+
 setartus10214 ()
 {
     startingDir=$(pwd)
@@ -340,6 +345,19 @@ setartus10214 ()
     set_cmssw slc6_amd64_gcc700;
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh;
 }
+
+setartus10214deeptau ()
+{
+    startingDir=$(pwd)
+    export PYTHONPATH=/.automount/home/home__home2/institut_3b/hlushchenko/Work/KIT/Artus/DeepTau/CMSSW_10_2_14/src/grid-control/packages:/home/home2/institut_3b/hlushchenko/Templates/bashrc
+    cd  /home/home2/institut_3b/hlushchenko/Work/KIT/Artus/DeepTau/CMSSW_10_2_16/src
+    SCRAM_ARCH=slc6_amd64_gcc700;
+    export $SCRAM_ARCH;
+    source $VO_CMS_SW_DIR/cmsset_default.sh;
+    set_cmssw slc6_amd64_gcc700;
+    source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh;
+}
+
 setartus10214mva ()
 {
     echo "do: 'singularity shell /cvmfs/singularity.opensciencegrid.org/bbockelm/cms\:rhel6'"

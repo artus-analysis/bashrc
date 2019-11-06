@@ -189,7 +189,7 @@ com(){
     cat ${DIR_BASH}/users/greyxray/templ_wait.sh >> $tfile.sh
 
     chmod +x $tfile.sh
-    ( source $tfile.sh &> $tfile.OUT; send "com $tfile.sh finished with status "$?". Output stream: $tfile.OUT") &
+    ( source $tfile.sh &> $tfile.OUT; send "com $tfile.sh finished with status "$?". Output stream: $tfile.OUT . hostname:"$( hostname )) &
     echo "executing file: " $tfile.sh
 }
 
@@ -222,10 +222,81 @@ comcat(){
     cat ${DIR_BASH}/users/greyxray/templ_wait.sh >> $tfile.sh
 
     chmod +x $tfile.sh
-    ( source $tfile.sh &> $tfile.OUT; send "com $tfile.sh finished with status "$?". Output stream: $tfile.OUT" ; cat $tfile.OUT) &
+    ( source $tfile.sh &> $tfile.OUT; send "com $tfile.sh finished with status "$?". Output stream: $tfile.OUT . hostname:"$( hostname ) ; cat $tfile.OUT) &
     echo "executing file: " $tfile.sh
 }
+
+docat() {
+    tfile=$(mktemp /tmp/foo.XXXXXXXXX)
+    mv $tfile $tfile.sh
+    touch $tfile.OUT
+    vim -c 'startinsert' $tfile.sh
+
+    # add '#!\/usr\/bin\/env bash' to the header of file
+    if [ "$(uname)" == "Darwin" ]; then
+        # Do something under Mac OS X platform
+        # http://abhi.sanoujam.com/posts/sed-newline-mac/
+        # sed -i '' '1s/^/#!\/bin\/bash\'$'\n/' $tfile.sh
+        sed -i '' '1s/^/#!\/usr\/bin\/env bash\'$'\n/' $tfile.sh
+        sed -i '' '2s/^/FAIL=0'$'\n/' $tfile.sh
+    elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+        # Do something under GNU/Linux platform
+        sed -i  '1s/^/#!\/bin\/bash\nFAIL=0\n/' $tfile.sh
+    elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
+        # Do something under 32 bits Windows NT platform
+        echo 'not for 32 bits Windows NT platform'
+        sed -i  '1s/^/#!\/bin\/bash\nFAIL=0\n/' $tfile.sh
+    elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
+        # Do something under 64 bits Windows NT platform
+        echo 'not for 32 bits Windows NT platform'
+        sed -i  '1s/^/#!\/bin\/bash\nFAIL=0\n/' $tfile.sh
+    fi
+
+    cat ${DIR_BASH}/users/greyxray/templ_wait.sh >> $tfile.sh
+
+    chmod +x $tfile.sh
+    ( source $tfile.sh &> $tfile.OUT; cat $tfile.OUT) &
+    echo "executing file: " $tfile.sh
+}
+alias nocom='docat'
+
+doprint() {
+    tfile=$(mktemp /tmp/foo.XXXXXXXXX)
+    mv $tfile $tfile.sh
+    touch $tfile.OUT
+    vim -c 'startinsert' $tfile.sh
+
+    # add '#!\/usr\/bin\/env bash' to the header of file
+    if [ "$(uname)" == "Darwin" ]; then
+        # Do something under Mac OS X platform
+        # http://abhi.sanoujam.com/posts/sed-newline-mac/
+        # sed -i '' '1s/^/#!\/bin\/bash\'$'\n/' $tfile.sh
+        sed -i '' '1s/^/#!\/usr\/bin\/env bash\'$'\n/' $tfile.sh
+        sed -i '' '2s/^/FAIL=0'$'\n/' $tfile.sh
+    elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+        # Do something under GNU/Linux platform
+        sed -i  '1s/^/#!\/bin\/bash\nFAIL=0\n/' $tfile.sh
+    elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
+        # Do something under 32 bits Windows NT platform
+        echo 'not for 32 bits Windows NT platform'
+        sed -i  '1s/^/#!\/bin\/bash\nFAIL=0\n/' $tfile.sh
+    elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
+        # Do something under 64 bits Windows NT platform
+        echo 'not for 32 bits Windows NT platform'
+        sed -i  '1s/^/#!\/bin\/bash\nFAIL=0\n/' $tfile.sh
+    fi
+
+    cat ${DIR_BASH}/users/greyxray/templ_wait.sh >> $tfile.sh
+
+    chmod +x $tfile.sh
+    ( source $tfile.sh ) &
+    echo "executing file: " $tfile.sh
+}
+
 alias sR='screen -R'
+srm() {
+    screen -XS $1 quit
+}
 screen2() {
     # To save the real arguments
     arguments=""
@@ -295,6 +366,9 @@ send() {
         -d text="$message" \
         -d chat_id=$chatId
 }
+# send $'my message\n ok\n'
+# curl -X POST -d text=$'my message\n ok\n' -d chat_id=$chatId https://api.telegram.org/bot$apiToken/sendMessage
+
 sendstdin() {
     local input
     while IFS= read line; do
@@ -311,7 +385,7 @@ sendstdin() {
         -d chat_id="$chatId"
 }
 # sendjq='(LCG_GFAL_INFOSYS=egee-bdii.cnaf.infn.it:2170 lcg-infosites --vo cms ce -f rwth-aachen | while send x ; do sleep 600 ; done ) &'
-# alias sendjq='( while true ; do LCG_GFAL_INFOSYS=egee-bdii.cnaf.infn.it:2170 lcg-infosites --vo cms ce -f rwth-aachen | sendstdin ; sleep 60 ; done ) & '
+alias sendjq='( while true ; do LCG_GFAL_INFOSYS=egee-bdii.cnaf.infn.it:2170 lcg-infosites --vo cms ce -f rwth-aachen | sendstdin ; sleep 60 ; done ) & '
 
 
 transfer() {
@@ -422,6 +496,7 @@ alias screen=' screen2 '
 alias ps=' ps -o pid,pcpu,pri,args '
 alias pscmn=' ps -f | cat'
 alias psall=' ps -U $(whoami)'
+alias psAll=' pscmn'
 
 
 #-------------------------------------------------------------
@@ -454,6 +529,12 @@ alias gitds='git diff --cached'
 alias gitcp='git cherry-pick -x --signoff' # To include A just type git cherry-pick A^..B
 alias gitss='git stash save'
 alias gitdisc='git checkout --'
+# alias gitcm='git commit -m'
+
+gitcm() {
+    git commit -m $1
+    gits
+}
 
 # https://stackoverflow.com/questions/424071/how-to-list-all-the-files-in-a-commit
 gitswno(){
