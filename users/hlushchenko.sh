@@ -17,6 +17,8 @@ screensub() {
         echo "cahnging file to $1"
         tfile=$1
         touch $tfile
+        rm $tfile
+        touch $tfile
     fi
     vim -c 'startinsert' $tfile
     echo "launching screenrc: $tfile"
@@ -162,8 +164,8 @@ alias cdbash="cd $DIR_BASH"
 # alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
 # alias setcrab='setcrab3'
 ## CMSSW working environments
-alias setartus='setartusmva'
-alias setartusdeep='setartus10214deeptau'
+alias setartus='setartus10214'
+alias setartusdeep='setartus10216deeptau'
 alias setdeepartus='setartusdeep'
 alias setartusmva='setartus10214mva'
 alias setmvaartus='setartusmva'
@@ -337,7 +339,7 @@ setKSkimming929 ()
 setartus10214 ()
 {
     startingDir=$(pwd)
-    export PYTHONPATH=/.automount/home/home__home2/institut_3b/hlushchenko/Work/KIT/Artus/CMSSW_10_2_14/src/grid-control/packages:/home/home2/institut_3b/hlushchenko/Templates/bashrc
+    export PYTHONPATH=/.automount/home/home__home2/institut_3b/hlushchenko/Work/KIT/Artus/delme/CMSSW_10_2_14/src/grid-control/packages:/home/home2/institut_3b/hlushchenko/Templates/bashrc
     cd  ~/Work/KIT/Artus/delme/CMSSW_10_2_14/src
     SCRAM_ARCH=slc6_amd64_gcc700;
     export $SCRAM_ARCH;
@@ -346,10 +348,10 @@ setartus10214 ()
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh;
 }
 
-setartus10214deeptau ()
+setartus10216deeptau ()
 {
     startingDir=$(pwd)
-    export PYTHONPATH=/.automount/home/home__home2/institut_3b/hlushchenko/Work/KIT/Artus/DeepTau/CMSSW_10_2_14/src/grid-control/packages:/home/home2/institut_3b/hlushchenko/Templates/bashrc
+    export PYTHONPATH=/.automount/home/home__home2/institut_3b/hlushchenko/Work/KIT/Artus/DeepTau/CMSSW_10_2_16/src/grid-control/packages:/home/home2/institut_3b/hlushchenko/Templates/bashrc
     cd  /home/home2/institut_3b/hlushchenko/Work/KIT/Artus/DeepTau/CMSSW_10_2_16/src
     SCRAM_ARCH=slc6_amd64_gcc700;
     export $SCRAM_ARCH;
