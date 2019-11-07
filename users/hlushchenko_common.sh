@@ -4,13 +4,30 @@ source ~/.ssh/app-env
 #-------------------------------------------------------------
 # System exports and variables
 #-------------------------------------------------------------
-red=$'\e[1;31m'
-grn=$'\e[1;32m'
-yel=$'\e[1;33m'
-blu=$'\e[1;34m'
-mag=$'\e[1;35m'
-cyn=$'\e[1;36m'
-end=$'\e[0m'
+export red=$'\e[1;31m'
+export grn=$'\e[1;32m'
+export yel=$'\e[1;33m'
+export blu=$'\e[1;34m'
+export mag=$'\e[1;35m'
+export cyn=$'\e[1;36m'
+export end=$'\e[0m'
+export RED='\033[0;31m'
+export ORANGE='\033[0;33m'
+export Black='\033[0;30m'
+export Dark_Gray='\033[1;30m'
+export Light_Red='\033[1;31m'
+export Green='\033[0;32m'
+export Light_Green='\033[1;32m'
+export Yellow='\033[1;33m'
+export Blue='\033[0;34m'
+export Light_Blue='\033[1;34m'
+export Purple='\033[0;35m'
+export Light_Purple='\033[1;35m'
+export Cyan='\033[0;36m'
+export Light_Cyan='\033[1;36m'
+export Light_Gray='\033[0;37m'
+export White='\033[1;37m'
+export NC='\033[0m' # No Color
 export PS1="\[\033[104m\]\h : \w \$\[\033[00m\] "
 export LANG=en_US.UTF-8
 

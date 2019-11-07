@@ -14,7 +14,7 @@ source $BASHRCDIR/users/greyxray/grid.sh
 #DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 #cd $0
 DIR_BASH=${HOME}/bashrc
-# DIR_BASHHISTORY=/nfs/dust/cms/user/glusheno/bash_history
+export DIR_BASHHISTORY=/home/ohlushch/bash_history
 SERVERBASH=${DIR_BASH}/users/ohlushch.sh
 COMMONBASH=${DIR_BASH}/users/hlushchenko_common.sh  # ~ tilda is not expanded in scripts https://stackoverflow.com/a/3963747/3152072
 # Updating bash repository
@@ -56,6 +56,7 @@ export LS_OPTIONS="-N -T 0 --color=auto"
 export HARRY_REMOTE_USER='ohlushch'
 export PATH="$HOME/.local/bin:$HOME/usr/bin:$PATH"
 export DIR_PRIVATESETTINGS=${HOME}/Work/dirtyscripts
+alias cddirt="cd $DIR_PRIVATESETTINGS"
 source ~/bashrc/users/greyxray/dirtyscripts.sh
 
 
@@ -105,13 +106,15 @@ setcombine10216ul()
     fi
     cd /home/ohlushch/Work/Combine/CMSSW_10_2_16_UL/src/CombineHarvester/MSSMvsSMRun2Legacy
 
+    export PATH="$DIR_PRIVATESETTINGS/fes:$PATH"
 }
 ### Shapes
-alias setshapes='setharry ; setshapes949'
+alias setshapes='setharry10216 ; setshapes949'
 alias setmastershapes='setshapesmaster'
 
 setshapes949() {
     set -a ; source   $HOME/Work/SHAPES/sm-htt-analysis/utils/setup_samples.sh; set +a
+    # export PATH="$HOME/.local/bin:$HOME/usr/bin:$PATH"
     cd /home/ohlushch/Work/SHAPES/ES-subanalysis
     source bin/setup_env.sh
     # GIT_PS1_HIDE_IF_PWD_IGNORED='disable'
@@ -174,7 +177,8 @@ setshapesmaster() {
 }
 
 ### HP
-setharry() {
+alias setharry='setharry810 ; export PATH="$DIR_PRIVATESETTINGS/fes:$PATH"'
+setharry10216() {
     alias grfc='get_root_file_content.py'
     curr_dirr=$PWD
     # cd /home/ohlushch/Work/HP/CMSSW_8_1_0/src
@@ -201,6 +205,35 @@ setharry() {
 
     cd $curr_dirr
     cd -
+    changeHistfile ${FUNCNAME[0]}
+}
+setharry810() {
+    alias grfc='get_root_file_content.py'
+    curr_dirr=$PWD
+    cd /home/ohlushch/Work/HP/CMSSW_8_1_0/src
+    set_cmssw slc6_amd64_gcc530
+
+    source $CMSSW_BASE/src/Artus/Configuration/scripts/ini_ArtusAnalysis.sh
+    source $CMSSW_BASE/src/Artus/HarryPlotter/scripts/ini_harry_cmssw.sh
+    export KITHIGGSTOTAUTAUPATH=$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau
+
+    # overwrite artus settings
+    export HARRY_URL=http://etpwww.etp.kit.edu/~${HARRY_REMOTE_USER}/
+    export ARTUS_WORK_BASE="/storage/8/${USER}/htautau/artus/"
+    export WEB_PLOTTING_MKDIR_COMMAND="mkdir -p /etpwww/web/ohlushch/public_html/{subdir}"
+    export WEB_PLOTTING_COPY_COMMAND="cp {source} /etpwww/web/ohlushch/public_html/{subdir}"
+    export WEB_PLOTTING_LS_COMMAND="ls /etpwww/web/ohlushch/public_html/{subdir}"
+
+    export HP_WORK_BASE_COMMON="/storage/8/${USER}/htautau/artus/HP_WORK_BASE_COMMON_810"
+
+    # echo $cernpass | kinit -l 120h ${HARRY_REMOTE_USER}@CERN.CH
+    # use then you get this fancy index with regex search: http://ekpwww.etp.kit.edu/~jbechtel/plots_archive/2019_08_07/plots/mt/index.html
+    # cp /home/jbechtel/WebGallery/gallery.py  /ekpwww/web/ohlushch/
+    # python  /ekpwww/web/ohlushch/gallery.py /ekpwww/web/ohlushch/public_html/{subdir} --metadata blah
+
+    cd $curr_dirr
+    cd -
+    changeHistfile ${FUNCNAME[0]}
 }
 # alias grep='/bin/grep'
 # sethappy() {

@@ -9,6 +9,8 @@ setprivatesettings(){
         $DIR_PRIVATESETTINGS/btagging
         $DIR_PRIVATESETTINGS/playground
         $DIR_PRIVATESETTINGS/artus
+        # $DIR_PRIVATESETTINGS/fes
+        $DIR_PRIVATESETTINGS/plotting_scripts
         # $DIR_PRIVATESETTINGS/root_scripts
         $DIR_PRIVATESETTINGS/python_scripts
     )
