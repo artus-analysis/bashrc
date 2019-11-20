@@ -141,6 +141,8 @@ alias nafcms12='ssh -XYt glusheno@naf-cms12.desy.de'
 alias naf='nafcms'
 alias cern='ssh -XYt -o PreferredAuthentications=password -o PubkeyAuthentication=no ohlushch@lxplus6.cern.ch'
 alias ekp1=' sshpass -p $ekppass ssh -XY ohlushch@bms1.etp.kit.edu'
+alias ekp2=' sshpass -p $ekppass ssh -XY ohlushch@bms2.etp.kit.edu'
+alias ekp3=' sshpass -p $ekppass ssh -XY ohlushch@bms3.etp.kit.edu'
 alias ekp='ekp1'
 #alias scramb='scram b -j 8; echo $?'
 alias myrsync='rsync -avSzh --progress'
@@ -233,6 +235,21 @@ pullKappaFunction()
 setcrab3()
 {
     source /cvmfs/cms.cern.ch/crab3/crab.sh
+}
+
+setfriends(){
+    cd  ~/Work/KIT/friends/CMSSW_10_2_14/src/
+    if version_gteq $OSVER '7' ; then
+        export SCRAM_ARCH=slc7_amd64_gcc700
+    elif version_gteq $OSVER '6' ; then
+        export SCRAM_ARCH=slc6_amd64_gcc700
+    fi
+    export $SCRAM_ARCH
+    source $VO_CMS_SW_DIR/cmsset_default.sh
+    set_cmssw $SCRAM_ARCH
+    # export PYTHONPATH=$CMSSW_BASE/src//grid-control/packages:$PYTHONPATH
+    export PATH=${CMSSW_BASE}/src/grid-control/:${CMSSW_BASE}/src/grid-control/scripts/:${PATH}
+    # source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 }
 
 # Kappa, Artus

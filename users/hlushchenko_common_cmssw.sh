@@ -52,15 +52,20 @@ alias setcrab='setcrab3'
 check_download_merge() {
     failed=0
     d=""
+    down=1 # by default - allow re-downloading the failed jobs
     if [[ $# -eq 0 ]] ; then
         echo "no workdir was passed"
         return 1
     elif [[ $# -eq 1 ]] ; then
         d=$1
         redo=0
+    elif [[ $# -eq 2 ]] ; then
+        d=$1
+        redo=$2
     else
         d=$1
         redo=$2
+        down=$3
     fi
     #
     # if test -f ${d}/merg*.log ; then
@@ -74,20 +79,22 @@ check_download_merge() {
     #     #echo "   "$i
     # fi
     #
-    if ! test -f ${d}/merg*.log ; then
+    if ! test -f ${d}/merg*.log
+    then
         if [[ $redo -gt 0 ]] ; then
             echo "   "${d}" ... merge.log not found"
             ((redo = redo - 1))
-            echo "merging"
-            rm ${d}/merge.log ; artusMergeOutputs.py -n $CORES  ${d}/ &> ${d}/merge.log
-            check_download_merge $d $redo
-            echo "merged"
+            echo "merging.."
+            artusMergeOutputs.py -n $CORES  ${d} &> ${d}/merge.log
+            check_download_merge $d $redo $down
+            echo "merged.."
         else
             echo "   "${d}" ... merge.log not found but merge not allowed"
             return
         fi
     fi
-    if test -f ${d}/merg*.log ; then
+    if test -f ${d}/merg*.log
+    then
         n=$(($(cat ${d}/merg*.log | grep -i 'fail' | wc -l) + $(cat ${d}/merg*.log | grep -i 'err' | wc -l) + $(cat ${d}/merg*.log | grep -i 'command not found' | wc -l) ))
         if [ ! $n -eq "0" ] ; then
             failed=1
@@ -101,11 +108,13 @@ check_download_merge() {
                     echo "Downloading jobid: ${jobid}"
                     jobid=${result%_output.root*}  # retain the part before the end
                     jobid=${jobid##*_}  # retain the part after the last _
-                    echo "Downloading jobid: ${jobid}"
-                    se_output_download.py --verify-md5 --keep-se-ok --keep-local-ok  --no-mark-dl --ignore-mark-dl --no-mark-fail --keep-se-fail \
-                        -J id:${jobid} \
-                        -o ${d}/output ${d}/grid-control_config.conf #&> /dev/null
-                    echo "...downloaded"
+                    if [[ $down -eq 1 ]] ; then
+                        echo "Downloading jobid: ${jobid}"
+                        se_output_download.py --verify-md5 --keep-se-ok --keep-local-ok  --no-mark-dl --ignore-mark-dl --no-mark-fail --keep-se-fail \
+                            -J id:${jobid} \
+                            -o ${d}/output ${d}/grid-control_config.conf #&> /dev/null
+                        echo "...downloaded"
+                    fi
                 done
             fi
         else
@@ -127,9 +136,10 @@ check_download_merge() {
         if [[ $failed -eq 1 && $redo -gt 0 ]] ; then
             echo "merging"
             ((redo = redo - 1))
-            rm ${d}/merge.log ; artusMergeOutputs.py -n $CORES  ${d}/ &> ${d}/merge.log
+            rm ${d}/merge.log
+            artusMergeOutputs.py -n $CORES  ${d} &> ${d}/merge.log
             echo "merged"
-            check_download_merge $d $redo
+            check_download_merge $d $redo $down
         fi
     fi
 }

@@ -310,6 +310,81 @@ doprint() {
     echo "executing file: " $tfile.sh
 }
 
+open_sem(){
+    mkfifo pipe-$$
+    exec 3<>pipe-$$
+    rm pipe-$$
+    local i=$1
+    for((;i>0;i--)); do
+        printf %s 000 >&3
+    done
+}
+run_with_lock(){
+    local x
+    read -u 3 -n 3 x && ((0==x)) || exit $x
+    (
+     ( "$@"; )
+    printf '%.3d' $? >&3
+    )&
+}
+doparralel() {
+        tfile=$(mktemp /tmp/foo.XXXXXXXXX)
+    mv $tfile $tfile.sh
+    touch $tfile.OUT
+    vim -c 'startinsert' $tfile.sh
+
+    # add '#!\/usr\/bin\/env bash' to the header of file
+    if [ "$(uname)" == "Darwin" ]; then
+        # Do something under Mac OS X platform
+        # http://abhi.sanoujam.com/posts/sed-newline-mac/
+        # sed -i '' '1s/^/#!\/bin\/bash\'$'\n/' $tfile.sh
+        sed -i '' '1s/^/#!\/usr\/bin\/env bash\'$'\n/' $tfile.sh
+        sed -i '' '2s/^/FAIL=0'$'\n/' $tfile.sh
+        sed -i '' '3s/^/open_sem \$CORES'$'\n/' $tfile.sh
+        sed -i '' '4s/^/trap '$'\'run_with_lock'$'\' DEBUG'$'\n/' $tfile.sh
+
+    elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+        # Do something under GNU/Linux platform
+        sed -i  '1s/^/#!\/bin\/bash\nFAIL=0\nopen_sem \$CORES\ntrap '$'\'run_with_lock'$'\' DEBUG\n/' $tfile.sh
+    elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
+        # Do something under 32 bits Windows NT platform
+        echo 'not for 32 bits Windows NT platform'
+        sed -i  '1s/^/#!\/bin\/bash\nFAIL=0\nopen_sem \$CORES\ntrap '$'\'run_with_lock'$'\' DEBUG\n/' $tfile.sh
+    elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
+        # Do something under 64 bits Windows NT platform
+        echo 'not for 32 bits Windows NT platform'
+        sed -i  '1s/^/#!\/bin\/bash\nFAIL=0\nopen_sem \$CORES\ntrap '$'\'run_with_lock'$'\' DEBUG\n/' $tfile.sh
+    fi
+
+    cat ${DIR_BASH}/users/greyxray/templ_wait.sh >> $tfile.sh
+
+    chmod +x $tfile.sh
+    cat $tfile.sh
+    (. $tfile.sh) &
+    # open_sem $CORES
+    # for thing in {a..g}; do
+    #     run_with_lock $tfile.sh
+    # done
+    # trap run_with_lock DEBUG
+    # 'echo -e "\e]0;$BASH_COMMAND\007"'
+    echo "executing file: " $tfile.sh
+}
+
+# echo 30
+# sleep 30
+# echo 28
+# sleep 28
+# echo 26
+# sleep 26
+# echo 24
+# sleep 24
+# echo 23
+# sleep 23
+# echo 15
+# sleep 15
+# echo 13
+# sleep 13
+
 alias sR='screen -R'
 srm() {
     screen -XS $1 quit
@@ -397,13 +472,13 @@ sendstdin() {
 
     curl -s \
         -X POST \
-        "https://api.telegram.org/bot$apiToken/sendMessage" \
-        -d text="$message" \
-        -d chat_id="$chatId"
+        "https://api.telegram.org/bot${apiToken}/sendMessage" \
+        -d text="${message}" \
+        -d chat_id="${chatId}"
 }
 # sendjq='(LCG_GFAL_INFOSYS=egee-bdii.cnaf.infn.it:2170 lcg-infosites --vo cms ce -f rwth-aachen | while send x ; do sleep 600 ; done ) &'
-alias sendjq='( while true ; do LCG_GFAL_INFOSYS=egee-bdii.cnaf.infn.it:2170 lcg-infosites --vo cms ce -f rwth-aachen | sendstdin ; sleep 60 ; done ) & '
-
+#alias sendjq='( while true ; do LCG_GFAL_INFOSYS=egee-bdii.cnaf.infn.it:2170 lcg-infosites --vo cms ce -f rwth-aachen | sendstdin ; sleep 60 ; done ) & '
+alias sendjq='( apiToken=$apiRWTHgridToken; chatId=$chatIdRWTHgrid ; while true ; do LCG_GFAL_INFOSYS=egee-bdii.cnaf.infn.it:2170 lcg-infosites --vo cms ce -f rwth-aachen | sendstdin ; sleep 60 ; done ) & '
 
 transfer() {
     # write to output to tmpfile because of progress bar
