@@ -25,8 +25,9 @@ alias vimbashcommon="vim $COMMONBASH"
 alias cdbash="cd $DIR_BASH"
 
 # Run ssh-agent
-eval "$(ssh-agent -s)"
-#ssh-add  ~/.ssh/id_rsa
+export TMPFILEAGENT=$(mktemp /tmp/abc-script.XXXXXX)
+eval "$(ssh-agent -s)" > ${TMPFILEAGENT}
+# ssh-add  ~/.ssh/id_rsa
 ssh-add  ~/.ssh/id_rsa_nopass
 
 source  ~/bashrc/users/hlushchenko_common.sh
@@ -42,7 +43,7 @@ export HISTTIMEFORMAT="%F %T: "
 export HISTCONTROL=ignoreboth  # no duplicate entries
 shopt -s histappend
 export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
-
+# export PROMPT_COMMAND="[\[$(date +%D\ %H:%M)\]]\n\[\033[104m\]\h : \w \[\033[00m\] \[\033[104m\]\$\[\033[00m\]; history -a; history -c; history -r"
 # CMSSW
 [ -f $BASHRCDIR/cmssw.sh ] && source $BASHRCDIR/cmssw.sh
 
@@ -93,7 +94,7 @@ alias setartus=setanalysis10214
 ## Working environments
 
 ### Combine
-alias setcombine='setcombine10216ul'
+alias setcombine='source ~/git-prompt.sh ; setcombine10216ul'
 setcombine10216ul()
 {
     # https://github.com/KIT-CMS/sm-htt-analysis/blob/master/utils/init_cmssw.sh
@@ -109,7 +110,7 @@ setcombine10216ul()
     export PATH="$DIR_PRIVATESETTINGS/fes:$PATH"
 }
 ### Shapes
-alias setshapes='setharry10216 ; setshapes949'
+alias setshapes='source ~/git-prompt.sh ; setharry10216 ; setshapes949'
 alias setmastershapes='setshapesmaster'
 
 setshapes949() {
@@ -242,7 +243,19 @@ setharry810() {
 # 	source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh;
 
 # }
-
+### FRIENDS
+setfriends(){
+    cd  /portal/ekpbms1/home/ohlushch/friends/CMSSW_10_2_14/src
+    if version_gteq $OSVER '7' ; then
+        export SCRAM_ARCH=slc7_amd64_gcc700
+    elif version_gteq $OSVER '6' ; then
+        export SCRAM_ARCH=slc6_amd64_gcc700
+    fi
+    export $SCRAM_ARCH
+    source $VO_CMS_SW_DIR/cmsset_default.sh
+    set_cmssw slc6_amd64_gcc700
+    # source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+}
 ### Artus
 setanalysis10214(){
     cd  ~/Work/Artus/CMSSW_10_2_14/src
@@ -263,5 +276,6 @@ setanalysis949(){
 setsshaggent()
 {
         eval "$(ssh-agent -s)"
-        ssh-add  ~/.ssh/id_rsa
+        # ssh-add  ~/.ssh/id_rsa
+        ssh-add  ~/.ssh/id_rsa_nopass
 }

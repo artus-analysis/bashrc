@@ -584,11 +584,13 @@ alias trd=' mydtree '
 # alias grep="grep -c `processor /proc/cpuinfo`"
 alias myrsync='rsync -avSzh --progress '
 alias myhtop=' htop -u $USER '
-alias screen=' screen2 '
+
 alias ps=' ps -o pid,pcpu,pri,args '
 alias pscmn=' ps -f | cat'
 alias psall=' ps -U $(whoami)'
 alias psAll=' pscmn'
+alias psALL=' ps  -f --user ohlushch | cat'
+
 
 
 #-------------------------------------------------------------
