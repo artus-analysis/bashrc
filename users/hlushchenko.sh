@@ -10,6 +10,7 @@ function gestat() {
 }
 alias js='gestat'
 alias ges='gestat'
+<<<<<<< Updated upstream
 alias s='screen'
 screensub() {
     tfile=$(mktemp /tmp/XXXXXXXXX)
@@ -54,9 +55,12 @@ sq() {
 alias screenkill='sq'
 alias sr='screen -rd'
 alias sl='screen -l'
+
+
 # Grid certificates
 source $BASHRCDIR/users/greyxray/grid.sh
 shopt -s direxpand
+
 # SSH connections
 # Run ssh-agent : https://stackoverflow.com/questions/17846529/could-not-open-a-connection-to-your-authentication-agent/4086756#4086756
 # alias setsshagent='eval "$(ssh-agent -s)"; ssh-add  ~/.ssh/id_rsa'

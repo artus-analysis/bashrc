@@ -25,6 +25,11 @@ alias vimbashcommon="vim $COMMONBASH"
 alias cdbash="cd $DIR_BASH"
 
 # Run ssh-agent
+if [[ -v TMPFILEAGENT ]]; then
+    echo "TMPFILEAGENT:" \"$TMPFILEAGENT\"
+    ssh_agent_pid=$(awk '{ print $3 }' ${TMPFILEAGENT})
+    kill -HUP "$ssh_agent_pid"
+fi
 export TMPFILEAGENT=$(mktemp /tmp/abc-script.XXXXXX)
 eval "$(ssh-agent -s)" > ${TMPFILEAGENT}
 # ssh-add  ~/.ssh/id_rsa
@@ -34,6 +39,7 @@ source  ~/bashrc/users/hlushchenko_common.sh
 source  ~/bashrc/users/hlushchenko_common_cmssw.sh
 #source $BASHRCDIR/users/hlushchenko_common.sh
 
+# try to comment out
 source ~/git-prompt.sh
 
 # History

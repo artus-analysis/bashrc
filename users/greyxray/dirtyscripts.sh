@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ${DIR_PRIVATESETTINGS}/env_scripts/git-prompt.sh
+# source ${DIR_PRIVATESETTINGS}/env_scripts/git-prompt.sh
 # Path contains only pathes to the scripts
 setprivatesettings(){
     declare -a modules=(

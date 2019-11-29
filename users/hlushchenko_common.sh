@@ -96,9 +96,81 @@ export PYTHONPATH
 
 
 #-------------------------------------------------------------
-# Bash Functions
+# Screen Functions
 #-------------------------------------------------------------
 
+alias screen=' screen2 '
+alias sR='screen -R'
+srm() {
+    screen -XS $1 quit
+}
+screen2() {
+    # To save the real arguments
+    arguments=""
+    command='screen'
+    # Check for "-a"
+    for arg in $*
+    do
+        case $arg in
+        -l)
+            # TODO: Call your "foo" script"
+            screen -list
+            return
+            ;;
+        *)
+            arguments="$arguments $arg"
+            ;;
+        esac
+    done
+    # Now call the actual command
+    $command $arguments
+}
+# alias s='screen'
+screensub() {
+    tfile=$(mktemp /tmp/XXXXXXXXX)
+    if  [[ $# -eq 1 ]] ; then
+        echo "cahnging file to $1"
+        tfile=$1
+        touch $tfile
+    fi
+    vim -c 'startinsert' $tfile
+    echo "launching screenrc: $tfile"
+    screen -S $(basename $tfile) -c $tfile
+}
+# ssubd(){
+#     tfile=$(mktemp /tmp/XXXXXXXXX)
+#     if  [[ $# -eq 1 ]] ; then
+#         echo "cahnging file to $1"
+#         tfile=$1
+#         touch $tfile
+#     fi
+#     vim -c 'startinsert' $tfile
+#     echo "launching screenrc: $tfile"
+#     screen -d -S $(basename $tfile) -c $tfile
+# }
+ssubr() {
+    if [ $# -eq 1 ] && [ -f "$1" ] ; then
+      rm $1
+    fi
+    screensub $@
+}
+# ssubrd() {
+#     if [ $# -eq 1 ] && [ -f "$1"] ; then
+#       rm $1
+#     fi
+#     ssubd $@
+# }
+alias ssub='screensub'
+sq() {
+    screen -XS $1 quit
+}
+alias screenkill='sq'
+alias sr='screen -rd'
+alias sl='screen -l'
+
+#-------------------------------------------------------------
+# Bash Functions
+#-------------------------------------------------------------
 # filelist - recursive
 # find -type f /pnfs/desy.de/cms/tier2/store/user/jbechtel/higgs-kit/skimming/gc_DYAutumn18/GC_SKIM/190521_111141/DYJetsToLLM50_RunIIAutumn18MiniAOD_102X_13TeV_MINIAOD_madgraph-pythia8_v1/
 
@@ -310,6 +382,7 @@ doprint() {
     echo "executing file: " $tfile.sh
 }
 
+
 open_sem(){
     mkfifo pipe-$$
     exec 3<>pipe-$$
@@ -328,7 +401,7 @@ run_with_lock(){
     )&
 }
 doparralel() {
-        tfile=$(mktemp /tmp/foo.XXXXXXXXX)
+    tfile=$(mktemp /tmp/foo.XXXXXXXXX)
     mv $tfile $tfile.sh
     touch $tfile.OUT
     vim -c 'startinsert' $tfile.sh
@@ -410,6 +483,7 @@ screen2() {
     # Now call the actual command
     $command $arguments
 }
+
 
 targzrm() {
     tar -zcvf $1.tar.gz $1 && rm -r $1;
