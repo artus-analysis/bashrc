@@ -665,6 +665,8 @@ alias psall=' ps -U $(whoami)'
 alias psAll=' pscmn'
 alias psALL=' ps  -f --user ohlushch | cat'
 
+alias kill=' kill'
+
 
 
 #-------------------------------------------------------------
