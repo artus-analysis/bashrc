@@ -25,15 +25,49 @@ alias vimbashcommon="vim $COMMONBASH"
 alias cdbash="cd $DIR_BASH"
 
 # Run ssh-agent
-if [[ -v TMPFILEAGENT ]]; then
-    echo "TMPFILEAGENT:" \"$TMPFILEAGENT\"
-    ssh_agent_pid=$(awk '{ print $3 }' ${TMPFILEAGENT})
-    kill -HUP "$ssh_agent_pid"
+# can work only starting bash 4.2
+# if [[ -v TMPFILEAGENT ]] ; then
+#     echo "TMPFILEAGENT:" \"$TMPFILEAGENT\"
+#     ssh_agent_pid=$(awk '{ print $3 }' ${TMPFILEAGENT})
+#     kill -HUP "$ssh_agent_pid"
+# fi
+# killsshagent() {
+#     ssh_agent_pid=$(awk '{ print $3 }' ${TMPFILEAGENT})
+#     kill -HUP "$ssh_agent_pid"
+# }
+# if [[ -z TMPFILEAGENT ]] ; then
+#     echo "TMPFILEAGENT:" \"$TMPFILEAGENT\"
+#     ssh_agent_pid=$(awk '{ print $3 }' ${TMPFILEAGENT})
+#     kill -HUP "$ssh_agent_pid"
+# fi
+# echo 'ALRIGHT'
+# export TMPFILEAGENT=$(mktemp /tmp/abc-script.XXXXXX)
+# eval "$(ssh-agent -s)" > ${TMPFILEAGENT}
+# # ssh-add  ~/.ssh/id_rsa
+# ssh-add  ~/.ssh/id_rsa_nopass
+
+# if ps -p $SSH_AGENT_PID > /dev/null
+# then
+#    echo "ssh-agent is already running: $SSH_AGENT_PID"
+#    # Do something knowing the pid exists, i.e. the process with $PID is running
+# else
+#     echo "running ssh-agent"
+#     eval `ssh-agent -s`
+#     ssh-add  ~/.ssh/id_rsa_nopass
+# fi
+
+if [ $(ps -f --user $(whoami) | grep [s]sh-agent | wc -l) -gt 0 ] ; then
+    echo "ssh-agent is already running"
+else
+    echo "running new ssh-agent"
+    eval $(ssh-agent -s)
+    if [ "$(ssh-add -l)" == "*The agent has no identities*" ] ; then
+        ssh-add ~/.ssh/id_rsa_nopass
+    fi
+
+    # Don't leave extra agents around: kill it on exit. You may not want this part.
+    trap "ssh-agent -k" exit
 fi
-export TMPFILEAGENT=$(mktemp /tmp/abc-script.XXXXXX)
-eval "$(ssh-agent -s)" > ${TMPFILEAGENT}
-# ssh-add  ~/.ssh/id_rsa
-ssh-add  ~/.ssh/id_rsa_nopass
 
 source  ~/bashrc/users/hlushchenko_common.sh
 source  ~/bashrc/users/hlushchenko_common_cmssw.sh
@@ -103,6 +137,7 @@ alias setartus=setanalysis10214
 alias setcombine='source ~/git-prompt.sh ; setcombine10216ul'
 setcombine10216ul()
 {
+    curr_dirr=$PWD
     # https://github.com/KIT-CMS/sm-htt-analysis/blob/master/utils/init_cmssw.sh
     cd /home/ohlushch/Work/Combine/CMSSW_10_2_16_UL/src
 
@@ -110,7 +145,30 @@ setcombine10216ul()
         set_cmssw slc7_amd64_gcc700
     elif version_gteq $OSVER '6' ; then
         set_cmssw slc6_amd64_gcc700
+        printf "\t\t${Purple} WARNING: YOU ARE ON SLX6 NOT 7 ${NC}\n"
     fi
+
+    # Setting standalone HP: https://github.com/cms-analysis/HiggsAnalysis-KITHiggsToTauTau/wiki/HarryPlotter
+        alias grfc='get_root_file_content.py'
+        # # source $CMSSW_BASE/src/Artus/Configuration/scripts/ini_ArtusAnalysis.sh;
+        ARTUSPATH=/home/ohlushch/Work/Combine/CMSSW_10_2_16_UL/src/ARTUSPATH
+        export USERPC=`who am i | sed 's/.*(\([^]]*\)).*/\1/g'`
+        export ARTUS_WORK_BASE="/storage/8/${USER}/htautau/artus/";
+        # speed up compiling time # TODO: should only be a temporary fix
+        if [[ -e ${CMSSW_BASE}/config/toolbox/${SCRAM_ARCH}/tools/selected/gcc-cxxcompiler.xml ]]; then
+            cp ${CMSSW_BASE}/config/toolbox/${SCRAM_ARCH}/tools/selected/gcc-cxxcompiler.xml ${CMSSW_BASE}/config/toolbox/${SCRAM_ARCH}/tools/selected/gcc-cxxcompiler.xml.backup
+            sed -i -e "s@-fipa-pta@@g" ${CMSSW_BASE}/config/toolbox/${SCRAM_ARCH}/tools/selected/gcc-cxxcompiler.xml
+        fi
+        source $CMSSW_BASE/src/Artus/HarryPlotter/scripts/ini_harry_cmssw.sh;
+        export KITHIGGSTOTAUTAUPATH=$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau;
+        export HARRY_URL=http://etpwww.etp.kit.edu/~${HARRY_REMOTE_USER}/;
+        export WEB_PLOTTING_MKDIR_COMMAND="mkdir -p /etpwww/web/ohlushch/public_html/{subdir}";
+        export WEB_PLOTTING_COPY_COMMAND="cp {source} /etpwww/web/ohlushch/public_html/{subdir}";
+        export WEB_PLOTTING_LS_COMMAND="ls /etpwww/web/ohlushch/public_html/{subdir}";
+        export HP_WORK_BASE_COMMON="/storage/8/${USER}/htautau/artus/HP_WORK_BASE_COMMON_810";
+        # setting alias for missing scriipt
+        alias higgsplot.py=harry.py
+
     cd /home/ohlushch/Work/Combine/CMSSW_10_2_16_UL/src/CombineHarvester/MSSMvsSMRun2Legacy
 
     export PATH="$DIR_PRIVATESETTINGS/fes:$PATH"
