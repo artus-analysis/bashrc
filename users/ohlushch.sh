@@ -61,7 +61,7 @@ if [ $(ps -f --user $(whoami) | grep [s]sh-agent | wc -l) -gt 0 ] ; then
 else
     echo "running new ssh-agent"
     eval $(ssh-agent -s)
-    if [ "$(ssh-add -l)" == "*The agent has no identities*" ] ; then
+    if [[ $(ssh-add -l  | grep 'The agent has no identities'  | wc -l ) > 0 ]] ; then
         ssh-add ~/.ssh/id_rsa_nopass
     fi
 
