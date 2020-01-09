@@ -10,3 +10,4 @@ export TERM=linux
 term linux
 
 termcapinfo xterm|xterms|xs|rxvt ti@:te@
+#termcapinfo xterm* ti@:te@

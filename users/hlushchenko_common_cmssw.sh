@@ -79,7 +79,7 @@ check_download_merge() {
     #     #echo "   "$i
     # fi
     #
-    if ! test -f ${d}/merg*.log
+    if ! test -f ${d}/merge.log
     then
         if [[ $redo -gt 0 ]] ; then
             echo "   "${d}" ... merge.log not found"
@@ -95,8 +95,9 @@ check_download_merge() {
     fi
     if test -f ${d}/merg*.log
     then
-        n=$(($(cat ${d}/merg*.log | grep -i 'fail' | wc -l) + $(cat ${d}/merg*.log | grep -i 'err' | wc -l) + $(cat ${d}/merg*.log | grep -i 'command not found' | wc -l) ))
+        n=$(($(cat ${d}/merg*.log | grep -i 'fail' | wc -l) + $(cat ${d}/merg*.log | grep -i 'Erro' | wc -l) + $(cat ${d}/merg*.log | grep -i 'err' | wc -l) + $(cat ${d}/merg*.log | grep -i 'command not found' | wc -l) ))
         if [ ! $n -eq "0" ] ; then
+            echo 'there were hadd errors in previous merge'
             failed=1
             if [[ $redo -lt -1 ]] ; then
                 echo "   "${d}/merg*.log "... ERRORED in " $n
@@ -105,19 +106,24 @@ check_download_merge() {
             else
                 cat ${d}/merg*.log | grep -i 'hadd exiting due to error in' | while read -r result ; do
                     echo ${result}
-                    echo "Downloading jobid: ${jobid}"
+                    # echo "Downloading jobid: ${jobid}"
                     jobid=${result%_output.root*}  # retain the part before the end
                     jobid=${jobid##*_}  # retain the part after the last _
-                    if [[ $down -eq 1 ]] ; then
+                    if [[ $down -gt 0 ]] ; then
                         echo "Downloading jobid: ${jobid}"
-                        se_output_download.py --verify-md5 --keep-se-ok --keep-local-ok  --no-mark-dl --ignore-mark-dl --no-mark-fail --keep-se-fail \
+                        se_output_download.py \
+                            --verify-md5 --keep-se-ok --keep-local-ok  \
+                            --no-mark-dl --ignore-mark-dl --no-mark-fail \
+                            --keep-se-fail \
                             -J id:${jobid} \
                             -o ${d}/output ${d}/grid-control_config.conf #&> /dev/null
                         echo "...downloaded"
                     fi
                 done
+                # ((down = down - 1))
             fi
         else
+            echo 'there were NO hadd errors in previous merge'
             n=$(tail -n 1 ${d}/merg*.log | grep 'done' | wc -l)
             if [ ! $n -eq "1" ] ; then
                 failed=1

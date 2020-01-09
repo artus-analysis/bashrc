@@ -6,8 +6,84 @@ alias jobq='LCG_GFAL_INFOSYS=egee-bdii.cnaf.infn.it:2170 lcg-infosites --vo cms 
 alias jq='jobq'
 #alias gestat='glite-ce-job-status -L 2 https://grid-ce.physik.rwth-aachen.de:8443/"$1"'
 function gestat() {
-    glite-ce-job-status -L 2  https://grid-ce.physik.rwth-aachen.de:8443/${1}
+    for i in "$@"; do
+        printf '%s\n' "Status $i:"
+        glite-ce-job-status -L 2  https://grid-ce.physik.rwth-aachen.de:8443/${i}
+    done
 }
+function jcancel() {
+    for i in "$@"; do
+        printf '%s\n' "Canceled $i"
+        glite-ce-job-cancel --noint https://grid-ce.physik.rwth-aachen.de:8443/${i}
+    done
+}
+function jpurge() {
+    for i in "$@"; do
+        printf '%s\n' "Purged $i"
+        glite-ce-job-purge --noint https://grid-ce.physik.rwth-aachen.de:8443/${i}
+        sleep 4
+    done
+}
+function jrm() {
+    for i in "$@"; do
+        printf '%s\n' "Cancel and purge $i"
+      glite-ce-job-cancel --noint https://grid-ce.physik.rwth-aachen.de:8443/${i}
+      glite-ce-job-purge --noint https://grid-ce.physik.rwth-aachen.de:8443/${i}
+      sleep 4
+    done
+}
+function jl() {
+    local ndaysago
+    ndaysago=10
+
+    # print_usage() {
+    #   echo -e $"\nUsage: jlr -t {mysql|redis|rabbitmq|sftp|elasticsearch} -e <environment_name> -s <size_in_GB>"
+    #   echo "Required args: -t, -e"
+    #   echo "Optional args: -s"
+    # }
+
+    # echo "@: $@"
+    # echo "0: $0"
+    # echo "1: $1"
+    # echo "2: $2"
+    # echo "3: $3"
+    # echo "4: $4"
+    # echo "5: $5"
+    # echo "6: $6"
+
+    # parse flags
+    OPTIND=1 # MANDATOORY!
+    while getopts 'n:' flag; do
+        # echo "flag: $flag"
+        # echo "opt: ${OPTARG}"
+        case "${flag}" in
+          n) ndaysago="${OPTARG}" ;;
+          # h) print_usage
+          #     ;;
+          *) echo "*******"
+              ;;
+        esac
+    done
+    shift "$(( OPTIND - 1 ))"
+
+    # echo "ndaysago: ${ndaysago}"
+    # echo "@: $@"
+    states=($@)
+    if [[ ${#states[@]} -eq 0 ]] ; then
+        states=( REALLY-RUNNING )
+    fi
+    for i in ${states[@]}; do
+
+            printf "\t\t${Yellow} %s ${NC}\n" "Jobs in state ${i} [scope: past ${ndaysago} days]"
+            glite-ce-job-status -a --endpoint grid-ce.physik.rwth-aachen.de:8443  \
+            --from "`date  --date="${ndaysago} days ago"  '+%F %T'`" --to "`date '+%F %T'`" -s ${i}
+    done
+
+}
+# jl -n 1 REALLY-RUNNING DONE-FAILED
+
+
+alias jkill='jcancel'
 alias js='gestat'
 alias ges='gestat'
 <<<<<<< Updated upstream
@@ -64,8 +140,33 @@ shopt -s direxpand
 # SSH connections
 # Run ssh-agent : https://stackoverflow.com/questions/17846529/could-not-open-a-connection-to-your-authentication-agent/4086756#4086756
 # alias setsshagent='eval "$(ssh-agent -s)"; ssh-add  ~/.ssh/id_rsa'
-eval `ssh-agent -s`
-ssh-add  ~/.ssh/id_rsa_nopass
+# eval `ssh-agent -s`
+# ssh-add  ~/.ssh/id_rsa_nopass
+# echo "SSH_AGENT_PID:" $SSH_AGENT_PID
+# if ps -p $SSH_AGENT_PID > /dev/null
+# then
+#    echo "ssh-agent is already running: $SSH_AGENT_PID"
+#    # Do something knowing the pid exists, i.e. the process with $PID is running
+# else
+#     echo "running ssh-agent"
+#     eval `ssh-agent -s`
+#     ssh-add  ~/.ssh/id_rsa_nopass
+# fi
+# https://stackoverflow.com/questions/40549332/how-to-check-if-ssh-agent-is-already-running-in-bash
+if [ $(ps ax | grep [s]sh-agent | wc -l) -gt 0 ] ; then
+    echo "ssh-agent is already running"
+    ssh-agent -k
+fi
+    eval $(ssh-agent -s)
+    ssh-add ~/.ssh/id_rsa_nopass
+    if [ "$(ssh-add -l)" == "The agent has no identities." ] || [ "$(ssh-add -l)" ==  "Could not open a connection to your authentication agent." ]; then
+        ssh-add ~/.ssh/id_rsa_nopass
+    fi
+
+    # Don't leave extra agents around: kill it on exit. You may not want this part.
+    trap "ssh-agent -k" exit
+# fi
+
 
 # type gridftp
 
@@ -265,9 +366,9 @@ setharry ()
     curr_dirr=$PWD
     cd /home/home2/institut_3b/hlushchenko/Work/HP/CMSSW_8_1_0/src
     set_cmssw slc6_amd64_gcc530
-    echo ${cernpass} | web_plotting_no_passwd
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
-    cd curr_dirr
+    cd $curr_dirr
+    echo ${cernpass} | web_plotting_no_passwd
     cd -
 }
 
