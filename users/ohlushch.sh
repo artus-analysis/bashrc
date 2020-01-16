@@ -61,13 +61,13 @@ if [ $(ps -f --user $(whoami) | grep [s]sh-agent | wc -l) -gt 0 ] ; then
 else
     echo "running new ssh-agent"
     eval $(ssh-agent -s)
-    if [[ $(ssh-add -l  | grep 'The agent has no identities'  | wc -l ) > 0 ]] ; then
-        ssh-add ~/.ssh/id_rsa_nopass
-    fi
-
     # Don't leave extra agents around: kill it on exit. You may not want this part.
     trap "ssh-agent -k" exit
 fi
+if [[ $(ssh-add -l  | grep 'The agent has no identities'  | wc -l ) > 0 || $(ssh-add -l  | grep 'error fetching identities for protocol'  | wc -l ) > 0 ]] ; then
+    ssh-add ~/.ssh/id_rsa_nopass
+fi
+
 
 source  ~/bashrc/users/hlushchenko_common.sh
 source  ~/bashrc/users/hlushchenko_common_cmssw.sh
