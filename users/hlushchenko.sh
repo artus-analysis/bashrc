@@ -188,8 +188,8 @@ transfer() {
 }
 
 # CREAM
-purgecream() {
-    l=1
+purgecreammonitore() {
+    l=10
     while [[ l  -gt 0 ]]
     do
         l="$(glite-ce-job-list --endpoint grid-ce.physik.rwth-aachen.de:8443 | wc -l)"
@@ -198,7 +198,17 @@ purgecream() {
     done
     sent "CREAM job purging is finished"
 }
-
+purgecreamall() {
+    glite-ce-job-purge --endpoint grid-ce.physik.rwth-aachen.de:8443 -a  # purge all the jobs
+    l=10
+    while [[ l  -gt 0 ]]
+    do
+        l="$(glite-ce-job-list --endpoint grid-ce.physik.rwth-aachen.de:8443 | wc -l)"
+        echo "$l left"
+        sleep 30
+    done
+    sent "CREAM job purging is finished"
+}
 # CMSSW
 [ -f $BASHRCDIR/cmssw.sh ] && source $BASHRCDIR/cmssw.sh
 
