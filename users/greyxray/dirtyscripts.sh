@@ -13,6 +13,7 @@ setprivatesettings(){
         $DIR_PRIVATESETTINGS/plotting_scripts
         # $DIR_PRIVATESETTINGS/root_scripts
         $DIR_PRIVATESETTINGS/python_scripts
+        $DIR_PRIVATESETTINGS/webgallery
     )
 
     for i in "${modules[@]}"
