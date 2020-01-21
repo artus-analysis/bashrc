@@ -156,7 +156,7 @@ alias setcombine='setcombine810'
 alias setkitanalysis='setkitanalysis949'
 alias setkitartus='setkitartus10214'
 alias setkitskimming='setkitskimming10214'
-alias setkitshapes='setshapes949'
+alias setkitshapes='setshapes949mssm'
 alias setkitff='setff804'
 alias setfriends='setfriends10214'
 
@@ -247,6 +247,7 @@ setfriends10214(){
     set_cmssw slc6_amd64_gcc700
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 setcombine810(){
@@ -254,6 +255,7 @@ setcombine810(){
 	set_cmssw slc6_amd64_gcc530
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 setcombine747(){
@@ -261,9 +263,10 @@ setcombine747(){
 	set_cmssw slc6_amd64_gcc491
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
-setharry() {
+setharry810() {
     renice -n 19 -u `whoami`
     curr_dirr=$PWD
 	cd  ~/RWTH/Artus/CMSSW_8_1_0/src/
@@ -290,8 +293,38 @@ setharry() {
     # export KRB5CCNAME=/afs/desy.de/user/g/glusheno/.krb/ticket
     cd $curr_dirr
     cd -
-    cd /nfs/dust/cms/group/higgs-kit/Legacy/BtagSF/2017/
-    changeHistfile ${FUNCNAME[0]}
+    # btag
+    # cd /nfs/dust/cms/group/higgs-kit/Legacy/BtagSF/2017/
+    cd /nfs/dust/cms/user/glusheno/HP
+    # changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
+}
+
+setharry10217() {
+    renice -n 19 -u `whoami`
+    curr_dirr=$PWD
+    cd  /nfs/dust/cms/user/glusheno/afs/RWTH/Artus/CMSSW_10_2_17/src
+    set_cmssw slc6_amd64_gcc700
+
+    source $CMSSW_BASE/src/Artus/Configuration/scripts/ini_ArtusAnalysis.sh;
+    source $CMSSW_BASE/src/Artus/HarryPlotter/scripts/ini_harry_cmssw.sh;
+    export KITHIGGSTOTAUTAUPATH=$CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau;
+
+    # # ekp
+    # export HARRY_URL=http://etpwww.etp.kit.edu/~${HARRY_REMOTE_USER}/;
+    # export ARTUS_WORK_BASE="/storage/8/glusheno/htautau/artus/";
+    # export WEB_PLOTTING_MKDIR_COMMAND="mkdir -p /etpwww/web/ohlushch/public_html/{subdir}";
+    # export WEB_PLOTTING_COPY_COMMAND="cp {source} /etpwww/web/ohlushch/public_html/{subdir}";
+    # export WEB_PLOTTING_LS_COMMAND="ls /etpwww/web/ohlushch/public_html/{subdir}";
+    # export HP_WORK_BASE_COMMON="/storage/8/${USER}/htautau/artus/HP_WORK_BASE_COMMON_810";
+
+    # cern
+    echo ${cernpass} | web_plotting_no_passwd
+    #http://ohlushch.web.cern.ch/ohlushch/plots_archive
+    #/nfs/dust/cms/user/glusheno/htautau/artus/
+    # xrdfs eosuser.cern.ch mkdir -p /eos/user/o/ohlushch/www/plots_archive/{subdir}
+    export PYTHONPATH=/nfs/dust/cms/user/glusheno/afs/RWTH/Artus/CMSSW_10_2_17/src:$PYTHONPATH
+    cd /nfs/dust/cms/user/glusheno/HP
 }
 
 setshapes949() {
@@ -309,6 +342,26 @@ setshapes949() {
     DIR_SMHTT=""
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
+}
+
+setshapes949mssm() {
+    echo "CMSSW env taken from /afs/desy.de/user/g/glusheno/RWTH/KIT/sm-htt-analysis/CMSSW_9_4_9/src"
+    cd /afs/desy.de/user/g/glusheno/RWTH/KIT/sm-htt-analysis/CMSSW_9_4_9/src
+    SCRAM_ARCH=slc6_amd64_gcc630
+    export $SCRAM_ARCH
+    source $VO_CMS_SW_DIR/cmsset_default.sh
+    # cmsenv
+    set_cmssw slc6_amd64_gcc630
+    cd -
+    cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/MSSM
+    source bin/setup_env.sh
+
+    export PYTHONPATH=/afs/desy.de/user/g/glusheno/RWTH/KIT/Shapes/MSSM/.local:$PYTHONPATH
+    DIR_SMHTT=""
+
+    changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 
@@ -357,6 +410,7 @@ setshapesmaster_naf() {
 
     #renice -n 19 -u `whoami`
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 setff804_swoz() {
@@ -402,6 +456,7 @@ setff804_swoz() {
 
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 setff804() {
@@ -446,6 +501,7 @@ setff804() {
 
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 setkitanalysis949() {
@@ -460,6 +516,7 @@ setkitanalysis949() {
 
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 setkitartus10214() {
@@ -474,6 +531,7 @@ setkitartus10214() {
 
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 setkitartus10213() {
@@ -488,6 +546,7 @@ setkitartus10213() {
 
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 setkitartus949() {
     cd /afs/desy.de/user/g/glusheno/RWTH/KIT/Artus/CMSSW_9_4_9/src
@@ -501,6 +560,7 @@ setkitartus949() {
 
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 setkitartus9412() {
@@ -513,6 +573,7 @@ setkitartus9412() {
 
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 # setkitskimming1029()
@@ -524,6 +585,7 @@ setkitartus9412() {
 #     cd $CMSSW_BASE/src/
 
 #     changeHistfile ${FUNCNAME[0]}
+# export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 # }
 setkitskimming10214()
 {
@@ -539,6 +601,7 @@ setkitskimming10214()
 
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 setkitskimming10213()
@@ -548,6 +611,7 @@ setkitskimming10213()
     cd $CMSSW_BASE/src/
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 setkitskimming10210()
@@ -557,6 +621,7 @@ setkitskimming10210()
     cd $CMSSW_BASE/src/
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 setkitskimming9412()
@@ -567,6 +632,7 @@ setkitskimming9412()
 
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 
@@ -576,6 +642,7 @@ setkitskimming763() {
 	cd $CMSSW_BASE/src/
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 #/afs/desy.de/user/g/glusheno/RWTH/CMSSW_7_4_7
@@ -587,6 +654,7 @@ setkitanalysis747() {
     cd $CMSSW_BASE/src/
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 
@@ -596,6 +664,7 @@ setkitskimming8014() {
     cd $CMSSW_BASE/src/
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 setkitskimming8020() {
@@ -604,6 +673,7 @@ setkitskimming8020() {
     cd $CMSSW_BASE/src/
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 setrasp(){
@@ -612,6 +682,7 @@ setrasp(){
     cd -
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 setkitskimming8026patch1Crabtest()
@@ -621,6 +692,7 @@ setkitskimming8026patch1Crabtest()
     cd $CMSSW_BASE/src/
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 setkitskimming763_Fabiotest()
@@ -630,6 +702,7 @@ setkitskimming763_Fabiotest()
     cd $CMSSW_BASE/src/
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 setmva ()
@@ -639,6 +712,7 @@ setmva ()
 	cd  /nfs/dust/cms/user/glusheno/TauIDMVATraining2016/Summer16_25ns_V1/tauId_v3_0/trainfilesfinal_v1
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 setmva9()
@@ -648,6 +722,7 @@ setmva9()
 	cd /nfs/dust/cms/user/glusheno/TauIDMVATraining2017/Summer17_25ns_V1_allPhotonsCut/tauId_v3_0/trainfilesfinal_v1
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 setmva9v2()
@@ -657,6 +732,7 @@ setmva9v2()
     #cd /nfs/dust/cms/user/glusheno/TauIDMVATraining2017/Summer19_25ns_V1_allPhotonsCut/tauId_v3_0/trainfilesfinal_v1
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 
@@ -667,6 +743,7 @@ setmva10()
     #cd /nfs/dust/cms/user/glusheno/TauIDMVATraining2017/Summer19_25ns_V1_allPhotonsCut/tauId_v3_0/trainfilesfinal_v1
 
     changeHistfile ${FUNCNAME[0]}
+    # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
 
 # GIT Aliases
