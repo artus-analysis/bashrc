@@ -86,7 +86,6 @@ function jl() {
 alias jkill='jcancel'
 alias js='gestat'
 alias ges='gestat'
-<<<<<<< Updated upstream
 alias s='screen'
 screensub() {
     tfile=$(mktemp /tmp/XXXXXXXXX)
