@@ -249,6 +249,12 @@ setfriends10214(){
     changeHistfile ${FUNCNAME[0]}
     # export PATH=/nfs/dust/cms/user/glusheno/afs/apps/bin:$PATH
 }
+setfriendsFF(){
+    cd /net/scratch_cms3b/hlushchenko/Work/FriendTreeProducer/CMSSW_10_2_14/src
+    set_cmssw slc6_amd64_gcc700
+
+    changeHistfile ${FUNCNAME[0]}
+}
 
 setcombine810(){
     cd ~/RWTH/KIT/Combine/CMSSW_8_1_0/src/
