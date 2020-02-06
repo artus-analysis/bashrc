@@ -2,6 +2,20 @@
 echo " * --> export hlushchenko.sh (for rwth cluster)"
 source "$BASHRCDIR/users/hlushchenko_common_cmssw.sh"
 
+
+syncnaf_mssm ()
+{
+    sshpass -p $nafpass rsync --progress -avzh glusheno@naf-cms.desy.de:/nfs/dust/cms/user/glusheno/shapes/MSSM \
+    /net/scratch_cms3b/hlushchenko/sync_naf
+}
+
+setfriendsFF(){
+    cd /net/scratch_cms3b/hlushchenko/Work/FriendTreeProducer/CMSSW_10_2_14/src
+    set_cmssw slc6_amd64_gcc700
+
+    changeHistfile ${FUNCNAME[0]}
+}
+
 alias jobq='LCG_GFAL_INFOSYS=egee-bdii.cnaf.infn.it:2170 lcg-infosites --vo cms ce -f rwth-aachen'
 alias jq='jobq'
 #alias gestat='glite-ce-job-status -L 2 https://grid-ce.physik.rwth-aachen.de:8443/"$1"'
