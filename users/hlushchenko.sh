@@ -16,6 +16,7 @@ setfriendsFF(){
     changeHistfile ${FUNCNAME[0]}
 }
 
+alias cream_purge='nice -n 19 $BASHRCDIR/users/greyxray/cream_purge.sh'
 alias jobq='LCG_GFAL_INFOSYS=egee-bdii.cnaf.infn.it:2170 lcg-infosites --vo cms ce -f rwth-aachen'
 alias jq='jobq'
 #alias gestat='glite-ce-job-status -L 2 https://grid-ce.physik.rwth-aachen.de:8443/"$1"'
@@ -94,6 +95,7 @@ function jl() {
     done
 
 }
+alias jln=' glite-ce-job-list --endpoint grid-ce.physik.rwth-aachen.de:8443 | wc -l'
 # jl -n 1 REALLY-RUNNING DONE-FAILED
 
 
@@ -365,6 +367,7 @@ setcrab3()
     source /cvmfs/cms.cern.ch/crab3/crab.sh
 }
 
+# Friends -> SVFit
 setfriends(){
     cd  ~/Work/KIT/friends/CMSSW_10_2_14/src/
     if version_gteq $OSVER '7' ; then
