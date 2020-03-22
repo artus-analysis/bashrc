@@ -2,20 +2,6 @@
 echo " * --> export hlushchenko.sh (for rwth cluster)"
 source "$BASHRCDIR/users/hlushchenko_common_cmssw.sh"
 
-
-syncnaf_mssm ()
-{
-    sshpass -p $nafpass rsync --progress -avzh glusheno@naf-cms.desy.de:/nfs/dust/cms/user/glusheno/shapes/MSSM \
-    /net/scratch_cms3b/hlushchenko/sync_naf
-}
-
-setfriendsFF(){
-    cd /net/scratch_cms3b/hlushchenko/Work/FriendTreeProducer/CMSSW_10_2_14/src
-    set_cmssw slc6_amd64_gcc700
-
-    changeHistfile ${FUNCNAME[0]}
-}
-
 alias cream_purge='nice -n 19 $BASHRCDIR/users/greyxray/cream_purge.sh'
 alias jobq='LCG_GFAL_INFOSYS=egee-bdii.cnaf.infn.it:2170 lcg-infosites --vo cms ce -f rwth-aachen'
 alias jq='jobq'
@@ -301,6 +287,9 @@ alias setartusdeep='setartus10216deeptau'
 alias setdeepartus='setartusdeep'
 alias setartusmva='setartus10214mva'
 alias setmvaartus='setartusmva'
+alias setmvaartusnew='setartus10218mva'
+alias setmvanewartus='setmvaartusnew'
+alias setnewmvaartus='setmvaartusnew'
 alias setanalysis='setanalysis747'
 alias setskimming='setskimming10216'
 #alias setgenerator='setgenerator7118'
@@ -382,6 +371,24 @@ setfriends(){
     export PATH=${CMSSW_BASE}/src/grid-control/:${CMSSW_BASE}/src/grid-control/scripts/:${PATH}
     # source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
 }
+# Friends -> FF
+setfriendsFF(){
+    cd /net/scratch_cms3b/hlushchenko/Work/FriendTreeProducer/CMSSW_10_2_14/src
+    SCRAM_ARCH=slc6_amd64_gcc700
+    export $SCRAM_ARCH
+    source $VO_CMS_SW_DIR/cmsset_default.sh
+    set_cmssw $SCRAM_ARCH
+
+    # export ARTUSPATH="${CMSSW_BASE}/src/Artus"
+    source ${CMSSW_BASE}/src/Artus/HarryPlotter/scripts/ini_harry_cmssw.sh
+
+    changeHistfile ${FUNCNAME[0]}
+}
+syncnaf_mssm ()
+{
+    sshpass -p $nafpass rsync --progress -avzh glusheno@naf-cms.desy.de:/nfs/dust/cms/user/glusheno/shapes/MSSM \
+    /net/scratch_cms3b/hlushchenko/sync_naf
+}
 
 # Kappa, Artus
 export SKIM_WORK_BASE=/net/scratch_cms3b/$USER/kappa
@@ -393,6 +400,9 @@ setharry ()
     cd /home/home2/institut_3b/hlushchenko/Work/HP/CMSSW_8_1_0/src
     set_cmssw slc6_amd64_gcc530
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+    export WEB_PLOTTING_MKDIR_COMMAND="xrdfs eosuser.cern.ch mkdir -p /eos/user/o/ohlushch/www/plots_archive/{subdir}"
+    export WEB_PLOTTING_COPY_COMMAND="xrdcp -s -f {source} root://eosuser.cern.ch//eos/user/o/ohlushch/www/plots_archive/{subdir}"
+    export WEB_PLOTTING_LS_COMMAND="xrdfs eosuser.cern.ch ls /eos/user/o/ohlushch/www/plots_archive/{subdir}"
     cd $curr_dirr
     echo ${cernpass} | web_plotting_no_passwd
     cd -
@@ -508,6 +518,19 @@ setartus10216deeptau ()
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh;
 }
 
+setartus10218mva ()
+{
+    echo "to compile for grid do: 'singularity shell /cvmfs/singularity.opensciencegrid.org/bbockelm/cms\:rhel6'";
+    startingDir=$(pwd);
+    export PYTHONPATH=/home/home2/institut_3b/hlushchenko/Templates/bashrc
+    cd /net/scratch_cms3b/hlushchenko/Work/MSSMMVA/CMSSW_10_2_18/src
+    SCRAM_ARCH=slc6_amd64_gcc700
+    export $SCRAM_ARCH
+    source $VO_CMS_SW_DIR/cmsset_default.sh
+    set_cmssw slc6_amd64_gcc700
+    source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh
+}
+
 setartus10214mva ()
 {
     echo "do: 'singularity shell /cvmfs/singularity.opensciencegrid.org/bbockelm/cms\:rhel6'"
@@ -521,6 +544,7 @@ setartus10214mva ()
     set_cmssw slc6_amd64_gcc700;
     source $CMSSW_BASE/src/HiggsAnalysis/KITHiggsToTauTau/scripts/ini_KITHiggsToTauTauAnalysis.sh;
 }
+
 
 setanalysis715()
 {
