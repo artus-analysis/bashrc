@@ -151,6 +151,7 @@ check_download_merge() {
     fi
 }
 
+# Pass as entry merged dir to check all files can be read
 check_valid_merge() {
     if [[ $# -eq 0 ]] ; then
         d=$(pwd)
@@ -170,6 +171,7 @@ check_valid_merge() {
     )
 }
 
+# Check number of downloaded outputs is equal to number of finished jobs
 check_jobs_number() {
     if [[ $# -eq 0 ]] ; then
         echo "no workdir was passed"

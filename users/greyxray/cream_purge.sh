@@ -38,7 +38,7 @@ do
       # done 2> /dev/null
       until [ $(ps -C flock | wc -l) -lt 101 ]
       do
-        echo "wait for flock $(ps -C flock | wc -l) < 100"
+        ( echo "wait for flock $(ps -C flock | wc -l) < 100. njobs: $(glite-ce-job-list --endpoint grid-ce.physik.rwth-aachen.de:8443 | wc -l)" & )
         sleep ${waiting_time}
       done
       # double breckets supress printing pid for each process
