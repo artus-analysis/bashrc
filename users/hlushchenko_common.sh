@@ -458,6 +458,19 @@ doparralel() {
 # echo 13
 # sleep 13
 
+# will sleep till sent time. Example: til 7 45 && mplayer song.ogg
+til() {
+    target="$1.$2"
+    cur=$(date '+%H.%M')
+    echo "current time: ${cur}"
+    echo "target time: ${target}"
+    while test ${target} != ${cur}; do
+        sleep 59
+        cur=$(date '+%H.%M')
+    done
+}
+# til 13 34 && echo 1
+
 alias sR='screen -R'
 srm() {
     screen -XS $1 quit
@@ -698,6 +711,7 @@ alias gitcp='git cherry-pick -x --signoff' # To include A just type git cherry-p
 alias gitss='git stash save'
 alias gitdisc='git checkout --'
 # alias gitcm='git commit -m'
+#  git log -G 'TauTauTriggerWeightProducer'
 
 gitcm() {
     git commit -m $1

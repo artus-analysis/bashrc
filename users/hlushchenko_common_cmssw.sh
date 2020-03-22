@@ -36,10 +36,11 @@ scrambb() {
 }
 
 # alias scramb='scram b -j $CORES; temp_reply=$?; tput bel; return $temp_reply'
-alias scramb='scrambshort'
 alias scrambdebug='scram b -j 8 USER_CXXFLAGS="-g"'
 alias scramblong='scram b -j `grep -c ^processor /proc/cpuinfo`; echo $?'
 alias scrambl='scramblong'
+alias scrambs='scrambshort'
+alias scramb='scramblong'
 
 alias setcrab='setcrab3'
 
@@ -79,7 +80,7 @@ check_download_merge() {
     #     #echo "   "$i
     # fi
     #
-    if ! test -f ${d}/merge.log
+    if ! test -f "${d}/merge.log"
     then
         if [[ $redo -gt 0 ]] ; then
             echo "   "${d}" ... merge.log not found"
@@ -93,7 +94,7 @@ check_download_merge() {
             return
         fi
     fi
-    if test -f ${d}/merg*.log
+    if  test -f "${d}/merge.log"
     then
         n=$(($(cat ${d}/merg*.log | grep -i 'fail' | wc -l) + $(cat ${d}/merg*.log | grep -i 'Erro' | wc -l) + $(cat ${d}/merg*.log | grep -i 'err' | wc -l) + $(cat ${d}/merg*.log | grep -i 'command not found' | wc -l) ))
         if [ ! $n -eq "0" ] ; then
@@ -148,6 +149,25 @@ check_download_merge() {
             check_download_merge $d $redo $down
         fi
     fi
+}
+
+check_valid_merge() {
+    if [[ $# -eq 0 ]] ; then
+        d=$(pwd)
+    else
+        d=${1}
+    fi
+    N=$CORES
+    (
+        setharry
+        # d=/pnfs/desy.de/cms/tier2/store/user/ohlushch/MSSM/merged/2017
+        for i in ${d}/*
+        do
+           nick=$(basename $i)
+           ((nn=nn%N)); ((nn++==0)) && wait
+            get_entries.py ${d}/${nick}/${nick}.root &> /dev/null && echo "${nick} ok" || echo "${nick} <----------------- bad" &
+        done
+    )
 }
 
 check_jobs_number() {
